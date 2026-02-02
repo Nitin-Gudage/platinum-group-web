@@ -1,0 +1,8 @@
+.heading {
+  /* text-3xl font-bold text-center pt-5 pb-8 text-secondary dark:text-myGray */
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-align: center;
+  padding-bottom: 1rem;
+  color: var(--color-secondary);
+}

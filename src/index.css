@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply bg-primary text-white px-5 py-2.5 rounded-md
+           font-medium
+           transition-all duration-300 ease-in-out
+           hover:bg-blue-900
+           active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-secondary
+         border border-secondary
+         px-5 py-2.5 rounded-md
+         font-medium
+         transition-all duration-300 ease-in-out
+         hover:bg-background;
+  }
+
+  .btn-outline {
+    @apply border border-primary text-primary px-5 py-2.5 rounded-md
+           font-medium
+           transition-all duration-300
+           hover:bg-primary hover:text-white;
+  }
+
+  .btn-ghost {
+    @apply text-primary px-5 py-2.5 rounded-md
+           font-medium
+           transition-all duration-300
+           hover:bg-primary/10;
+  }
+
+  /* Card */
+  .card {
+    @apply bg-background p-6 rounded-xl shadow-md;
+  }
+  .container {
+    @apply mx-auto px-4 
+    max-w-[95vw];
+  } 
+
+  /* Custom Card */
+  .custom-card {
+    @apply p-6
+      rounded-lg
+      bg-white dark:bg-myGray/5
+      border border-black/5
+      dark:border-white/5
+      shadow-md
+      transition-all duration-500
+      hover:-translate-y-1
+      hover:shadow-2xl
+      hover:border-primary;
+  }
+
+  /* Dark Mode Shadow */
+  .dark .custom-card {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  .dark .custom-card:hover {
+    border-color: theme("colors.primary");
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  }
+
+  /* Typography */
+  .heading {
+    @apply text-3xl font-bold text-secondary tracking-tight;
+  }
+
+  .subheading {
+    @apply text-xl font-semibold text-secondary;
+  }
+
+  .subtext {
+    @apply text-accent leading-relaxed;
+  }
+}
+
+/* Global Theme Transition */
+* {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}

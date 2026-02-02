@@ -1,0 +1,42 @@
+import React from "react";
+import { whyToChoose } from "../Data/Data";
+
+const WhyChoose = () => {
+  return (
+    <div className="container max-w-5xl pt-5">
+      <h1 className="heading dark:text-white">
+        Why to choose Mcquayair Solutions for AC Service ?
+      </h1>
+      <div
+        className="grid
+          grid-cols-1
+          sm:grid-cols-2
+          md:grid-cols-4
+          gap-6
+          mx-auto
+          py-10"
+      >
+        {whyToChoose.map((testimonial, index) => (
+          <div
+            key={index}
+            className="flex flex-col items-center text-center mb-6 p-11 border rounded-xl"
+          >
+            <img
+              src={testimonial.icon}
+              alt={testimonial.title}
+              className="max-h-14"
+            />
+            <h3 className="text-lg font-semibold my-2 text-secondary dark:text-myGray">
+              {testimonial.title}
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              {testimonial.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default WhyChoose;
