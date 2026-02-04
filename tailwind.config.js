@@ -8,7 +8,7 @@ export default {
         primary: '#115af2',
         secondary: '#14171A',
         DarkBlue: '#0D47A1',
-        accent: '#657786',
+        accent: '#424769',
         background: '#E6E6E6',
         myGray: '#EAEFEF',
       },

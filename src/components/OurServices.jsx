@@ -1,40 +1,87 @@
-import React from "react";
+"use client";
+
+import { useState } from "react";
 import { OurServicesData } from "../Data/Data";
+import { AnimatedContainer, AnimatedItem } from "../utils/Animate";
+import ServiceDetailsModal from "./ServiceDetailsModal";
+import MuiModal from "../utils/Modal";
 
 const OurServices = () => {
+  const [open, setOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+
+  const openModal = (service) => {
+    setSelectedService(service);
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+    setSelectedService(null);
+  };
+
   return (
-    <div className="container pt-5">
-      <h1 className="heading dark:text-white">Our Services</h1>
-      <div
-        className=" grid
+    <section className="container pt-5 overflow-hidden">
+      {/* Section Heading */}
+      <h1 className="heading dark:text-white text-center">Our Services</h1>
+
+      {/* Services Grid */}
+      <AnimatedContainer
+        hover={false}
+        className="
+          grid
           grid-cols-1
           sm:grid-cols-2
           md:grid-cols-3
           gap-6
           mx-auto
-          py-10"
+          py-10
+        "
       >
         {OurServicesData.map((service, index) => (
-          <div
+          <AnimatedItem
             key={index}
-            className="custom-card flex flex-col items-center text-center"
+            className="
+              custom-card
+              flex
+              flex-col
+              items-center
+              text-center
+            "
           >
+            {/* Icon */}
             <img
               src={service.icon}
               alt={service.title}
               className="max-h-28 object-contain m-auto"
             />
-            <h2 className="text-2xl text-secondary font-bold dark:text-white">
+
+            {/* Title */}
+            <h2 className="text-2xl text-secondary font-bold dark:text-white mt-3">
               {service.title}
             </h2>
-            <p className="text-gray-700 dark:text-gray-300">
+
+            {/* Description */}
+            <p className="text-gray-700 dark:text-gray-300 mt-2">
               {service.description}
             </p>
-            <button className="btn-primary mt-4">View Details</button>
-          </div>
+
+            {/* Button */}
+            <button
+              onClick={() => openModal(service)}
+              className="btn-primary mt-4"
+            >
+              View Details
+            </button>
+          </AnimatedItem>
         ))}
-      </div>
-    </div>
+      </AnimatedContainer>
+
+      {/* Modal */}
+      <MuiModal open={open} onClose={closeModal}>
+        {selectedService && <ServiceDetailsModal service={selectedService} />}
+      </MuiModal>
+    </section>
   );
 };
 

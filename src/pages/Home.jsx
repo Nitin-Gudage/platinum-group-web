@@ -1,15 +1,15 @@
 import React from "react";
-import CustomSwiper from "../utils/CustomSwiper";
 import AcTypes from "../components/AcTypes";
 import OurServices from "../components/OurServices";
 import BrandSwiper from "../components/BrandSwiper";
 import Review from "../components/Review";
 import WhyChoose from "../components/WhyChoose";
+import HeroSwiper from "../components/HeroSwiper";
 
 const Home = () => {
   return (
-    <div className="bg-[#EEF5FF] dark:bg-secondary flex flex-col items-center gap-5">
-      <CustomSwiper />
+    <div className="bg-transparent flex flex-col items-center gap-5">
+      <HeroSwiper />
       <AcTypes />
       <OurServices />
       <BrandSwiper />

@@ -1,4 +1,6 @@
 import { ACTypesData } from "../Data/Data";
+import clouds from "../assets/clouds.png";
+import { AnimatedContainer, AnimatedItem } from "../utils/Animate";
 
 const AcTypes = () => {
   return (
@@ -6,7 +8,8 @@ const AcTypes = () => {
       {/* Heading */}
       <h1 className="heading dark:text-myGray">Types of AC We Service</h1>
 
-      <div
+      <AnimatedContainer
+      
         className="
           grid
           grid-cols-1
@@ -15,10 +18,17 @@ const AcTypes = () => {
           gap-6
           mx-auto
           py-10
+          
         "
       >
         {ACTypesData.map((service, index) => (
-          <div key={index} className="custom-card flex flex-col items-center">
+          <AnimatedItem
+            key={index}
+            className="custom-card flex flex-col items-center"
+            style={{
+              backgroundImage: `url(${clouds})`,
+            }}
+          >
             {/* Service Image */}
             <img
               src={service.image}
@@ -31,11 +41,9 @@ const AcTypes = () => {
                 mx-auto
                 mb-4
                 object-contain
-
                 opacity-0
                 transition-opacity
                 duration-500
-
                 [&.loaded]:opacity-100
               "
             />
@@ -43,18 +51,19 @@ const AcTypes = () => {
             {/* Title */}
             <h2
               className="
-                text-2xl font-bold mb-4
+                text-2xl font-bold p-2
                 text-gray-900 dark:text-gray-100
               "
             >
               {service.title}
             </h2>
+            <p className="subtext pb-5 max-w-64 text-center">{service.desc}</p>
 
             {/* Button */}
             <button className="btn-primary">Book Service</button>
-          </div>
+          </AnimatedItem>
         ))}
-      </div>
+      </AnimatedContainer>
     </div>
   );
 };

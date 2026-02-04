@@ -1,34 +1,30 @@
 import { Link, NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { menu, logo } from "../Data/Data";
-import { CiDark, CiLight } from "react-icons/ci";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
+import DarkTheme from "../utils/DarkTheme";
 
 const NavBar = () => {
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("theme") === "dark",
-  );
-
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  // Apply theme
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
-  }, [darkMode]);
 
   return (
     <header
-      className="mb-1
-        bg-background dark:bg-secondary
+      className="index-[999]
+        bg-white dark:bg-secondary
         backdrop-blur-md
-        shadow-md dark:shadow-black/40
+        shadow-2xl dark:shadow-black/40
       "
     >
       {/* Main Bar */}
       <div className="px-6 py-2 flex items-center justify-between">
         {/* Logo */}
-        <img src={logo.icon} alt="Logo" className="h-14 w-14" />
+        <Link to="/" className="">
+          <img
+            src={logo.icon}
+            alt="Logo"
+            className="h-[60px] w-[220px] object-cover"
+          />
+        </Link>
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex gap-8 items-center">
@@ -68,22 +64,8 @@ const NavBar = () => {
         {/* Right Side */}
         <div className="flex items-center gap-4">
           {/* Dark Mode Toggle */}
-          <button
-            onClick={() => setDarkMode((prev) => !prev)}
-            className="
-              relative p-2 rounded-full
-              shadow-accent
-              shadow-sm hover:shadow-md
-              dark:shadow-black
-            "
-            aria-label="Toggle Dark Mode"
-          >
-            {darkMode ? (
-              <CiLight className="text-yellow-500 text-xl" />
-            ) : (
-              <CiDark className="text-primary text-xl" />
-            )}
-          </button>
+
+          {/* <DarkTheme /> */}
 
           {/* Login Button (Desktop) */}
           <Link to="/login" className="hidden md:inline-block btn-primary">

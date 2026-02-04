@@ -19,14 +19,29 @@ const BrandSwiper = () => {
         slidesPerView={2}
         spaceBetween={30}
         breakpoints={{
+          320: {
+            slidesPerView: 3,
+          },
+          480: {
+            slidesPerView: 3,
+          },
           640: {
             slidesPerView: 3,
           },
           768: {
             slidesPerView: 4,
           },
+          900: {
+            slidesPerView: 4.5,
+          },
           1024: {
             slidesPerView: 5,
+          },
+          1280: {
+            slidesPerView: 6,
+          },
+          1536: {
+            slidesPerView: 7,
           },
         }}
         className=""
@@ -38,7 +53,7 @@ const BrandSwiper = () => {
                 src={img}
                 alt="Brand"
                 loading="lazy"
-                className="bg-white w-full rounded-2xl max-h-24 object-contain p-6 my-8"
+                className="bg-white w-full rounded-2xl h-14 md:h-24 object-contain p-3 md:p-6 md:my-8"
               />
             </div>
           </SwiperSlide>

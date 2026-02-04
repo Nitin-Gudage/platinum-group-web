@@ -79,7 +79,7 @@ const Footer = () => {
     ));
 
   return (
-    <footer className="bg-primary text-white dark:bg-secondary dark:text-myGray mt-1">
+    <footer className="bg-primary text-white dark:bg-secondary dark:text-myGray">
       {/* ================= Desktop ================= */}
       <div className="hidden md:grid max-w-7xl mx-auto px-6 py-10 grid-cols-4 gap-8">
         <Section title="Quick Links">

@@ -73,18 +73,18 @@ export const footerLinks = {
 // Swiper images
 
 export const heroSwiper = [{
-    image: "/src/assets/hero1.png",
-    title: "Free AC Inspection",
-    subtitle: "This Week !",
+    image: "/src/assets/hero/hero1.png",
+    title: "Best AC Service in Pune",
+    subtitle: "Flat 30% OFF Today",
     rating: 4.5,
     text: 'Expert technicians can Boost your AC performance'
 }, {
-    image: "/src/assets/hero2.png",
-    title: "Flat 30% Off",
-    subtitle: "On Split & window AC Services",
+    image: "/src/assets/hero/hero2.png",
+    title: "Trusted AC Service Near You",
+    subtitle: "Flat 30% OFF Today",
     text: 'Valid till 15 Feb'
 }, {
-    image: "/src/assets/hero3.png",
+    image: "/src/assets/hero/hero3.png",
     title: "Affordable AC Solutions",
     subtitle: "Quality Service Within Your Budget",
     text: 'Experience top-notch AC services at prices you can afford'
@@ -96,29 +96,35 @@ export const ACTypesData = [
     {
         id: 1,
         title: "Split AC",
+        desc: "Expert Split AC servicing for optimal cooling!",
         image: "/src/assets/split-ac.jpeg"
     },
     {
         id: 2,
         title: "Ducted AC",
+        desc: "Professional ducted AC maintenance and repair!",
         image: "/src/assets/ducted-ac.webp"
     },
     {
         id: 3,
         title: "Cassette AC",
+        desc: "Ceiling cassette AC installation and maintenance!",
         image: "/src/assets/cassette-ac.jpg"
     },
     {
         id: 4,
         title: "Window AC",
+        desc: "Efficient window AC repair and servicing!",
         image: "/src/assets/window-ac.webp"
     }, {
         id: 5,
         title: "Central AC",
+        desc: "Comprehensive central AC system servicing!",
         image: "/src/assets/central-ac.webp"
     }, {
         id: 6,
         title: "AHU AC",
+        desc: "Expert Servicing of Air handling unit (AHU) systems!",
         image: "/src/assets/portable-ac.png"
     }
 ]
@@ -154,6 +160,27 @@ export const OurServicesData = [{
     description: "Professional cleaning of AC coils to improve efficiency and prevent breakdowns.",
     icon: 'src/assets/cleaning.png',
 }];
+
+export const serviceSteps = [
+    {
+        "id": 1,
+        "title": "Pre-service checks",
+        "description": "Complete AC check-up including cooling & gas level check",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf"
+    },
+    {
+        "id": 2,
+        "title": "Leak identification & fixing",
+        "description": "AC is thoroughly checked for leaks & sealed if required",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf"
+    },
+    {
+        "id": 3,
+        "title": "Gas refill",
+        "description": "Gas filling for optimum cooling performance",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf"
+    }
+];
 
 export const brandImages = [
     "/src/assets/brands/voltas.png",
@@ -226,10 +253,99 @@ export const testimonials = [
         image: "/src/assets/profile.webp",
         review: "Platinium Group's AC repair service exceeded my expectations. Their technicians were knowledgeable and courteous, and they got my AC up and running in no time."
     },
+    {
+        id: 6,
+        name: "Sarah Williams",
+        position: "Home Owner",
+        image: "/src/assets/profile.webp",
+        review: "Platinium Group's AC repair service exceeded my expectations. Their technicians were knowledgeable and courteous, and they got my AC up and running in no time."
+    },
+    {
+        id: 7,
+        name: "Mike Johnson",
+        position: "Business Owner",
+        image: "/src/assets/profile.webp",
+        review: "Platinium Group's AC repair service exceeded my expectations. Their technicians were knowledgeable and courteous, and they got my AC up and running in no time."
+    },
+    {
+        id: 8,
+        name: "David Brown",
+        position: "Commercial Client",
+        image: "/src/assets/profile.webp",
+        review: "Platinium Group's AC repair service exceeded my expectations. Their technicians were knowledgeable and courteous, and they got my AC up and running in no time."
+    },
+
+
 ]
 
+// How it works
+
+export const bookingSteps = [
+    {
+        id: 1,
+        title: "Select Service",
+        icon: "select-service.png",
+        description: "Choose required AC service from available options.",
+        step: 1,
+    },
+    {
+        id: 2,
+        title: "Pick Date & Time",
+        icon: "pick-date-time.png",
+        description: "Schedule your preferred service date and time.",
+        step: 2,
+    },
+    {
+        id: 3,
+        title: "Technician Visits",
+        icon: "technician-visit.png",
+        description: "Certified technician visits your location on time.",
+        step: 3,
+    },
+    {
+        id: 4,
+        title: "Pay After Service",
+        icon: "pay-after-service.png",
+        description: "Make payment only after service completion.",
+        step: 4,
+    },
+];
 
 // Book Service Data
+export const serviceImages = [
+    {
+        id: 1,
+        type: "Split AC",
+        images: ["/src/assets/actypes/split/split-ac-repair.png",
+            "/src/assets/actypes/split/split-ac-cleaning.png",
+            "/src/assets/actypes/split/split-ac-gas-refil.png"]
+    },
+    {
+        id: 2,
+        type: "Window AC",
+        images: ["/src/assets/services/window-ac-service.jpg"]
+    },
+    {
+        id: 3,
+        type: "Ducted AC",
+        images: ["/src/assets/services/ducted-ac-service.jpg"]
+    },
+    {
+        id: 4,
+        type: "Tower AC",
+        images: ["/src/assets/services/tower-ac-service.jpg"]
+    },
+    {
+        id: 5,
+        type: "AHU",
+        images: ["/src/assets/services/ahu-service.jpg"]
+    },
+    {
+        id: 6,
+        type: "Cassette AC",
+        images: ["/src/assets/services/cassette-ac-service.jpg"]
+    },
+];
 
 export const serviceByType = [
     {
@@ -269,6 +385,7 @@ export const serviceByType = [
                     { id: 1302, title: "Compressor Repair/Replacement", desc: "Repairing or replacing faulty compressor units." },
                     { id: 1303, title: "Fan Motor Repair/Replacement", desc: "Fixing or replacing damaged fan motors." },
                     { id: 1304, title: "PCB Board Repair/Replacement", desc: "Repairing electronic control boards professionally." },
+                    { id: 1305, title: "PCB Board Repair/Replacement", desc: "Repairing electronic control boards professionally." }
                 ],
             },
         ],
