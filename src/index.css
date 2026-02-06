@@ -42,16 +42,14 @@
   }
 
   .btn-ghost {
-    @apply text-primary  rounded-md
-           font-medium
-           transition-all duration-300
-           hover:bg-primary/10
+    @apply text-gray-500 rounded-md
+            border flex gap-1
+           hover:border-b
+           items-center justify-between
            md:px-5 px-4  py-2
-           text-[12px]
+           text-xs
            md:text-base;
   }
-
-  /* Card */
   .card {
     @apply bg-background p-6 rounded-xl shadow-md;
   }
