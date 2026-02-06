@@ -12,13 +12,19 @@ import { Route, Routes } from "react-router-dom";
 import ServiceDetailsModal from "./components/ServiceDetailsModal";
 import BookService from "./pages/BookService";
 import bgimage from "./assets/cloudsbg.png";
+import FaqPage from "./pages/FaqPage";
+// import Services from "./Data/Services";
 
 function App() {
   return (
     <div className="App bg-white dark:bg-secondary min-h-screen flex flex-col">
       <NavBar />
+      {/* <FaqPage></FaqPage> */}
+
+      {/* <Services /> */}
+
       <main
-        className="flex-grow bg-fixed bg-repeat bg-center bg-auto"
+        className="flex-grow bg-fixed bg-repeat bg-center bg-auto pb-10"
         style={{
           backgroundImage: `url(${bgimage})`,
         }}

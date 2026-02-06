@@ -31,6 +31,7 @@ const ServiceDetails = ({ service }) => {
               </h3>
 
               <p className="text-gray-600 mb-3">{step.description}</p>
+              
             </div>
 
             {/* Image */}

@@ -5,14 +5,13 @@
 @layer components {
   /* Buttons */
   .btn-primary {
-    @apply bg-primary text-white  rounded-md
-           font-medium
+    @apply bg-primary text-white rounded-lg
+           font-medium 
            transition-all duration-300 ease-in-out
            hover:bg-blue-900
            active:scale-95
-           md:px-5 px-4  py-2
-           text-[12px]
-           md:text-base;
+           px-4 py-1.5
+           text-sm;
   }
 
   .btn-secondary {
@@ -91,11 +90,11 @@
   }
 
   .subheading {
-    @apply text-lg font-semibold text-secondary;
+    @apply text-base font-semibold text-secondary md:text-lg;
   }
 
   .subtext {
-    @apply text-accent leading-relaxed;
+    @apply text-accent leading-relaxed md:text-base text-sm;
   }
 }
 

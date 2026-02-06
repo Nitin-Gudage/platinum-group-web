@@ -28,7 +28,6 @@ export const menu = [
 
 //Footer data
 
-// Data/Data.js
 
 export const footerLinks = {
     quickLinks: [
@@ -67,7 +66,9 @@ export const footerLinks = {
     ],
 };
 
+// ------------------------------------ Contact Page
 
+// export const contactPageImages = "/src/assets/contactpage/contact-hero.png";
 
 
 // Swiper images

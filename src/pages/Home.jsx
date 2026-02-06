@@ -8,14 +8,14 @@ import HeroSwiper from "../components/HeroSwiper";
 
 const Home = () => {
   return (
-    <div className="bg-transparent flex flex-col items-center gap-5">
+    <main className="bg-transparent flex flex-col items-center gap-5">
       <HeroSwiper />
       <AcTypes />
       <OurServices />
       <BrandSwiper />
       <WhyChoose />
       <Review />
-    </div>
+    </main>
   );
 };
 

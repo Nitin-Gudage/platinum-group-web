@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
+
 import { OurServicesData } from "../Data/Data";
-import { AnimatedContainer, AnimatedItem } from "../utils/Animate";
-import ServiceDetailsModal from "./ServiceDetailsModal";
+
+import Animate from "../utils/Animate"; // 👈 universal animation
 import MuiModal from "../utils/Modal";
+
+/* Lazy load heavy modal */
+const ServiceDetailsModal = lazy(() => import("./ServiceDetailsModal"));
 
 const OurServices = () => {
   const [open, setOpen] = useState(false);
@@ -22,12 +26,14 @@ const OurServices = () => {
 
   return (
     <section className="container pt-5 overflow-hidden">
-      {/* Section Heading */}
-      <h1 className="heading dark:text-white text-center">Our Services</h1>
+      {/* Heading */}
+      <Animate>
+        <h1 className="heading dark:text-white text-center">Our Services</h1>
+      </Animate>
 
-      {/* Services Grid */}
-      <AnimatedContainer
-        hover={false}
+      {/* Grid */}
+      <Animate
+        stagger
         className="
           grid
           grid-cols-1
@@ -39,7 +45,7 @@ const OurServices = () => {
         "
       >
         {OurServicesData.map((service, index) => (
-          <AnimatedItem
+          <Animate
             key={index}
             className="
               custom-card
@@ -53,6 +59,8 @@ const OurServices = () => {
             <img
               src={service.icon}
               alt={service.title}
+              loading="lazy"
+              decoding="async"
               className="max-h-28 object-contain m-auto"
             />
 
@@ -73,13 +81,19 @@ const OurServices = () => {
             >
               View Details
             </button>
-          </AnimatedItem>
+          </Animate>
         ))}
-      </AnimatedContainer>
+      </Animate>
 
-      {/* Modal */}
+      {/* Modal (Lazy Loaded) */}
       <MuiModal open={open} onClose={closeModal}>
-        {selectedService && <ServiceDetailsModal service={selectedService} />}
+        {open && selectedService && (
+          <Suspense
+            fallback={<div className="p-10 text-center">Loading...</div>}
+          >
+            <ServiceDetailsModal service={selectedService} />
+          </Suspense>
+        )}
       </MuiModal>
     </section>
   );

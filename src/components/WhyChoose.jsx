@@ -3,7 +3,7 @@ import { whyToChoose } from "../Data/Data";
 
 const WhyChoose = () => {
   return (
-    <div className="container max-w-5xl pt-5">
+    <section className="container max-w-5xl pt-5">
       <h1 className="heading dark:text-white">
         Why to choose Platinum Solutions for AC Service ?
       </h1>
@@ -30,14 +30,14 @@ const WhyChoose = () => {
               <h3 className="text-lg font-semibold my-2 text-secondary dark:text-myGray">
                 {testimonial.title}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
+              <p className="text-sm text-gray-600 dark:text-gray-300 text-justify md:text-center">
                 {testimonial.desc}
               </p>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
