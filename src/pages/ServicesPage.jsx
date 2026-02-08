@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
 import ServiceSelector from "./ServiceSelector";
-import BookService from "./BookService";
 
 import { getMeta } from "../store/features/metaSlice";
 import { getServices, setActiveAc } from "../store/features/servicesSlice";
+import BookService from "../components/BookService";
 
 const slug = (t) => t.toLowerCase().replace(/\s+/g, "-");
 
