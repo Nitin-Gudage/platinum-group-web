@@ -12,9 +12,11 @@ import {
   FaInstagram,
   FaTwitter,
   FaLinkedinIn,
+  FaQuora,
 } from "react-icons/fa";
 
 import { footerLinks } from "../Data/Data";
+import { Link } from "react-router-dom";
 
 /* Icon Map */
 const iconMap = {
@@ -25,6 +27,7 @@ const iconMap = {
   email: <FaEnvelope />,
   location: <FaMapMarkerAlt />,
   snow: <FaSnowflake />,
+  faq: <FaQuora />,
 
   facebook: <FaFacebookF />,
   instagram: <FaInstagram />,
@@ -41,14 +44,14 @@ const Footer = () => {
   const renderList = (list, withLink = false) =>
     list.map((item, i) =>
       withLink ? (
-        <a
+        <Link
           key={i}
-          href={item.link}
-          className="flex items-center gap-2 hover:text-primary"
+          to={item.link}
+          className="flex items-center gap-2 hover:text-secondary"
         >
           {iconMap[item.icon]}
           {item.title}
-        </a>
+        </Link>
       ) : (
         <p key={i} className="flex items-center gap-2">
           {iconMap[item.icon]}

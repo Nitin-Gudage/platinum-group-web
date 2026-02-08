@@ -1,28 +1,58 @@
 "use client";
 
-import { useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense, useEffect } from "react";
 
-import { OurServicesData } from "../Data/Data";
-
-import Animate from "../utils/Animate"; // 👈 universal animation
+import Animate, { AnimateGroup } from "../utils/Animate";
 import MuiModal from "../utils/Modal";
 
-/* Lazy load heavy modal */
-const ServiceDetailsModal = lazy(() => import("./ServiceDetailsModal"));
+import { useDispatch, useSelector } from "react-redux";
+import ServiceModal from "./ServiceModal";
+import { fetchServiceSteps } from "../store/features/serviceStepsSlice";
 
 const OurServices = () => {
   const [open, setOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
 
+  const dispatch = useDispatch();
+
+  const { data, status, error } = useSelector((state) => state.serviceSteps);
+
+  /* Fetch services (runs once) */
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchServiceSteps());
+    }
+  }, [dispatch, status]);
+
+  /* Open Modal */
   const openModal = (service) => {
     setSelectedService(service);
     setOpen(true);
   };
 
+  /* Close Modal */
   const closeModal = () => {
     setOpen(false);
     setSelectedService(null);
   };
+
+  /* Loading State */
+  if (status === "loading") {
+    return (
+      <section className="container pt-10 text-center">
+        <p className="text-gray-500">Loading services...</p>
+      </section>
+    );
+  }
+
+  /* Error State */
+  if (status === "error") {
+    return (
+      <section className="container pt-10 text-center">
+        <p className="text-red-500">Error loading services: {error}</p>
+      </section>
+    );
+  }
 
   return (
     <section className="container pt-5 overflow-hidden">
@@ -31,8 +61,8 @@ const OurServices = () => {
         <h1 className="heading dark:text-white text-center">Our Services</h1>
       </Animate>
 
-      {/* Grid */}
-      <Animate
+      {/* Services Grid */}
+      <AnimateGroup
         stagger
         className="
           grid
@@ -44,9 +74,9 @@ const OurServices = () => {
           py-10
         "
       >
-        {OurServicesData.map((service, index) => (
+        {data?.map((service) => (
           <Animate
-            key={index}
+            key={service.id} // ✅ stable key
             className="
               custom-card
               flex
@@ -83,15 +113,22 @@ const OurServices = () => {
             </button>
           </Animate>
         ))}
-      </Animate>
+      </AnimateGroup>
 
       {/* Modal (Lazy Loaded) */}
       <MuiModal open={open} onClose={closeModal}>
         {open && selectedService && (
           <Suspense
-            fallback={<div className="p-10 text-center">Loading...</div>}
+            fallback={
+              <div className="p-10 text-center text-gray-500">
+                Loading details...
+              </div>
+            }
           >
-            <ServiceDetailsModal service={selectedService} />
+            <ServiceModal
+              service={selectedService}
+              serviceId={selectedService.id}
+            />
           </Suspense>
         )}
       </MuiModal>

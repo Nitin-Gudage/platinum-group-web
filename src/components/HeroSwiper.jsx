@@ -1,55 +1,74 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
-import { heroSwiper } from "../Data/Data";
 import Rating from "../components/Rating";
 import { Typewriter } from "react-simple-typewriter";
+import Animate from "../utils/Animate";
+import { useNavigate } from "react-router-dom";
 
-import Animate from "../utils/Animate"; // 👈 Universal animation
-
+/* Slide interval (3 seconds) */
 const SLIDE_TIME = 5000;
 
 const HeroSwiper = () => {
+  const { data, status } = useSelector((s) => s.hero);
+  const navigate = useNavigate();
+
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
   const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
+
+  /* Reset index when data changes */
+  useEffect(() => {
+    if (data?.length) {
+      setIndex(0);
+    }
+  }, [data]);
 
   /* Auto Slide */
   useEffect(() => {
-    if (!heroSwiper?.length || isPaused) return;
+    if (!data?.length || isPaused) return;
 
     const timer = setInterval(() => {
-      setIndex((i) => (i + 1) % heroSwiper.length);
+      setIndex((i) => (i + 1) % data.length);
     }, SLIDE_TIME);
 
     return () => clearInterval(timer);
-  }, [isPaused]);
+  }, [data, isPaused]); // ✅ important
 
-  /* Swipe */
+  /* Swipe Start */
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
   };
 
+  /* Swipe End */
   const handleTouchEnd = (e) => {
-    touchEndX.current = e.changedTouches[0].clientX;
+    const endX = e.changedTouches[0].clientX;
 
-    const distance = touchStartX.current - touchEndX.current;
+    const diff = touchStartX.current - endX;
 
-    if (Math.abs(distance) < 50) return;
+    if (Math.abs(diff) < 50) return;
 
-    distance > 0 ? next() : prev();
+    diff > 0 ? next() : prev();
   };
 
-  const next = () => setIndex((i) => (i + 1) % heroSwiper.length);
+  /* Controls */
+  const next = () => {
+    setIndex((i) => (i + 1) % data.length);
+  };
 
-  const prev = () => setIndex((i) => (i === 0 ? heroSwiper.length - 1 : i - 1));
+  const prev = () => {
+    setIndex((i) => (i === 0 ? data.length - 1 : i - 1));
+  };
 
-  if (!heroSwiper?.length) return null;
+  /* Loading */
+  if (status === "loading") return <p>Loading...</p>;
 
-  const current = heroSwiper[index];
+  if (!data?.length) return null;
+
+  const current = data[index];
 
   return (
     <div
@@ -64,7 +83,7 @@ const HeroSwiper = () => {
         once={false}
         className="
           relative w-full
-          h-[300px] sm:h-[360px] md:h-[80vh]
+          h-[40vh] sm:h-[360px] md:h-[80vh]
           rounded-xl overflow-hidden
         "
       >
@@ -96,7 +115,7 @@ const HeroSwiper = () => {
               <h1
                 className="
                   text-primary font-bold
-                  text-3xl sm:text-3xl md:text-[80px]
+                  text-2xl sm:text-3xl md:text-[80px]
                   leading-tight md:leading-[1]
                 "
               >
@@ -112,9 +131,9 @@ const HeroSwiper = () => {
             <Animate delay={0.3}>
               <p
                 className="
-                  text-primary font-bold
-                  text-lg sm:text-2xl md:text-4xl
-                  py-1 md:py-5
+                  text-secondary font-bold
+                  sm:text-lg md:text-4xl
+                  md:py-4
                 "
               >
                 {current.subtitle}
@@ -130,14 +149,15 @@ const HeroSwiper = () => {
 
             {/* Text */}
             <Animate delay={0.7}>
-              <span
+              <p
                 className="
                   text-sm sm:text-base
-                  bg-primary/70 p-1
+                  rounded-lg
+                  bg-primary/60 p-1
                 "
               >
-                {current.text}
-              </span>
+                {current.subtext}
+              </p>
             </Animate>
 
             {/* Buttons */}
@@ -149,7 +169,18 @@ const HeroSwiper = () => {
                 onTouchStart={() => setIsPaused(true)}
                 onTouchEnd={() => setIsPaused(false)}
               >
-                <button className="btn-primary">Book Now</button>
+                <button
+                  className="btn-primary"
+                  onClick={() =>
+                    navigate(
+                      `/services?ac=${current.ac_types.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`,
+                    )
+                  }
+                >
+                  Book Now
+                </button>
 
                 <button className="btn-outline">Learn More</button>
               </div>
@@ -160,7 +191,7 @@ const HeroSwiper = () => {
 
       {/* Dots */}
       <div className="absolute bottom-4 right-4 sm:right-6 flex gap-2">
-        {heroSwiper.map((_, i) => (
+        {data.map((_, i) => (
           <button
             key={i}
             onClick={() => setIndex(i)}

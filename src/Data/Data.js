@@ -31,10 +31,11 @@ export const menu = [
 
 export const footerLinks = {
     quickLinks: [
-        { title: "Home", link: "#home", icon: "home" },
-        { title: "About", link: "#about", icon: "info" },
-        { title: "Services", link: "#services", icon: "services" },
-        { title: "Contact", link: "#contact", icon: "phone" },
+        { title: "Home", link: "/", icon: "home" },
+        { title: "About", link: "/about", icon: "info" },
+        { title: "Services", link: "/services", icon: "services" },
+        { title: "Contact", link: "/contact", icon: "phone" },
+        { title: "FAQ", link: "/faq", icon: "faq" }
     ],
 
     services: [

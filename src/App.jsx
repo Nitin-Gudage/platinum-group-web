@@ -7,31 +7,59 @@ import Home from "./pages/Home";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
 
-import { Route, Routes } from "react-router-dom";
-import ServiceDetailsModal from "./components/ServiceDetailsModal";
-import BookService from "./pages/BookService";
+import { Route, Routes, useLocation } from "react-router-dom";
+
 import bgimage from "./assets/cloudsbg.png";
 import FaqPage from "./pages/FaqPage";
-import ServiceSelector from "./pages/ServiceSelector";
-// import Services from "./Data/Services";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
+import { getHeroSlides } from "./store/features/heroSlice";
+import ServicesPage from "./pages/ServicesPage";
+import PageLoader from "./utils/PageLoader";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const { status } = useSelector((s) => s.hero);
+
+  /* Scroll to top on route change */
+  const { pathname, search } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [pathname, search]);
+
+  /* Load hero */
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(getHeroSlides());
+    }
+  }, [dispatch, status]);
+
+  if (status === "loading") return <PageLoader/>;
+
   return (
     <div className="App bg-white dark:bg-secondary min-h-screen flex flex-col">
       <NavBar />
-      {/* <FaqPage></FaqPage> */}
 
       <main
-        className="flex-grow bg-fixed bg-repeat bg-center bg-auto pb-10"
+        className="flex-grow bg-fixed bg-repeat bg-center bg-auto pb-10 pt-14 sm:pt-0"
         style={{
           backgroundImage: `url(${bgimage})`,
         }}
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/services" element={<BookService />} />
+          <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/faq" element={<FaqPage />} />
         </Routes>
       </main>
 

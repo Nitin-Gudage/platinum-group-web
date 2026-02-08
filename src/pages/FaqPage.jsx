@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import Animate from "../utils/Animate";
 
-/* FAQ Data */
+/* ================= FAQ DATA ================= */
+
 const faqs = [
   {
     section: "General Questions",
@@ -36,52 +38,78 @@ const faqs = [
   },
 ];
 
-/* Accordion Item */
-function AccordionItem({ q, a }) {
-  const [open, setOpen] = useState(false);
+/* ================= ACCORDION ITEM ================= */
 
+function AccordionItem({ item, isOpen, onClick }) {
   return (
-    <div className="border rounded-lg bg-white/80 backdrop-blur mb-3 overflow-hidden">
+    <div className="border rounded-lg bg-white/80 mb-3 overflow-hidden">
       {/* Header */}
       <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex justify-between items-center p-4 font-medium text-left hover:bg-blue-50 transition"
+        onClick={onClick}
+        className="
+          w-full flex justify-between items-center
+          p-4 font-medium text-left
+          hover:bg-blue-50 transition
+        "
       >
-        {q}
+        {item.q}
 
-        {/* Animated Icon */}
-        <motion.span
-          animate={{ rotate: open ? 45 : 0 }}
-          transition={{ duration: 0.2 }}
+        {/* Icon */}
+        <Animate
+          type="zoom"
           className="text-xl"
+          style={{
+            transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+            transition: "0.2s",
+          }}
         >
           +
-        </motion.span>
+        </Animate>
       </button>
 
-      {/* Content */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="px-4 pb-4 text-gray-600 text-sm">{a}</div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Body */}
+      {isOpen && (
+        <Animate>
+          <div className="px-4 pb-4 text-gray-600 text-sm leading-relaxed">
+            {item.a}
+          </div>
+        </Animate>
+      )}
     </div>
   );
 }
 
-/* Main Page */
+/* ================= MAIN PAGE ================= */
+
 export default function FaqPage() {
+  const [active, setActive] = useState(null);
+  const [search, setSearch] = useState("");
+
+  /* ================= SEARCH FILTER ================= */
+
+  const filteredFaqs = useMemo(() => {
+    if (!search.trim()) return faqs;
+
+    return faqs.map((group) => ({
+      ...group,
+      items: group.items.filter(
+        (item) =>
+          item.q.toLowerCase().includes(search.toLowerCase()) ||
+          item.a.toLowerCase().includes(search.toLowerCase()),
+      ),
+    }));
+  }, [search]);
+
+  /* ================= TOGGLE ================= */
+
+  const toggle = (key) => {
+    setActive(active === key ? null : key);
+  };
+
   return (
     <section className="w-full bg-gradient-to-b from-blue-50 to-blue-100">
-      {/* Hero Section */}
+      {/* ================= HERO ================= */}
+
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 px-6 py-20 items-center">
         {/* Left */}
         <div>
@@ -93,43 +121,62 @@ export default function FaqPage() {
             Find answers to your most common questions below.
           </p>
 
-          <div className="flex overflow-hidden rounded-lg border">
+          {/* Search */}
+          <div className="flex rounded-lg border overflow-hidden">
             <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               type="text"
-              placeholder="Have questions? Search here..."
+              placeholder="Search questions..."
               className="flex-1 px-4 py-3 outline-none"
             />
+
             <button className="bg-blue-600 text-white px-5">🔍</button>
           </div>
         </div>
 
-        {/* Right Image Placeholder */}
+        {/* Image */}
         <div className="w-full h-[300px] bg-gray-300 rounded-xl flex items-center justify-center">
-          <span className="text-gray-600">Image Placeholder</span>
+          <span className="text-gray-600">FAQ Support</span>
         </div>
       </div>
 
-      {/* FAQ Sections */}
+      {/* ================= FAQ ================= */}
+
       <div className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-10">
         {/* FAQ Column */}
         <div className="md:col-span-2">
-          {faqs.map((group, i) => (
+          {filteredFaqs.map((group, i) => (
             <div key={i} className="mb-10">
               <h2 className="text-2xl font-semibold mb-5">{group.section}</h2>
 
-              {group.items.map((item, index) => (
-                <AccordionItem key={index} q={item.q} a={item.a} />
-              ))}
+              {group.items.length === 0 && (
+                <p className="text-gray-500">No results found.</p>
+              )}
+
+              {group.items.map((item, index) => {
+                const key = `${i}-${index}`;
+
+                return (
+                  <AccordionItem
+                    key={key}
+                    item={item}
+                    isOpen={active === key}
+                    onClick={() => toggle(key)}
+                  />
+                );
+              })}
             </div>
           ))}
         </div>
 
-        {/* Contact Box */}
+        {/* ================= CONTACT BOX ================= */}
+
         <div className="bg-white rounded-xl shadow p-6 h-fit">
           <h3 className="text-xl font-semibold mb-3">Need More Assistance?</h3>
 
           <p className="text-gray-600 mb-5">
-            If you have any other questions, feel free to contact us.
+            Contact our support team anytime.
           </p>
 
           <div className="space-y-3 text-sm">
@@ -137,28 +184,43 @@ export default function FaqPage() {
             <p>✉️ support@example.com</p>
           </div>
 
-          <button className="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
+          <button
+            className="
+              mt-6 w-full
+              bg-blue-600 text-white
+              py-3 rounded-lg
+              hover:bg-blue-700 transition
+            "
+          >
             Start Live Chat
           </button>
         </div>
       </div>
 
-      {/* Bottom Banner */}
+      {/* ================= CTA ================= */}
+
       <div className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-8 items-center">
-        {/* Left Placeholder */}
+        {/* Image */}
         <div className="w-full h-[280px] bg-gray-300 rounded-xl flex items-center justify-center">
-          <span className="text-gray-600">Image Placeholder</span>
+          <span className="text-gray-600">Support Team</span>
         </div>
 
-        {/* Right CTA */}
+        {/* CTA */}
         <div className="bg-white p-8 rounded-xl shadow">
-          <h3 className="text-2xl font-bold mb-3">Didn’t find the answer?</h3>
+          <h3 className="text-2xl font-bold mb-3">Didn’t find your answer?</h3>
 
           <p className="text-gray-600 mb-6">
-            Feel free to contact us, our team will reach out quickly.
+            Our team will contact you quickly.
           </p>
 
-          <button className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-medium hover:bg-yellow-500 transition">
+          <button
+            className="
+              bg-yellow-400 text-black
+              px-6 py-3 rounded-lg
+              font-medium
+              hover:bg-yellow-500 transition
+            "
+          >
             Contact Us
           </button>
         </div>

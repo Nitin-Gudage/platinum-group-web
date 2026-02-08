@@ -3,14 +3,21 @@
 import { ACTypesData } from "../Data/Data";
 import clouds from "../assets/clouds.png";
 
-import Animate from "../utils/Animate"; // adjust path
+import Animate from "../utils/Animate";
+
+import { useNavigate } from "react-router-dom";
 
 const AcTypes = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="container pt-5">
+
       {/* Heading */}
       <Animate>
-        <h1 className="heading dark:text-myGray">Types of AC We Service</h1>
+        <h1 className="heading dark:text-myGray">
+          Types of AC We Service
+        </h1>
       </Animate>
 
       {/* Grid */}
@@ -41,7 +48,7 @@ const AcTypes = () => {
               backgroundImage: `url(${clouds})`,
             }}
           >
-            {/* Service Image */}
+            {/* Image */}
             <img
               src={service.image}
               alt={service.title}
@@ -65,10 +72,24 @@ const AcTypes = () => {
             </h2>
 
             {/* Desc */}
-            <p className="subtext pb-5 max-w-64 text-center">{service.desc}</p>
+            <p className="subtext pb-5 max-w-64 text-center">
+              {service.desc}
+            </p>
 
             {/* Button */}
-            <button className="btn-primary">Book Service</button>
+            <button
+              className="btn-primary"
+              onClick={() =>
+                navigate(
+                  `/services?ac=${service.title
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`
+                )
+              }
+            >
+              Book Service
+            </button>
+
           </Animate>
         ))}
       </Animate>
