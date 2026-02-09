@@ -1,33 +1,35 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchServicesByAc } from "./api/servicesAPI";
 
-/* ✅ Thunk with cache */
+/* Fetch Services By AC (With Cache) */
 export const getServices = createAsyncThunk(
     "services/get",
 
-    async (acTypeId, { getState, rejectWithValue }) => {
+    async (acId, { getState, rejectWithValue }) => {
         try {
             const { services } = getState();
 
-            /* Check cache */
-            if (services.cache[acTypeId]) {
+            /* Return from cache if exists */
+            if (services.cache[acId]) {
                 return {
+                    data: services.cache[acId],
+                    acId,
                     fromCache: true,
-                    data: services.cache[acTypeId],
-                    acTypeId,
                 };
             }
 
-            /* Fetch API */
-            const data = await fetchServicesByAc(acTypeId);
+            /* Fetch from API */
+            const data = await fetchServicesByAc(acId);
 
             return {
-                fromCache: false,
                 data,
-                acTypeId,
+                acId,
+                fromCache: false,
             };
         } catch (err) {
-            return rejectWithValue(err.message);
+            return rejectWithValue(
+                err?.message || "Failed to fetch services"
+            );
         }
     }
 );
@@ -36,49 +38,83 @@ const servicesSlice = createSlice({
     name: "services",
 
     initialState: {
+        /* Service List */
         list: [],
-        activeAc: null,
 
+        /* Active Filters */
+        activeAc: null,
+        activeServiceType: "Super Saver Package",
+
+        /* Status */
         status: "idle",
         error: null,
 
-        // ✅ Cache
+        /* Cache: acId → services[] */
         cache: {},
     },
 
     reducers: {
+        /* Select AC */
         setActiveAc: (state, action) => {
             state.activeAc = action.payload;
+        },
+
+        /* Select Service Type */
+        setActiveServiceType: (state, action) => {
+            state.activeServiceType = action.payload;
+        },
+
+        /* Reset (Optional) */
+        resetServices: (state) => {
+            state.list = [];
+            state.status = "idle";
+            state.error = null;
         },
     },
 
     extraReducers: (builder) => {
         builder
 
-            .addCase(getServices.pending, (state) => {
+            /* ================= LOADING ================= */
+            .addCase(getServices.pending, (state, action) => {
                 state.status = "loading";
-            })
+                state.error = null;
 
-            .addCase(getServices.fulfilled, (state, action) => {
-                state.status = "success";
+                const acId = action.meta.arg;
 
-                const { fromCache, data, acTypeId } = action.payload;
-
-                state.list = data;
-
-                /* Save cache */
-                if (!fromCache) {
-                    state.cache[acTypeId] = data;
+                /* Show cached data immediately */
+                if (state.cache[acId]) {
+                    state.list = state.cache[acId];
                 }
             })
 
+            /* ================= SUCCESS ================= */
+            .addCase(getServices.fulfilled, (state, action) => {
+                const { data, acId, fromCache } = action.payload;
+
+                state.status = "success";
+                state.list = data;
+
+                /* Save fresh data to cache */
+                if (!fromCache) {
+                    state.cache[acId] = data;
+                }
+            })
+
+            /* ================= ERROR ================= */
             .addCase(getServices.rejected, (state, action) => {
                 state.status = "error";
-                state.error = action.payload;
+
+                state.error =
+                    action.payload || "Something went wrong";
             });
     },
 });
 
-export const { setActiveAc } = servicesSlice.actions;
+export const {
+    setActiveAc,
+    setActiveServiceType,
+    resetServices,
+} = servicesSlice.actions;
 
 export default servicesSlice.reducer;

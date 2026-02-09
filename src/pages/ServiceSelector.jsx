@@ -1,47 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-
 import { BsChevronCompactRight, BsCheck2Circle } from "react-icons/bs";
 
-import { useSelector, useDispatch } from "react-redux";
-import { getMeta } from "../store/features/metaSlice";
-
-const ServiceSelector = () => {
-  const dispatch = useDispatch();
-
-  const [active, setActive] = useState(null);
-
-  /* Redux */
-  const { acTypes, serviceTypes } = useSelector((s) => s.meta);
-  const { activeAc } = useSelector((s) => s.services);
-
-  /* Load meta */
-  useEffect(() => {
-    dispatch(getMeta());
-  }, [dispatch]);
-
-  /* Selected AC name */
-  const activeAcName =
-    acTypes.find((a) => a.id === activeAc)?.name || "AC Services";
-
-  /* Scroll Handler */
-  const scrollToService = (id) => {
-    const el = document.getElementById(`service-${id}`);
-
-    if (el) {
-      el.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
+const ServiceSelector = ({ acName, services, selectedService, onSelect }) => {
   return (
-    <div className="h-max bg-white rounded-xl p-4 w-full">
+    <div className="bg-white rounded-xl p-4 w-full shadow-sm">
       {/* Header */}
       <div className="mb-3">
-        <h1 className="font-bold text-2xl text-primary ">{activeAcName}</h1>
+        <h1 className="font-bold text-2xl text-primary">{acName}</h1>
 
         <p className="text-gray-600 text-sm mt-1">
           Get #1 AC service & repair experts
@@ -50,15 +16,15 @@ const ServiceSelector = () => {
 
       {/* Features */}
       <div className="pb-4 space-y-2">
-        <div className="flex items-center gap-2 text-sm">
-          <BsCheck2Circle className="text-green-500" size={16} />
-          <span>100+ technicians in your area</span>
-        </div>
-
-        <div className="flex items-center gap-2 text-sm">
-          <BsCheck2Circle className="text-green-500" size={16} />
-          <span>Usually response within 60 mins</span>
-        </div>
+        {[
+          "100+ technicians in your area",
+          "Usually response within 60 mins",
+        ].map((t) => (
+          <div key={t} className="flex gap-2 text-sm">
+            <BsCheck2Circle className="text-green-500" size={16} />
+            <span>{t}</span>
+          </div>
+        ))}
       </div>
 
       {/* Services */}
@@ -66,43 +32,41 @@ const ServiceSelector = () => {
         <h2 className="font-semibold pb-2">Select a service</h2>
 
         <div className="grid grid-cols-2 md:grid-cols-1 gap-2">
-          {serviceTypes.map((item, index) => {
-            const isActive = active === index;
+          {services.map((s) => {
+            const active = selectedService === s.name;
 
             return (
               <button
-                key={item.id}
-                onClick={() => {
-                  setActive(index);
-                  scrollToService(item.id);
-                }}
+                key={s.id}
+                onClick={() => onSelect(s)}
                 className={`
-                  btn-ghost flex items-center gap-3
-                  border rounded-lg p-2 text-left
-                  transition-all
-                  ${isActive ? "border-blue-500 bg-blue-50" : "border-gray-200"}
+                  flex gap-3 items-center
+                  border rounded-lg p-2
+                  transition
+                  ${
+                    active
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200 hover:bg-gray-50"
+                  }
                 `}
               >
-                {/* Icon */}
-                {item.icon && (
+                {s.icon && (
                   <img
-                    src={item.icon}
-                    alt=""
-                    className="w-10 h-10 object-contain border p-1 rounded"
+                    src={s.icon}
+                    alt={s.name}
+                    className="w-10 h-10 border p-1 rounded object-contain"
                   />
                 )}
 
-                {/* Name */}
-                <span className="flex-1 text-sm font-medium">{item.name}</span>
+                <span className="flex-1 text-sm font-medium">{s.name}</span>
 
-                <BsChevronCompactRight className="hidden md:block" />
+                <BsChevronCompactRight className="hidden md:block text-gray-400" />
               </button>
             );
           })}
         </div>
       </div>
-      {/* feature image */}
-      <div className="p-3 rounded-lg shadow mt-4 border cursor-pointer">
+       <div className="p-3 rounded-lg shadow mt-4 border hover:shadow-md transition cursor-pointer">
         <img
           src="https://img.freepik.com/free-photo/air-conditioner-repair-service_23-2149368973.jpg"
           alt="Repair"

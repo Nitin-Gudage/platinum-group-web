@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, lazy, Suspense, useEffect } from "react";
+import { useState, Suspense, useEffect, useCallback } from "react";
 
 import Animate, { AnimateGroup } from "../utils/Animate";
 import MuiModal from "../utils/Modal";
 
 import { useDispatch, useSelector } from "react-redux";
+
 import ServiceModal from "./ServiceModal";
 import { fetchServiceSteps } from "../store/features/serviceStepsSlice";
 
@@ -15,53 +16,64 @@ const OurServices = () => {
 
   const dispatch = useDispatch();
 
-  const { data, status, error } = useSelector((state) => state.serviceSteps);
+  const { data, status, error } = useSelector(
+    (state) => state.serviceSteps
+  );
 
-  /* Fetch services (runs once) */
+  /* ================= FETCH ONCE ================= */
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchServiceSteps());
     }
   }, [dispatch, status]);
 
-  /* Open Modal */
-  const openModal = (service) => {
+  /* ================= HANDLERS ================= */
+
+  const openModal = useCallback((service) => {
     setSelectedService(service);
     setOpen(true);
-  };
+  }, []);
 
-  /* Close Modal */
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setOpen(false);
     setSelectedService(null);
-  };
+  }, []);
 
-  /* Loading State */
+  /* ================= LOADING ================= */
+
   if (status === "loading") {
     return (
       <section className="container pt-10 text-center">
-        <p className="text-gray-500">Loading services...</p>
+        <p className="text-gray-500 animate-pulse">
+          Loading services...
+        </p>
       </section>
     );
   }
 
-  /* Error State */
+  /* ================= ERROR ================= */
+
   if (status === "error") {
     return (
       <section className="container pt-10 text-center">
-        <p className="text-red-500">Error loading services: {error}</p>
+        <p className="text-red-500">
+          Error loading services: {error}
+        </p>
       </section>
     );
   }
 
   return (
     <section className="container pt-5 overflow-hidden">
-      {/* Heading */}
+
+      {/* ================= HEADING ================= */}
       <Animate>
-        <h1 className="heading dark:text-white text-center">Our Services</h1>
+        <h1 className="heading dark:text-white text-center">
+          Our Services
+        </h1>
       </Animate>
 
-      {/* Services Grid */}
+      {/* ================= GRID ================= */}
       <AnimateGroup
         stagger
         className="
@@ -76,35 +88,48 @@ const OurServices = () => {
       >
         {data?.map((service) => (
           <Animate
-            key={service.id} // ✅ stable key
+            key={service.id}
             className="
               custom-card
               flex
               flex-col
               items-center
               text-center
+              p-5
+              bg-white
+              rounded-xl
+              shadow-sm
+              hover:shadow-md
+              transition
             "
           >
-            {/* Icon */}
-            <img
-              src={service.icon}
-              alt={service.title}
-              loading="lazy"
-              decoding="async"
-              className="max-h-28 object-contain m-auto"
-            />
+            {/* ================= ICON ================= */}
+            <div className="w-full h-32 flex items-center justify-center mb-3">
 
-            {/* Title */}
-            <h2 className="text-2xl text-secondary font-bold dark:text-white mt-3">
+              <img
+                src={service.icon}
+                alt={service.title}
+                loading="lazy"
+                decoding="async"
+                className="
+                  max-h-28
+                  object-contain
+                "
+              />
+
+            </div>
+
+            {/* ================= TITLE ================= */}
+            <h2 className="text-xl text-secondary font-bold dark:text-white">
               {service.title}
             </h2>
 
-            {/* Description */}
-            <p className="text-gray-700 dark:text-gray-300 mt-2">
+            {/* ================= DESC ================= */}
+            <p className="text-gray-700 dark:text-gray-300 mt-2 text-sm text-center">
               {service.description}
             </p>
 
-            {/* Button */}
+            {/* ================= BUTTON ================= */}
             <button
               onClick={() => openModal(service)}
               className="btn-primary mt-4"
@@ -115,12 +140,13 @@ const OurServices = () => {
         ))}
       </AnimateGroup>
 
-      {/* Modal (Lazy Loaded) */}
+      {/* ================= MODAL ================= */}
       <MuiModal open={open} onClose={closeModal}>
+
         {open && selectedService && (
           <Suspense
             fallback={
-              <div className="p-10 text-center text-gray-500">
+              <div className="p-10 text-center text-gray-500 animate-pulse">
                 Loading details...
               </div>
             }
@@ -131,7 +157,9 @@ const OurServices = () => {
             />
           </Suspense>
         )}
+
       </MuiModal>
+
     </section>
   );
 };

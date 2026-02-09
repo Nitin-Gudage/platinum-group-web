@@ -9,14 +9,16 @@ import PageLoader from "../utils/PageLoader";
 const BookService = () => {
   const { list, status } = useSelector((s) => s.services);
 
-  if (status == "loading") {
+  /* Loader */
+  if (status === "loading") {
     return <PageLoader />;
   }
 
   if (!list?.length) {
-    return <p className="text-center mt-10">No services found</p>;
+    return <p className="text-center mt-10 text-gray-600">No services found</p>;
   }
 
+  /* Group By Service Type */
   const grouped = list.reduce((acc, item) => {
     const typeId = item.service_types?.id || "other";
 
@@ -36,17 +38,17 @@ const BookService = () => {
     <main className="space-y-16">
       {Object.entries(grouped).map(([typeId, group], groupIndex) => (
         <section key={typeId} id={`service-${typeId}`}>
-          {/* ✅ Filter Name */}
+          {/* Section Title */}
           <h1 className="text-2xl font-bold mb-6 border-b pb-3">
             {groupIndex + 1}. {group.name}
           </h1>
 
-          {/* ✅ Cards */}
+          {/* Cards */}
           <div className="flex flex-col gap-10">
             {group.items.map((item, index) => (
               <div
                 key={`${item.id}-${index}`}
-                className="rounded-lg shadow-2xl bg-white"
+                className="rounded-xl shadow-2xl bg-white overflow-hidden"
               >
                 {/* Header */}
                 <div className="flex items-center gap-4 px-5 py-3 border-b">
@@ -65,9 +67,9 @@ const BookService = () => {
                 </div>
 
                 {/* Body */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-5">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 p-5">
                   {/* Features */}
-                  <ul className="space-y-3 col-span-2">
+                  <ul className="space-y-3 md:col-span-2">
                     {(item.service_features || []).map((d, i) => (
                       <li key={`${d.id}-${i}`} className="flex gap-4">
                         <FiCheckCircle className="text-green-500 mt-1" />
@@ -80,30 +82,33 @@ const BookService = () => {
                       </li>
                     ))}
                   </ul>
-                  {/* Price */}
-                  <div className="relative flex flex-col rounded-lg border-8 border-white justify-center ">
-                    {/* Image Wrapper */}
-                    <div className="flex items-center justify-center w-full h-full">
+
+                  {/* Right Panel */}
+                  <div className="flex flex-col gap-3">
+                    {/* Image (16:9) */}
+                    <div className="w-full aspect-video rounded-xl overflow-hidden bg-gray-100">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-cover rounded-xl"
+                        className="w-full h-full object-cover"
                       />
                     </div>
-                    <div
-                      className=" absolute bottom-0
-                        bg-primary/40 justify-center object-cover 
-                        flex items-center gap-5
-                        px-5 py-3 w-full
-                      "
-                    >
+
+                    {/* Price + Button */}
+                    <div className="flex items-center justify-around bg-primary/5 rounded-lg py-2">
                       {item.price && (
-                        <span className="text-secondary font-bold">
-                          Starting at: ₹ {item.price}
+                        <span className="font-bold text-secondary">
+                          ₹ {item.price}
                         </span>
                       )}
 
-                      <button className="btn-secondary flex items-center p-2 text-sm">
+                      <button
+                        className="
+                            btn-secondary
+                            flex items-center gap-1
+                            px-4 py-2 text-sm
+                          "
+                      >
                         Book Now
                         <BsChevronCompactRight />
                       </button>

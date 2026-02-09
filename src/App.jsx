@@ -20,9 +20,7 @@ import ServicesPage from "./pages/ServicesPage";
 import PageLoader from "./utils/PageLoader";
 
 function App() {
-  const dispatch = useDispatch();
 
-  const { status } = useSelector((s) => s.hero);
 
   /* Scroll to top on route change */
   const { pathname, search } = useLocation();
@@ -36,13 +34,10 @@ function App() {
   }, [pathname, search]);
 
   /* Load hero */
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(getHeroSlides());
-    }
-  }, [dispatch, status]);
 
-  if (status === "loading") return <PageLoader/>;
+    const dispatch = useDispatch();
+
+
 
   return (
     <div className="App bg-white dark:bg-secondary min-h-screen flex flex-col">

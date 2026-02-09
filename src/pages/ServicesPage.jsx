@@ -3,84 +3,102 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
 import ServiceSelector from "./ServiceSelector";
-
-import { getMeta } from "../store/features/metaSlice";
-import { getServices, setActiveAc } from "../store/features/servicesSlice";
+import ServiceFilter from "../components/ServiceFilter";
 import BookService from "../components/BookService";
 
-const slug = (t) => t.toLowerCase().replace(/\s+/g, "-");
+import { getMeta } from "../store/features/metaSlice";
+import {
+  getServices,
+  setActiveAc,
+  setActiveServiceType,
+} from "../store/features/servicesSlice";
+
+const slug = (t) => t.toLowerCase().trim().replace(/\s+/g, "-");
 
 export default function ServicesPage() {
   const dispatch = useDispatch();
 
   const [params, setParams] = useSearchParams();
 
-  const { acTypes } = useSelector((s) => s.meta);
-  const { activeAc } = useSelector((s) => s.services);
+  const { acTypes, serviceTypes } = useSelector((s) => s.meta);
+
+  const { activeAc, activeServiceType } = useSelector((s) => s.services);
 
   const acSlug = params.get("ac");
 
   /* Load meta */
   useEffect(() => {
     dispatch(getMeta());
-  }, []);
+  }, [dispatch]);
 
-  /* Sync AC */
+  /* Sync URL */
   useEffect(() => {
     if (!acTypes.length) return;
 
     const found = acTypes.find((a) => slug(a.name) === acSlug);
 
-    const ac = found || acTypes[0];
+    const selected = found || acTypes[0];
 
-    dispatch(setActiveAc(ac.id));
+    if (selected.id !== activeAc) {
+      dispatch(setActiveAc(selected.id));
+    }
 
-    setParams({ ac: slug(ac.name) });
-  }, [acTypes]);
+    if (slug(selected.name) !== acSlug) {
+      setParams({ ac: slug(selected.name) });
+    }
+  }, [acTypes, acSlug, activeAc, dispatch, setParams]);
 
   /* Load services */
   useEffect(() => {
-    if (activeAc) dispatch(getServices(activeAc));
-  }, [activeAc]);
+    if (activeAc) {
+      dispatch(getServices(activeAc));
+    }
+  }, [activeAc, dispatch]);
 
+  /* Handlers */
   const changeAc = (ac) => {
     dispatch(setActiveAc(ac.id));
     setParams({ ac: slug(ac.name) });
   };
 
+  const changeService = (s) => {
+    dispatch(setActiveServiceType(s.name));
+
+    document.getElementById(`service-${s.id}`)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
+  const acName = acTypes.find((a) => a.id === activeAc)?.name || "AC Services";
+
   return (
-    <div className="pt-16 px-6">
-      <main className="relative grid h-full md:grid-cols-12 gap-4">
-        {/* LEFT */}
-        <aside className="md:col-span-3 h-fit sticky top-16 self-start">
-          <ServiceSelector />
+    <div className="pt-16 px-4 md:px-6 min-h-screen">
+      <main className="grid md:grid-cols-12 gap-5">
+        {/* Sidebar */}
+        <aside className="lg:col-span-3 hidden lg:block sticky top-16 h-fit">
+          <ServiceSelector
+            acName={acName}
+            services={serviceTypes}
+            selectedService={activeServiceType}
+            onSelect={changeService}
+          />
         </aside>
 
-        {/* RIGHT */}
-        <aside className="md:col-span-9 space-y-6">
-          {/* AC SELECTOR */}
-          <ul className="flex gap-4 justify-center overflow-x-auto bg-white p-3 rounded-lg">
-            {acTypes.map((ac) => (
-              <li
-                key={ac.id}
-                onClick={() => changeAc(ac)}
-                className={`p-3 border rounded cursor-pointer
-                  ${
-                    activeAc === ac.id
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-200"
-                  }
-                `}
-              >
-                <img src={ac.image} className="h-20 mx-auto" />
-
-                <p className="text-sm mt-1 text-center">{ac.name}</p>
-              </li>
-            ))}
-          </ul>
+        {/* Main */}
+        <section className="lg:col-span-9 col-span-12 space-y-5">
+          <ServiceFilter
+            acTypes={acTypes}
+            services={serviceTypes}
+            acName={acName}
+            activeAc={activeAc}
+            activeService={activeServiceType}
+            onAcChange={changeAc}
+            onServiceChange={changeService}
+          />
 
           <BookService />
-        </aside>
+        </section>
       </main>
     </div>
   );

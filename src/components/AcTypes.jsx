@@ -1,10 +1,8 @@
 "use client";
 
 import { ACTypesData } from "../Data/Data";
-import clouds from "../assets/clouds.png";
 
 import Animate from "../utils/Animate";
-
 import { useNavigate } from "react-router-dom";
 
 const AcTypes = () => {
@@ -33,52 +31,55 @@ const AcTypes = () => {
           py-10
         "
       >
-        {ACTypesData.map((service, index) => (
+        {ACTypesData.map((service) => (
           <Animate
-            key={index}
+            key={service.id}
             className="
-              custom-card
               flex flex-col
               items-center
-              bg-no-repeat
-              bg-center
-              bg-contain
+              p-5
+              rounded-xl
+              bg-white
+              shadow-sm
+              hover:shadow-md
+              transition
             "
-            style={{
-              backgroundImage: `url(${clouds})`,
-            }}
           >
-            {/* Image */}
-            <img
-              src={service.image}
-              alt={service.title}
-              loading="lazy"
-              decoding="async"
-              className="
-                max-h-32
-                rounded-lg
-                mx-auto
-                mb-4
-                object-contain
-                opacity-0
-                animate-fadeIn
-              "
-              onLoad={(e) => e.target.classList.add("opacity-100")}
-            />
+            {/* Image Wrapper (16:9) */}
+            <div className="w-full mb-4 flex items-center justify-center">
+
+              <img
+                src={service.image}
+                alt={service.title}
+                loading="lazy"
+                decoding="async"
+                className="
+                  max-h-28
+                  object-contain
+                  transition-opacity
+                  duration-500
+                  opacity-0
+                "
+                onLoad={(e) =>
+                  e.currentTarget.classList.remove("opacity-0")
+                }
+              />
+
+            </div>
 
             {/* Title */}
-            <h2 className="text-2xl font-bold p-2 text-gray-900 dark:text-gray-100">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 text-center">
               {service.title}
             </h2>
 
             {/* Desc */}
-            <p className="subtext pb-5 max-w-64 text-center">
+            <p className="subtext mt-2 pb-5 max-w-64 text-center text-sm text-gray-600">
               {service.desc}
             </p>
 
             {/* Button */}
             <button
-              className="btn-primary"
+              className="btn-primary mt-auto"
               onClick={() =>
                 navigate(
                   `/services?ac=${service.title

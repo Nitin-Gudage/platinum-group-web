@@ -1,33 +1,53 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useRef, useState, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import Rating from "../components/Rating";
 import { Typewriter } from "react-simple-typewriter";
 import Animate from "../utils/Animate";
-import { useNavigate } from "react-router-dom";
+import PageLoader from "../utils/PageLoader";
 
-/* Slide interval (3 seconds) */
+import { getHeroSlides } from "../store/features/heroSlice";
+
+/* Slide interval */
 const SLIDE_TIME = 5000;
 
 const HeroSwiper = () => {
-  const { data, status } = useSelector((s) => s.hero);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { data, status } = useSelector((s) => s.hero);
 
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
   const touchStartX = useRef(0);
 
-  /* Reset index when data changes */
+  /* Fetch hero slides */
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(getHeroSlides());
+    }
+  }, [dispatch, status]);
+
+  /* Reset index */
   useEffect(() => {
     if (data?.length) {
       setIndex(0);
     }
   }, [data]);
 
-  /* Auto Slide */
+  /* Preload first image */
+  useEffect(() => {
+    if (data?.length) {
+      const img = new Image();
+      img.src = data[0].image;
+    }
+  }, [data]);
+
+  /* Auto slide */
   useEffect(() => {
     if (!data?.length || isPaused) return;
 
@@ -36,18 +56,21 @@ const HeroSwiper = () => {
     }, SLIDE_TIME);
 
     return () => clearInterval(timer);
-  }, [data, isPaused]); // ✅ important
+  }, [data, isPaused]);
 
-  /* Swipe Start */
+  /* Current slide (memoized) */
+  const current = useMemo(() => {
+    return data[index];
+  }, [data, index]);
+
+  /* Swipe handlers */
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
   };
 
-  /* Swipe End */
   const handleTouchEnd = (e) => {
-    const endX = e.changedTouches[0].clientX;
-
-    const diff = touchStartX.current - endX;
+    const diff =
+      touchStartX.current - e.changedTouches[0].clientX;
 
     if (Math.abs(diff) < 50) return;
 
@@ -60,15 +83,15 @@ const HeroSwiper = () => {
   };
 
   const prev = () => {
-    setIndex((i) => (i === 0 ? data.length - 1 : i - 1));
+    setIndex((i) =>
+      i === 0 ? data.length - 1 : i - 1
+    );
   };
 
   /* Loading */
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") return <PageLoader />;
 
   if (!data?.length) return null;
-
-  const current = data[index];
 
   return (
     <div
@@ -83,7 +106,7 @@ const HeroSwiper = () => {
         once={false}
         className="
           relative w-full
-          h-[40vh] sm:h-[360px] md:h-[80vh]
+          h-[40vh] md:h-[75vh]
           rounded-xl overflow-hidden
         "
       >
@@ -91,8 +114,11 @@ const HeroSwiper = () => {
         <img
           src={current.image}
           alt={current.title}
+
           loading={index === 0 ? "eager" : "lazy"}
+          fetchpriority={index === 0 ? "high" : "auto"}
           decoding="async"
+
           className="w-full h-full object-cover object-top"
         />
 
@@ -100,16 +126,11 @@ const HeroSwiper = () => {
         <div
           className="
             absolute inset-3 sm:inset-5 md:inset-7
-            grid grid-cols-12
-            text-secondary
+            grid grid-cols-12 text-secondary
           "
         >
-          <div
-            className="
-              col-start-6 col-span-7
-              flex flex-col justify-center
-            "
-          >
+          <div className="col-start-6 col-span-7 flex flex-col justify-center">
+
             {/* Title */}
             <Animate delay={0}>
               <h1
@@ -119,23 +140,21 @@ const HeroSwiper = () => {
                   leading-tight md:leading-[1]
                 "
               >
-                <Typewriter
-                  key={index}
-                  words={[current.title]}
-                  typeSpeed={35}
-                />
+                {index === 0 ? (
+                  current.title
+                ) : (
+                  <Typewriter
+                    key={index}
+                    words={[current.title]}
+                    typeSpeed={35}
+                  />
+                )}
               </h1>
             </Animate>
 
             {/* Subtitle */}
             <Animate delay={0.3}>
-              <p
-                className="
-                  text-secondary font-bold
-                  sm:text-lg md:text-4xl
-                  md:py-4
-                "
-              >
+              <p className="text-secondary font-bold sm:text-lg md:text-4xl md:py-4">
                 {current.subtitle}
               </p>
             </Animate>
@@ -149,13 +168,7 @@ const HeroSwiper = () => {
 
             {/* Text */}
             <Animate delay={0.7}>
-              <p
-                className="
-                  text-sm sm:text-base
-                  rounded-lg
-                  bg-primary/60 p-1
-                "
-              >
+              <p className="text-sm sm:text-base rounded-lg bg-primary/60 p-1">
                 {current.subtext}
               </p>
             </Animate>
@@ -175,30 +188,32 @@ const HeroSwiper = () => {
                     navigate(
                       `/services?ac=${current.ac_types.name
                         .toLowerCase()
-                        .replace(/\s+/g, "-")}`,
+                        .replace(/\s+/g, "-")}`
                     )
                   }
                 >
                   Book Now
                 </button>
 
-                <button className="btn-outline">Learn More</button>
+                <button className="btn-outline">
+                  Learn More
+                </button>
               </div>
             </Animate>
+
           </div>
         </div>
       </Animate>
 
       {/* Dots */}
       <div className="absolute bottom-4 right-4 sm:right-6 flex gap-2">
+
         {data.map((_, i) => (
           <button
             key={i}
             onClick={() => setIndex(i)}
             aria-label={`Slide ${i + 1}`}
-            className={`
-              w-3 h-1.5 sm:w-4 sm:h-1.5
-              rounded transition
+            className={`w-3 h-1.5 sm:w-4 sm:h-1.5 rounded transition
               ${
                 index === i
                   ? "bg-primary scale-125"
@@ -207,6 +222,7 @@ const HeroSwiper = () => {
             `}
           />
         ))}
+
       </div>
     </div>
   );
