@@ -21,77 +21,98 @@ const HeroSwiper = () => {
   const { data, status } = useSelector((s) => s.hero);
 
   const [index, setIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   const touchStartX = useRef(0);
 
-  /* Fetch hero slides */
+  /* ================= FETCH ================= */
+
   useEffect(() => {
     if (status === "idle") {
       dispatch(getHeroSlides());
     }
   }, [dispatch, status]);
 
-  /* Reset index */
+  /* ================= RESET ================= */
+
   useEffect(() => {
     if (data?.length) {
       setIndex(0);
     }
   }, [data]);
 
-  /* Preload first image */
+  /* ================= PRELOAD + SEO ================= */
+
   useEffect(() => {
-    if (data?.length) {
-      const img = new Image();
-      img.src = data[0].image;
+    if (!data?.length) return;
+
+    const firstImage = data[0].image;
+
+    /* JS preload */
+    const img = new Image();
+    img.src = firstImage;
+
+    /* SEO preload */
+    if (!document.querySelector(`link[rel="preload"][href="${firstImage}"]`)) {
+      const link = document.createElement("link");
+
+      link.rel = "preload";
+      link.as = "image";
+      link.href = firstImage;
+
+      document.head.appendChild(link);
     }
   }, [data]);
 
-  /* Auto slide */
+  /* ================= AUTO SLIDE ================= */
+
   useEffect(() => {
-    if (!data?.length || isPaused) return;
+    if (!data?.length || paused) return;
 
     const timer = setInterval(() => {
       setIndex((i) => (i + 1) % data.length);
     }, SLIDE_TIME);
 
     return () => clearInterval(timer);
-  }, [data, isPaused]);
+  }, [data, paused]);
 
-  /* Current slide (memoized) */
+  /* ================= CURRENT ================= */
+
   const current = useMemo(() => {
     return data[index];
   }, [data, index]);
 
-  /* Swipe handlers */
+  /* ================= SWIPE ================= */
+
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = (e) => {
-    const diff =
-      touchStartX.current - e.changedTouches[0].clientX;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
 
     if (Math.abs(diff) < 50) return;
 
     diff > 0 ? next() : prev();
   };
 
-  /* Controls */
+  /* ================= CONTROLS ================= */
+
   const next = () => {
     setIndex((i) => (i + 1) % data.length);
   };
 
   const prev = () => {
-    setIndex((i) =>
-      i === 0 ? data.length - 1 : i - 1
-    );
+    setIndex((i) => (i === 0 ? data.length - 1 : i - 1));
   };
 
-  /* Loading */
+  /* ================= LOADING ================= */
+
   if (status === "loading") return <PageLoader />;
 
   if (!data?.length) return null;
+
+  /* ================= UI ================= */
 
   return (
     <div
@@ -99,30 +120,29 @@ const HeroSwiper = () => {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Slide */}
+      {/* ================= SLIDE ================= */}
+
       <Animate
         key={index}
         type="slide"
         once={false}
         className="
           relative w-full
-          h-[40vh] md:h-[75vh]
+          h-[70vh] md:h-[75vh]
           rounded-xl overflow-hidden
         "
       >
-        {/* Image */}
+        {/* IMAGE */}
         <img
           src={current.image}
           alt={current.title}
-
           loading={index === 0 ? "eager" : "lazy"}
-          fetchpriority={index === 0 ? "high" : "auto"}
+          fetchPriority={index === 0 ? "high" : "auto"}
           decoding="async"
-
           className="w-full h-full object-cover object-top"
         />
 
-        {/* Overlay */}
+        {/* OVERLAY */}
         <div
           className="
             absolute inset-3 sm:inset-5 md:inset-7
@@ -130,8 +150,7 @@ const HeroSwiper = () => {
           "
         >
           <div className="col-start-6 col-span-7 flex flex-col justify-center">
-
-            {/* Title */}
+            {/* TITLE */}
             <Animate delay={0}>
               <h1
                 className="
@@ -152,35 +171,35 @@ const HeroSwiper = () => {
               </h1>
             </Animate>
 
-            {/* Subtitle */}
+            {/* SUBTITLE */}
             <Animate delay={0.3}>
               <p className="text-secondary font-bold sm:text-lg md:text-4xl md:py-4">
                 {current.subtitle}
               </p>
             </Animate>
 
-            {/* Rating */}
+            {/* RATING */}
             {current.rating && (
               <Animate delay={0.5}>
                 <Rating rating={current.rating} />
               </Animate>
             )}
 
-            {/* Text */}
+            {/* TEXT */}
             <Animate delay={0.7}>
-              <p className="text-sm sm:text-base rounded-lg bg-primary/60 p-1">
+              <p className="text-sm sm:text-base rounded-lg bg-primary/60 p-2">
                 {current.subtext}
               </p>
             </Animate>
 
-            {/* Buttons */}
+            {/* BUTTONS */}
             <Animate delay={0.9}>
               <div
-                className="flex gap-3 pt-3"
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-                onTouchStart={() => setIsPaused(true)}
-                onTouchEnd={() => setIsPaused(false)}
+                className="flex gap-3 pt-4"
+                onMouseEnter={() => setPaused(true)}
+                onMouseLeave={() => setPaused(false)}
+                onTouchStart={() => setPaused(true)}
+                onTouchEnd={() => setPaused(false)}
               >
                 <button
                   className="btn-primary"
@@ -188,32 +207,31 @@ const HeroSwiper = () => {
                     navigate(
                       `/services?ac=${current.ac_types.name
                         .toLowerCase()
-                        .replace(/\s+/g, "-")}`
+                        .replace(/\s+/g, "-")}`,
                     )
                   }
                 >
                   Book Now
                 </button>
 
-                <button className="btn-outline">
-                  Learn More
-                </button>
+                <button className="btn-outline">Learn More</button>
               </div>
             </Animate>
-
           </div>
         </div>
       </Animate>
 
-      {/* Dots */}
-      <div className="absolute bottom-4 right-4 sm:right-6 flex gap-2">
+      {/* ================= DOTS ================= */}
 
+      <div className="absolute bottom-4 right-4 sm:right-6 flex gap-2">
         {data.map((_, i) => (
           <button
             key={i}
             onClick={() => setIndex(i)}
             aria-label={`Slide ${i + 1}`}
-            className={`w-3 h-1.5 sm:w-4 sm:h-1.5 rounded transition
+            className={`
+              w-3 h-1.5 sm:w-4 sm:h-1.5
+              rounded transition
               ${
                 index === i
                   ? "bg-primary scale-125"
@@ -222,7 +240,6 @@ const HeroSwiper = () => {
             `}
           />
         ))}
-
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import ImageOverlay from "../utils/ImageOverlay";
 
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 
-import { footerLinks } from "../Data/Data";
+import { contactInfo } from "../Data/Data";
 import contactHero from "../assets/contactpage/contact-hero.png";
 
 import { sendContactQuery, resetStatus } from "../store/features/contactSlice";
@@ -37,18 +37,20 @@ const ContactPage = () => {
 
   const { status, success, error } = useSelector((s) => s.contact);
 
-  /* React Hook Form */
+  /* ================= FORM ================= */
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm({
-    mode: "onTouched", // ✅ validate after touch
-    reValidateMode: "onChange", // ✅ fix while typing
+    mode: "onTouched",
+    reValidateMode: "onChange",
   });
 
-  /* Submit */
+  /* ================= SUBMIT ================= */
+
   const onSubmit = (data) => {
     dispatch(
       sendContactQuery({
@@ -61,16 +63,25 @@ const ContactPage = () => {
     );
   };
 
-  /* Reset on success */
+  /* ================= RESET ================= */
+
   useEffect(() => {
     if (success) {
       reset();
 
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         dispatch(resetStatus());
       }, 3000);
+
+      return () => clearTimeout(timer);
     }
   }, [success, dispatch, reset]);
+
+  /* ================= ADDRESS ================= */
+
+  const fullAddress = `${contactInfo.address.street}, 
+  ${contactInfo.address.city}, 
+  ${contactInfo.address.state} - ${contactInfo.address.pincode}`;
 
   return (
     <>
@@ -90,7 +101,7 @@ const ContactPage = () => {
 
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 gap-12">
-          {/* LEFT INFO */}
+          {/* ================= LEFT ================= */}
 
           <aside className="bg-white rounded-2xl p-8 flex flex-col">
             <h2 className="text-3xl font-bold text-primary mb-2">
@@ -101,35 +112,53 @@ const ContactPage = () => {
               Call us directly for immediate assistance
             </p>
 
+            {/* Contact Info */}
+
             <ul className="space-y-4 text-gray-700 mb-6">
+              {/* Phone */}
               <li className="flex gap-3 items-center">
                 <FaPhoneAlt className="text-blue-600" />
-                {footerLinks.contact[1].title}
+                <a
+                  href={`tel:${contactInfo.mobile}`}
+                  className="hover:underline"
+                >
+                  {contactInfo.mobile}
+                </a>
               </li>
 
+              {/* Email */}
               <li className="flex gap-3 items-center">
                 <FaEnvelope className="text-yellow-600" />
-                {footerLinks.contact[2].title}
+                <a
+                  href={`mailto:${contactInfo.email}`}
+                  className="hover:underline"
+                >
+                  {contactInfo.email}
+                </a>
               </li>
 
+              {/* Address */}
               <li className="flex gap-3 items-center">
                 <FaMapMarkerAlt className="text-red-600" />
-                {footerLinks.contact[0].title}
+                {fullAddress}
               </li>
             </ul>
 
-            {/* Map */}
+            {/* ================= MAP ================= */}
+            {/* You can change location later */}
 
             <div className="flex-1 rounded-xl overflow-hidden shadow">
               <iframe
                 title="map"
-                src="https://maps.google.com/maps?q=Pune,India&t=&z=15&output=embed"
+                src="https://maps.google.com/maps?q=Mumbai,India&t=&z=14&output=embed"
                 className="w-full h-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
           </aside>
 
-          {/* RIGHT FORM */}
+          {/* ================= RIGHT ================= */}
 
           <div className="bg-white rounded-2xl shadow-lg p-8">
             <h2 className="text-3xl font-bold text-primary mb-6">
@@ -138,7 +167,6 @@ const ContactPage = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {/* Name */}
-
               <Field error={errors.name?.message}>
                 <input
                   placeholder="Full Name"
@@ -154,7 +182,6 @@ const ContactPage = () => {
               </Field>
 
               {/* Phone */}
-
               <Field error={errors.phone?.message}>
                 <input
                   type="tel"
@@ -174,24 +201,18 @@ const ContactPage = () => {
               </Field>
 
               {/* Email */}
-
               <Field error={errors.email?.message}>
                 <input
                   type="email"
                   placeholder="Email"
                   {...register("email", {
                     required: "Email is required",
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Invalid email",
-                    },
                   })}
                   className={inputStyle}
                 />
               </Field>
 
               {/* Service */}
-
               <Field error={errors.service?.message}>
                 <input
                   placeholder="Preferred Service"
@@ -203,7 +224,6 @@ const ContactPage = () => {
               </Field>
 
               {/* Message */}
-
               <Field error={errors.message?.message}>
                 <textarea
                   rows="4"
@@ -219,7 +239,6 @@ const ContactPage = () => {
               </Field>
 
               {/* Submit */}
-
               <button
                 disabled={status === "loading"}
                 type="submit"
@@ -234,7 +253,6 @@ const ContactPage = () => {
               </button>
 
               {/* Status */}
-
               {success && (
                 <p className="text-green-600 text-center font-medium">
                   ✅ Message sent successfully
@@ -251,7 +269,7 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* WHY CHOOSE */}
+      {/* ================= WHY CHOOSE ================= */}
 
       <WhyChoose />
     </>

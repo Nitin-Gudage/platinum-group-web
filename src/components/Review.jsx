@@ -56,8 +56,10 @@ const Review = () => {
   }, [limitedTestimonials, isMobile]);
 
   return (
-    <section className="pb-10 overflow-hidden">
-
+    <section
+      className="pb-10 overflow-hidden"
+      aria-label="Why Choose Platinum Group AC Services"
+    >
       {/* Heading */}
       <Animate>
         <h1 className="heading dark:text-white text-center mb-8">
@@ -67,7 +69,6 @@ const Review = () => {
 
       {/* Reviews */}
       <AnimateGroup className="max-w-7xl mx-auto px-4 space-y-6">
-
         {rows.map((row, rowIndex) => (
           <div
             key={rowIndex}
@@ -118,7 +119,6 @@ const Review = () => {
             ))}
           </div>
         ))}
-
       </AnimateGroup>
     </section>
   );

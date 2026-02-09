@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
-import ServiceSelector from "./ServiceSelector";
+import ServiceSelector from "../components/ServiceSelector";
 import ServiceFilter from "../components/ServiceFilter";
 import BookService from "../components/BookService";
 

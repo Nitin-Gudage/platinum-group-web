@@ -18,10 +18,9 @@ import { useEffect } from "react";
 import { getHeroSlides } from "./store/features/heroSlice";
 import ServicesPage from "./pages/ServicesPage";
 import PageLoader from "./utils/PageLoader";
+import SeoSchema from "./utils/SeoSchema";
 
 function App() {
-
-
   /* Scroll to top on route change */
   const { pathname, search } = useLocation();
 
@@ -35,14 +34,14 @@ function App() {
 
   /* Load hero */
 
-    const dispatch = useDispatch();
-
-
+  const dispatch = useDispatch();
 
   return (
     <div className="App bg-white dark:bg-secondary min-h-screen flex flex-col">
       <NavBar />
-
+      {/* contact info */}
+      <SeoSchema />
+      {/* {main} */}
       <main
         className="flex-grow bg-fixed bg-repeat bg-center bg-auto pb-10 pt-14 sm:pt-0"
         style={{

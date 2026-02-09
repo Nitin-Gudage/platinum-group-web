@@ -1,12 +1,5 @@
 
-
 // NavBar data
-
-export const logo = {
-    icon: "/src/assets/logo.png",
-    altName: "Platinium Group Logo"
-};
-
 export const menu = [
     {
         title: "Home",
@@ -26,8 +19,33 @@ export const menu = [
     }
 ];
 
-//Footer data
+export const acTypes = ['Split AC', 'HVAC', 'Ducted AC', 'Cassette AC', ' Window AC', 'Central Ac', 'Portable AC', 'Tower AC']
+export const availableServices = ['Repair', 'Maintanance', 'AMC', 'Installation', "Uninstallation", 'Gas Refil', 'Cleaning']
 
+export const logo = {
+    icon: "/src/assets/logo.png",
+    altName: "Platinium Group Logo"
+};
+export const contactInfo = {
+    address: {
+        street: "Andheri East, MIDC",
+        city: "Mumbai",
+        state: "MH",
+        pincode: "400093",
+        country: "India"
+    },
+
+    mobile: "+91 98765 43210",
+    email: "platinumgroup@gmail.com",
+
+    whatsapp: "919876543210",
+
+    facebook: "https://facebook.com/platinumgroup",
+    instagram: "https://instagram.com/platinumgroup",
+    xTwitter: "https://twitter.com/platinumgroup"
+};
+
+// footer
 
 export const footerLinks = {
     quickLinks: [
@@ -45,20 +63,7 @@ export const footerLinks = {
         { title: "Window AC", link: "#window-ac", icon: "snow" },
     ],
 
-    contact: [
-        {
-            title: "1234 Platinum St, Cool City, AC 56789",
-            icon: "location",
-        },
-        {
-            title: "+1 (234) 567-8901",
-            icon: "phone",
-        },
-        {
-            title: "platiniumgroup@gmail.com",
-            icon: "email",
-        },
-    ],
+
     social: [
         { name: "Facebook", link: "https://facebook.com", icon: "facebook" },
         { name: "Instagram", link: "https://instagram.com", icon: "instagram" },
@@ -67,122 +72,6 @@ export const footerLinks = {
     ],
 };
 
-// ------------------------------------ Contact Page
-
-// export const contactPageImages = "/src/assets/contactpage/contact-hero.png";
-
-
-// Swiper images
-
-export const heroSwiper = [{
-    image: "/src/assets/hero/hero1.png",
-    title: "Best AC Service in Pune",
-    subtitle: "Flat 30% OFF Today",
-    rating: 4.5,
-    text: 'Expert technicians can Boost your AC performance'
-}, {
-    image: "/src/assets/hero/hero2.png",
-    title: "Trusted AC Service Near You",
-    subtitle: "Flat 30% OFF Today",
-    text: 'Valid till 15 Feb'
-}, {
-    image: "/src/assets/hero/hero3.png",
-    title: "Affordable AC Solutions",
-    subtitle: "Quality Service Within Your Budget",
-    text: 'Experience top-notch AC services at prices you can afford'
-}];
-
-// Home page AC Types data
-
-export const ACTypesData = [
-    {
-        id: 1,
-        title: "Split AC",
-        desc: "Expert Split AC servicing for optimal cooling!",
-        image: "/src/assets/split-ac.jpeg"
-    },
-    {
-        id: 2,
-        title: "Ducted AC",
-        desc: "Professional ducted AC maintenance and repair!",
-        image: "/src/assets/ducted-ac.webp"
-    },
-    {
-        id: 3,
-        title: "Cassette AC",
-        desc: "Ceiling cassette AC installation and maintenance!",
-        image: "/src/assets/cassette-ac.jpg"
-    },
-    {
-        id: 4,
-        title: "Window AC",
-        desc: "Efficient window AC repair and servicing!",
-        image: "/src/assets/window-ac.webp"
-    }, {
-        id: 5,
-        title: "Central AC",
-        desc: "Comprehensive central AC system servicing!",
-        image: "/src/assets/central-ac.webp"
-    }, {
-        id: 6,
-        title: "AHU AC",
-        desc: "Expert Servicing of Air handling unit (AHU) systems!",
-        image: "/src/assets/portable-ac.png"
-    }
-]
-
-export const OurServicesData = [{
-    id: 1,
-    title: "AC Installation",
-    description: "Professional installation services for all types of air conditioners, ensuring optimal performance and efficiency.",
-    icon: 'src/assets/installation.png',
-}, {
-    id: 2,
-    title: "AC Repair",
-    description: "Expert repair services to fix any issues with your air conditioner, restoring its functionality and comfort.",
-    icon: 'src/assets/repair.png',
-}, {
-    id: 3,
-    title: "AC Maintenance (AMC)",
-    description: "Regular maintenance services to keep your air conditioner running efficiently and extend its lifespan.",
-    icon: 'src/assets/amc.png',
-}, {
-    id: 4,
-    title: "AC Duct Cleaning",
-    description: "Thorough cleaning services to remove dust and debris from your air conditioner, improving air quality and performance.",
-    icon: 'src/assets/duct-cleaning.png',
-}, {
-    id: 5,
-    title: "Gas Refill & Replacement",
-    description: "Professional replacement services for outdated or malfunctioning air conditioners, ensuring you have the best cooling solution.",
-    icon: 'src/assets/gas-refil.png',
-}, {
-    id: 6,
-    title: "Coil Cleaning",
-    description: "Professional cleaning of AC coils to improve efficiency and prevent breakdowns.",
-    icon: 'src/assets/cleaning.png',
-}];
-
-export const serviceSteps = [
-    {
-        "id": 1,
-        "title": "Pre-service checks",
-        "description": "Complete AC check-up including cooling & gas level check",
-        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf"
-    },
-    {
-        "id": 2,
-        "title": "Leak identification & fixing",
-        "description": "AC is thoroughly checked for leaks & sealed if required",
-        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf"
-    },
-    {
-        "id": 3,
-        "title": "Gas refill",
-        "description": "Gas filling for optimum cooling performance",
-        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf"
-    }
-];
 
 export const brandImages = [
     "/src/assets/brands/voltas.png",
@@ -196,406 +85,266 @@ export const brandImages = [
 
 ]
 
-export const whyToChoose = [{
-    id: 1,
-    icon: "/src/assets/review/tool.svg",
-    title: "Qualified Experts",
-    desc: "Our team consists of skilled technicians with extensive experience in repairing all types of air conditioning systems. We have the knowledge and expertise to diagnose and resolve any AC issue effectively.",
-}, {
-    id: 2,
-    icon: "/src/assets/review/quality.svg",
-    title: "Quality Service",
-    desc: "We are committed to providing high-quality service and ensuring customer satisfaction. From thorough diagnostics to using genuine parts for repairs, we maintain the highest standards of quality in everything we do.",
-},
-{
-    id: 3,
-    icon: "/src/assets/review/customer.svg",
-    title: "Customer Satisfaction",
-    desc: "Your satisfaction is our top priority. We go above and beyond to ensure that every customer receives personalized attention and exceptional service throughout the repair process.",
-}, {
-    id: 4,
-    icon: "/src/assets/review/cartoon.svg",
-    title: "24x7 Service",
-    desc: "Platinium group offers 24/7 air conditioner repair and maintenance to keep your cooling systems running smoothly. Our expert technicians provide fast, reliable service for homes and businesses. Stay cool and worry-free with our professional AC solutions!",
-},];
+export const whyToChoose = [
+    {
+        id: 1,
+        icon: "/src/assets/review/tool.svg",
+        title: "Certified & Experienced Technicians",
+        desc: "Our certified AC technicians in Mumbai have years of experience in repairing split, window, ductable, and central air conditioners. We accurately diagnose problems and deliver long-lasting repair solutions."
+    },
+
+    {
+        id: 2,
+        icon: "/src/assets/review/quality.svg",
+        title: "Premium Quality AC Service",
+        desc: "We follow strict quality standards for AC repair, installation, and maintenance. Using genuine spare parts and advanced tools, we ensure reliable and efficient HVAC service for homes and offices."
+    },
+
+    {
+        id: 3,
+        icon: "/src/assets/review/customer.svg",
+        title: "Trusted by 1000+ Customers",
+        desc: "With thousands of satisfied customers across Mumbai and nearby areas, Platinum Group is known for transparent pricing, timely service, and excellent customer support."
+    },
+
+    {
+        id: 4,
+        icon: "/src/assets/review/cartoon.svg",
+        title: "24/7 Emergency AC Support",
+        desc: "We provide 24x7 AC repair and emergency breakdown support in Mumbai, Thane, and Navi Mumbai. Our technicians are available day and night to keep your cooling system running smoothly."
+    }
+];
+
 
 export const testimonials = [
     {
         id: 1,
-        name: "John Doe",
-        position: "Home Owner",
+        name: "Rahul Sharma",
+        position: "Home Owner, Mumbai",
         image: "/src/assets/profile.webp",
-        review: "Platinium Group provided excellent AC repair services. Their technicians were prompt, professional, and fixed my AC quickly. Highly recommend!"
+        review:
+            "Platinum Group provided fast and reliable split AC repair at my home in Andheri. The technician arrived on time, explained the issue clearly, and fixed it the same day. Highly recommended for AC service in Mumbai."
     },
+
     {
         id: 2,
-        name: "Jane Smith",
-        position: "Office Manager",
+        name: "Neha Patel",
+        position: "Office Manager, Navi Mumbai",
         image: "/src/assets/profile.webp",
-        review: "I was impressed with the professionalism and efficiency of Platinium Group's AC repair service. They fixed my issue quickly and at a fair price."
+        review:
+            "We hired Platinum Group for office AC maintenance and AMC service. Their team was professional, affordable, and very responsive. Best AC service provider in Navi Mumbai."
     },
+
     {
         id: 3,
-        name: "Mike Johnson",
-        position: "Business Owner",
+        name: "Amit Verma",
+        position: "Business Owner, Thane",
         image: "/src/assets/profile.webp",
-        review: "Platinium Group's AC repair service exceeded my expectations. Their technicians were knowledgeable and courteous, and they got my AC up and running in no time."
+        review:
+            "Excellent ductable AC installation by Platinum Group in our showroom. The technicians were skilled and completed the work on time. Very satisfied with their HVAC services."
     },
+
     {
         id: 4,
-        name: "Emily Davis",
-        position: "Resident",
+        name: "Priya Desai",
+        position: "Resident, Borivali",
         image: "/src/assets/profile.webp",
-        review: "I had a great experience with Platinium Group. Their AC repair service was top-notch, and their team was friendly and professional. I will definitely use their services again."
+        review:
+            "My window AC stopped cooling suddenly. Platinum Group sent a technician within an hour and fixed the gas leakage. Honest pricing and great customer support."
     },
+
     {
         id: 5,
-        name: "Mike Johnson",
-        position: "Business Owner",
+        name: "Rohit Malhotra",
+        position: "Restaurant Owner, Bandra",
         image: "/src/assets/profile.webp",
-        review: "Platinium Group's AC repair service exceeded my expectations. Their technicians were knowledgeable and courteous, and they got my AC up and running in no time."
+        review:
+            "We use Platinum Group for regular AC servicing and AMC plans for our restaurant. Their service quality is excellent and helps us avoid breakdowns during peak hours."
     },
+
     {
         id: 6,
-        name: "Sarah Williams",
-        position: "Home Owner",
+        name: "Sneha Kulkarni",
+        position: "Flat Owner, Powai",
         image: "/src/assets/profile.webp",
-        review: "Platinium Group's AC repair service exceeded my expectations. Their technicians were knowledgeable and courteous, and they got my AC up and running in no time."
+        review:
+            "Booked split AC installation through Platinum Group. The team handled wiring, mounting, and testing perfectly. Very professional AC installation service in Powai."
     },
+
     {
         id: 7,
-        name: "Mike Johnson",
-        position: "Business Owner",
+        name: "Karan Mehta",
+        position: "IT Manager, Goregaon",
         image: "/src/assets/profile.webp",
-        review: "Platinium Group's AC repair service exceeded my expectations. Their technicians were knowledgeable and courteous, and they got my AC up and running in no time."
+        review:
+            "We rely on Platinum Group for annual AC maintenance in our office. Their technicians are trained, polite, and always complete the work on schedule."
     },
+
     {
         id: 8,
-        name: "David Brown",
-        position: "Commercial Client",
+        name: "Pooja Singh",
+        position: "Home Owner, Kandivali",
         image: "/src/assets/profile.webp",
-        review: "Platinium Group's AC repair service exceeded my expectations. Their technicians were knowledgeable and courteous, and they got my AC up and running in no time."
-    },
-
-
-]
-
-// How it works
-
-export const bookingSteps = [
-    {
-        id: 1,
-        title: "Select Service",
-        icon: "select-service.png",
-        description: "Choose required AC service from available options.",
-        step: 1,
-    },
-    {
-        id: 2,
-        title: "Pick Date & Time",
-        icon: "pick-date-time.png",
-        description: "Schedule your preferred service date and time.",
-        step: 2,
-    },
-    {
-        id: 3,
-        title: "Technician Visits",
-        icon: "technician-visit.png",
-        description: "Certified technician visits your location on time.",
-        step: 3,
-    },
-    {
-        id: 4,
-        title: "Pay After Service",
-        icon: "pay-after-service.png",
-        description: "Make payment only after service completion.",
-        step: 4,
-    },
+        review:
+            "Very happy with their AC repair service. Transparent pricing, quick response, and genuine spare parts. One of the best HVAC companies in Mumbai."
+    }
 ];
 
-// Book Service Data
-export const serviceImages = [
-    {
-        id: 1,
-        type: "Split AC",
-        images: ["/src/assets/actypes/split/split-ac-repair.png",
-            "/src/assets/actypes/split/split-ac-cleaning.png",
-            "/src/assets/actypes/split/split-ac-gas-refil.png"]
-    },
-    {
-        id: 2,
-        type: "Window AC",
-        images: ["/src/assets/services/window-ac-service.jpg"]
-    },
-    {
-        id: 3,
-        type: "Ducted AC",
-        images: ["/src/assets/services/ducted-ac-service.jpg"]
-    },
-    {
-        id: 4,
-        type: "Tower AC",
-        images: ["/src/assets/services/tower-ac-service.jpg"]
-    },
-    {
-        id: 5,
-        type: "AHU",
-        images: ["/src/assets/services/ahu-service.jpg"]
-    },
-    {
-        id: 6,
-        type: "Cassette AC",
-        images: ["/src/assets/services/cassette-ac-service.jpg"]
-    },
-];
 
-export const serviceByType = [
+
+
+export const faqs = [
     {
-        id: 1,
-        type: "Split AC",
-        service: [
+        section: "General Questions",
+        items: [
             {
-                id: 11,
-                name: "Installation & Commissioning",
-                price: 699,
-                data: [
-                    { id: 1101, title: "Site Inspection & Capacity Assessment", desc: "Checking site location and cooling capacity requirements." },
-                    { id: 1102, title: "Indoor & Outdoor Unit Installation", desc: "Installing indoor and outdoor units securely." },
-                    { id: 1103, title: "Copper Piping & Insulation", desc: "Installing insulated copper pipes for efficient cooling." },
-                    { id: 1104, title: "Electrical & Drainage Connections", desc: "Connecting power supply and drainage system properly." },
-                    { id: 1105, title: "Performance Testing & Handover", desc: "Testing cooling performance before final handover." },
-                ],
+                q: "What areas do you service in Mumbai?",
+                a: "We provide AC repair and maintenance services across Mumbai, Thane, Navi Mumbai, and nearby suburbs including Andheri, Borivali, Bandra, Powai, and Goregaon.",
             },
             {
-                id: 12,
-                name: "Maintenance & AMC Services",
-                price: 599,
-                data: [
-                    { id: 1201, title: "Wet Chemical Cleaning", desc: "Deep cleaning using approved wet chemical solutions." },
-                    { id: 1202, title: "Dry Chemical Cleaning", desc: "Removing grease and dust with dry chemicals." },
-                    { id: 1203, title: "Filter Cleaning & Hygiene Treatment", desc: "Cleaning filters for better airflow and hygiene." },
-                    { id: 1204, title: "Electrical Component Check", desc: "Inspecting wiring and internal electrical components." },
-                    { id: 1205, title: "Drain Pipe Cleaning", desc: "Removing blockages from drain pipes." },
-                ],
+                q: "How soon can I get an AC service appointment?",
+                a: "We usually provide same-day or next-day AC service depending on availability and your location.",
             },
             {
-                id: 13,
-                name: "Repair & Gas Refill Services",
-                price: 799,
-                data: [
-                    { id: 1301, title: "Gas Top-up & Leak Detection", desc: "Detecting leaks and refilling refrigerant gas." },
-                    { id: 1302, title: "Compressor Repair/Replacement", desc: "Repairing or replacing faulty compressor units." },
-                    { id: 1303, title: "Fan Motor Repair/Replacement", desc: "Fixing or replacing damaged fan motors." },
-                    { id: 1304, title: "PCB Board Repair/Replacement", desc: "Repairing electronic control boards professionally." },
-                    { id: 1305, title: "PCB Board Repair/Replacement", desc: "Repairing electronic control boards professionally." }
-                ],
+                q: "Do you provide 24/7 emergency AC repair?",
+                a: "Yes, we offer 24/7 emergency AC repair services for urgent breakdowns and cooling issues.",
+            },
+            {
+                q: "Are your AC technicians certified and trained?",
+                a: "All our technicians are professionally trained, background verified, and certified to handle all major AC brands.",
+            },
+            {
+                q: "Do you provide warranty on AC repair services?",
+                a: "Yes, we provide service warranty on repairs and spare parts depending on the service type.",
+            },
+            {
+                q: "Is doorstep AC service available?",
+                a: "Yes, we provide doorstep AC repair and servicing for homes, offices, and commercial spaces.",
+            },
+            {
+                q: "How can I book an AC service online?",
+                a: "You can book our AC services online through our website or by calling our support team directly.",
+            },
+            {
+                q: "Do you offer AMC (Annual Maintenance Contract)?",
+                a: "Yes, we offer affordable AMC plans for regular AC maintenance and priority support.",
             },
         ],
     },
 
     {
-        id: 2,
-        type: "Window AC",
-        service: [
+        section: "Service & Repair Questions",
+        items: [
             {
-                id: 21,
-                name: "Installation & Commissioning",
-                price: 649,
-                data: [
-                    { id: 2101, title: "Window Frame Preparation", desc: "Preparing window frame for stable AC installation." },
-                    { id: 2102, title: "Unit Mounting", desc: "Mounting window AC unit securely." },
-                    { id: 2103, title: "Electrical Connection", desc: "Connecting AC unit to safe power source." },
-                    { id: 2104, title: "Water Drain Setup", desc: "Setting proper water drainage outlet." },
-                    { id: 2105, title: "Operational Testing", desc: "Testing cooling and operational performance." },
-                ],
+                q: "What types of AC units do you service?",
+                a: "We service split AC, window AC, ductable AC, cassette AC, VRV, and central air conditioning systems.",
             },
             {
-                id: 22,
-                name: "Maintenance & AMC Services",
-                price: 499,
-                data: [
-                    { id: 2201, title: "Filter & Coil Cleaning", desc: "Cleaning filters and cooling coils thoroughly." },
-                    { id: 2202, title: "Blower Cleaning", desc: "Removing dust from blower components." },
-                    { id: 2203, title: "Electrical Inspection", desc: "Checking internal wiring and safety components." },
-                    { id: 2204, title: "Drain Cleaning", desc: "Cleaning drain pipes to prevent leakage." },
-                ],
+                q: "Do you provide AC installation and uninstallation?",
+                a: "Yes, we provide professional AC installation, uninstallation, and relocation services.",
             },
             {
-                id: 23,
-                name: "Repair & Gas Refill Services",
-                price: 749,
-                data: [
-                    { id: 2301, title: "Gas Refill", desc: "Refilling refrigerant gas to optimal level." },
-                    { id: 2302, title: "Compressor Repair", desc: "Repairing damaged or malfunctioning compressor." },
-                    { id: 2303, title: "Fan & Motor Repair", desc: "Fixing blower fan and motor issues." },
-                    { id: 2304, title: "Thermostat Repair", desc: "Repairing temperature control system accurately." },
-                ],
-            },
-        ],
-    },
-
-    {
-        id: 3,
-        type: "Ducted AC",
-        service: [
-            {
-                id: 31,
-                name: "Installation & Commissioning",
-                price: 2499,
-                data: [
-                    { id: 3101, title: "Duct Design & Planning", desc: "Designing airflow ducts for balanced cooling." },
-                    { id: 3102, title: "Indoor & Outdoor Installation", desc: "Installing central units and main equipment." },
-                    { id: 3103, title: "Duct Fabrication & Insulation", desc: "Fabricating insulated ducts for temperature control." },
-                    { id: 3104, title: "Control System Setup", desc: "Configuring thermostats and automation systems." },
-                    { id: 3105, title: "System Testing", desc: "Testing airflow pressure and cooling efficiency." },
-                ],
+                q: "Do you refill AC gas?",
+                a: "Yes, we provide AC gas refilling with leakage detection and pressure testing.",
             },
             {
-                id: 32,
-                name: "Maintenance & AMC Services",
-                price: 1999,
-                data: [
-                    { id: 3201, title: "Duct Cleaning", desc: "Removing dust and debris from ducts." },
-                    { id: 3202, title: "Coil Cleaning", desc: "Cleaning evaporator and condenser coils." },
-                    { id: 3203, title: "Airflow Check", desc: "Balancing air distribution across all zones." },
-                    { id: 3204, title: "Electrical Check", desc: "Inspecting control panels and wiring." },
-                ],
+                q: "What is included in routine AC servicing?",
+                a: "Routine AC servicing includes filter cleaning, coil cleaning, gas check, drainage cleaning, and performance testing.",
             },
             {
-                id: 33,
-                name: "Repair & Gas Refill Services",
-                price: 2999,
-                data: [
-                    { id: 3301, title: "Leak Detection", desc: "Detecting refrigerant leaks using advanced tools." },
-                    { id: 3302, title: "Compressor Repair", desc: "Repairing high capacity central compressors." },
-                    { id: 3303, title: "Control Board Repair", desc: "Fixing automation and control circuit boards." },
-                    { id: 3304, title: "Gas Refill", desc: "Recharging refrigerant gas for proper cooling." },
-                ],
+                q: "How often should I service my AC?",
+                a: "We recommend servicing your AC every 3 to 6 months for best cooling performance and energy efficiency.",
+            },
+            {
+                q: "Why is my AC not cooling properly?",
+                a: "Poor cooling may be caused by low gas, dirty filters, faulty compressor, or electrical issues. Our technicians diagnose and fix it quickly.",
+            },
+            {
+                q: "How long does AC servicing take?",
+                a: "Standard AC servicing usually takes 60 to 90 minutes depending on the condition of the unit.",
+            },
+            {
+                q: "Do you repair inverter ACs?",
+                a: "Yes, we specialize in inverter AC repair, PCB repair, and advanced diagnostics.",
+            },
+            {
+                q: "Can you repair old or out-of-warranty AC units?",
+                a: "Yes, we repair both new and old AC units, including out-of-warranty systems.",
+            },
+            {
+                q: "Do you use genuine spare parts?",
+                a: "Yes, we use genuine and high-quality spare parts to ensure long-lasting performance.",
             },
         ],
     },
 
     {
-        id: 4,
-        type: "Tower AC",
-        service: [
+        section: "Pricing & Payment Questions",
+        items: [
             {
-                id: 41,
-                name: "Installation & Commissioning",
-                price: 1299,
-                data: [
-                    { id: 4101, title: "Placement Planning", desc: "Selecting ideal location for tower AC unit." },
-                    { id: 4102, title: "Outdoor Unit Setup", desc: "Installing condenser unit at proper location." },
-                    { id: 4103, title: "Piping & Wiring", desc: "Connecting refrigerant pipes and electrical wiring." },
-                    { id: 4104, title: "Stability Mounting", desc: "Ensuring stable placement without vibrations." },
-                    { id: 4105, title: "Performance Testing", desc: "Testing cooling output and airflow levels." },
-                ],
+                q: "What is the cost of AC servicing in Mumbai?",
+                a: "AC servicing prices depend on the type of AC and service required. Contact us for a transparent quote.",
             },
             {
-                id: 42,
-                name: "Maintenance & AMC Services",
-                price: 999,
-                data: [
-                    { id: 4201, title: "Filter Cleaning", desc: "Cleaning high capacity air filters." },
-                    { id: 4202, title: "Coil Washing", desc: "Washing condenser and evaporator coils." },
-                    { id: 4203, title: "Motor Inspection", desc: "Inspecting blower motor for smooth operation." },
-                    { id: 4204, title: "Drain Cleaning", desc: "Removing water blockages from drain pipes." },
-                ],
+                q: "Are your prices affordable?",
+                a: "Yes, we offer competitive and transparent pricing with no hidden charges.",
             },
             {
-                id: 43,
-                name: "Repair & Gas Refill Services",
-                price: 1499,
-                data: [
-                    { id: 4301, title: "Gas Charging", desc: "Charging refrigerant gas to required pressure." },
-                    { id: 4302, title: "Fan Repair", desc: "Repairing damaged blower fan systems." },
-                    { id: 4303, title: "PCB Repair", desc: "Fixing faulty electronic control boards." },
-                    { id: 4304, title: "Compressor Repair", desc: "Repairing or replacing compressor units." },
-                ],
+                q: "Do you provide upfront cost estimates?",
+                a: "Yes, our technicians share the estimated cost before starting any repair work.",
+            },
+            {
+                q: "What payment methods do you accept?",
+                a: "We accept cash, UPI, Google Pay, PhonePe, Paytm, and bank transfers.",
+            },
+            {
+                q: "Do you provide invoices for services?",
+                a: "Yes, we provide proper invoices and service receipts for all completed jobs.",
             },
         ],
     },
 
     {
-        id: 5,
-        type: "AHU",
-        service: [
+        section: "Commercial & Business Services",
+        items: [
             {
-                id: 51,
-                name: "Installation & Commissioning",
-                price: 3999,
-                data: [
-                    { id: 5101, title: "System Planning", desc: "Planning airflow layout for air handling units." },
-                    { id: 5102, title: "Unit Installation", desc: "Installing industrial grade air handling systems." },
-                    { id: 5103, title: "Duct & Damper Setup", desc: "Installing airflow dampers and control ducts." },
-                    { id: 5104, title: "Control Panel Setup", desc: "Configuring automation and monitoring panels." },
-                    { id: 5105, title: "Load Testing", desc: "Testing system performance under working load." },
-                ],
+                q: "Do you provide AC services for offices and businesses?",
+                a: "Yes, we provide commercial AC repair, maintenance, and AMC services for offices, shops, hotels, and restaurants.",
             },
             {
-                id: 52,
-                name: "Maintenance & AMC Services",
-                price: 2999,
-                data: [
-                    { id: 5201, title: "Filter Replacement", desc: "Replacing industrial air filters regularly." },
-                    { id: 5202, title: "Coil Cleaning", desc: "Deep cleaning of cooling and heating coils." },
-                    { id: 5203, title: "Bearing Lubrication", desc: "Lubricating blower bearings for smooth rotation." },
-                    { id: 5204, title: "Sensor Calibration", desc: "Calibrating temperature and pressure sensors." },
-                ],
+                q: "Do you handle large HVAC projects?",
+                a: "Yes, we manage large HVAC installations and maintenance projects for commercial buildings.",
             },
             {
-                id: 53,
-                name: "Repair & Gas Refill Services",
-                price: 3499,
-                data: [
-                    { id: 5301, title: "Motor Repair", desc: "Repairing heavy duty blower motors." },
-                    { id: 5302, title: "Valve Repair", desc: "Fixing chilled water and control valves." },
-                    { id: 5303, title: "Refrigerant Charging", desc: "Charging refrigerant gas to standard levels." },
-                    { id: 5304, title: "Panel Repair", desc: "Repairing automation and electrical panels." },
-                ],
+                q: "Do you offer corporate AMC plans?",
+                a: "Yes, we provide customized AMC plans for corporate clients and commercial properties.",
+            },
+            {
+                q: "Can you maintain multiple AC units at one location?",
+                a: "Yes, we handle bulk AC servicing and maintenance for apartments and offices.",
             },
         ],
     },
 
     {
-        id: 6,
-        type: "Cassette AC",
-        service: [
+        section: "Booking & Support",
+        items: [
             {
-                id: 61,
-                name: "Installation & Commissioning",
-                price: 1799,
-                data: [
-                    { id: 6101, title: "Ceiling Inspection", desc: "Inspecting false ceiling strength and layout." },
-                    { id: 6102, title: "Cassette Mounting", desc: "Mounting cassette unit inside ceiling frame." },
-                    { id: 6103, title: "Drain & Wiring Setup", desc: "Connecting drainage pipes and electrical wiring." },
-                    { id: 6104, title: "Panel Installation", desc: "Installing decorative front panel carefully." },
-                    { id: 6105, title: "Testing & Handover", desc: "Testing airflow and cooling before handover." },
-                ],
+                q: "How do I contact customer support?",
+                a: "You can contact our support team via phone, WhatsApp, or email for quick assistance.",
             },
             {
-                id: 62,
-                name: "Maintenance & AMC Services",
-                price: 1399,
-                data: [
-                    { id: 6201, title: "Panel Cleaning", desc: "Cleaning cassette panel and air outlets." },
-                    { id: 6202, title: "Coil Cleaning", desc: "Washing evaporator and condenser coils." },
-                    { id: 6203, title: "Pump Cleaning", desc: "Cleaning drain pump and water outlet." },
-                    { id: 6204, title: "Electrical Inspection", desc: "Checking wiring and PCB connections." },
-                ],
+                q: "Can I reschedule my appointment?",
+                a: "Yes, appointments can be rescheduled by informing us in advance.",
             },
             {
-                id: 63,
-                name: "Repair & Gas Refill Services",
-                price: 1899,
-                data: [
-                    { id: 6301, title: "Leak Detection", desc: "Detecting refrigerant leaks using electronic tools." },
-                    { id: 6302, title: "Gas Charging", desc: "Refilling refrigerant gas to correct level." },
-                    { id: 6303, title: "Drain Pump Repair", desc: "Repairing faulty water drainage pumps." },
-                    { id: 6304, title: "PCB Repair", desc: "Fixing damaged electronic control boards." },
-                ],
+                q: "Do you send service reminders?",
+                a: "Yes, we send maintenance reminders for AMC customers.",
+            },
+            {
+                q: "Is customer support available on weekends?",
+                a: "Yes, our support team is available on weekends and holidays.",
             },
         ],
     },
 ];
-
