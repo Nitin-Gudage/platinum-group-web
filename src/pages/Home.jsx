@@ -5,6 +5,7 @@ import BrandSwiper from "../components/BrandSwiper";
 import Review from "../components/Review";
 import WhyChoose from "../components/WhyChoose";
 import HeroSwiper from "../components/HeroSwiper";
+import FaqPage from "./FaqPage";
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <BrandSwiper />
       <WhyChoose />
       <Review />
+      <FaqPage isHome={true} />
     </main>
   );
 };
