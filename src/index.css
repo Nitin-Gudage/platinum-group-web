@@ -5,44 +5,58 @@
 @layer components {
   /* Buttons */
   .btn-primary {
-    @apply bg-primary text-white px-5 py-2.5 rounded-md
-           font-medium
+    @apply bg-primary text-white rounded-lg
+           font-medium 
            transition-all duration-300 ease-in-out
            hover:bg-blue-900
-           active:scale-95;
+           active:scale-95
+           px-4 py-1.5
+           text-sm;
   }
 
   .btn-secondary {
-    @apply bg-white text-secondary
-         border border-secondary
-         px-5 py-2.5 rounded-md
-         font-medium
-         transition-all duration-300 ease-in-out
-         hover:bg-background;
+    @apply bg-yellow-500
+    text-secondary
+      border
+    border-secondary
+      rounded-md
+      font-medium
+      flex
+      items-center
+      transition-all duration-300
+      gap-2
+    hover:bg-yellow-600
+    md:px-5 px-4  py-2
+           text-[12px]
+           md:text-base;
   }
 
   .btn-outline {
-    @apply border border-primary text-primary px-5 py-2.5 rounded-md
+    @apply border border-primary text-primary rounded-md
            font-medium
            transition-all duration-300
-           hover:bg-primary hover:text-white;
+           hover:bg-primary/20 hover:text-secondary
+           md:px-5 px-4  py-2
+           text-[12px]
+           md:text-base;
   }
 
   .btn-ghost {
-    @apply text-primary px-5 py-2.5 rounded-md
-           font-medium
-           transition-all duration-300
-           hover:bg-primary/10;
+    @apply text-gray-500 rounded-md
+            border flex gap-1
+           hover:border-b
+           items-center justify-between
+           md:px-5 px-4  py-2
+           text-xs
+           md:text-base;
   }
-
-  /* Card */
   .card {
     @apply bg-background p-6 rounded-xl shadow-md;
   }
   .container {
     @apply mx-auto px-4 
     max-w-[95vw];
-  } 
+  }
 
   /* Custom Card */
   .custom-card {
@@ -70,15 +84,15 @@
 
   /* Typography */
   .heading {
-    @apply text-3xl font-bold text-secondary tracking-tight;
+    @apply text-3xl font-bold;
   }
 
   .subheading {
-    @apply text-xl font-semibold text-secondary;
+    @apply text-base font-semibold text-secondary md:text-lg;
   }
 
   .subtext {
-    @apply text-accent leading-relaxed;
+    @apply text-accent leading-relaxed md:text-base text-sm;
   }
 }
 

@@ -2,7 +2,7 @@ import { IoStar, IoStarHalfSharp, IoStarOutline } from "react-icons/io5";
 
 const Rating = ({ rating = 0, max = 5 }) => {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 py-2">
       {[...Array(max)].map((_, index) => {
         const starNumber = index + 1;
 

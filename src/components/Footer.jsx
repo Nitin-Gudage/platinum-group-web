@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useState, useCallback, memo } from "react";
+
 import {
   FaHome,
   FaInfoCircle,
@@ -12,11 +15,14 @@ import {
   FaInstagram,
   FaTwitter,
   FaLinkedinIn,
+  FaQuora,
 } from "react-icons/fa";
 
 import { footerLinks } from "../Data/Data";
+import { Link } from "react-router-dom";
 
-/* Icon Map */
+/* ================= ICON MAP ================= */
+
 const iconMap = {
   home: <FaHome />,
   info: <FaInfoCircle />,
@@ -25,6 +31,7 @@ const iconMap = {
   email: <FaEnvelope />,
   location: <FaMapMarkerAlt />,
   snow: <FaSnowflake />,
+  faq: <FaQuora />,
 
   facebook: <FaFacebookF />,
   instagram: <FaInstagram />,
@@ -32,55 +39,80 @@ const iconMap = {
   linkedin: <FaLinkedinIn />,
 };
 
+/* ================= FOOTER ================= */
+
 const Footer = () => {
   const [active, setActive] = useState(null);
 
-  const toggle = (id) => setActive(active === id ? null : id);
+  const toggle = useCallback((id) => {
+    setActive((prev) => (prev === id ? null : id));
+  }, []);
 
-  /* Reusable List */
-  const renderList = (list, withLink = false) =>
-    list.map((item, i) =>
-      withLink ? (
-        <a
-          key={i}
-          href={item.link}
-          className="flex items-center gap-2 hover:text-primary"
-        >
-          {iconMap[item.icon]}
-          {item.title}
-        </a>
-      ) : (
-        <p key={i} className="flex items-center gap-2">
-          {iconMap[item.icon]}
-          {item.title}
+  /* ================= LIST ================= */
+
+  const renderList = useCallback((list, withLink = false) => {
+    return list.map((item) => {
+      const Icon = iconMap[item.icon];
+
+      if (withLink) {
+        return (
+          <Link
+            key={item.title}
+            to={item.link}
+            className="
+              flex items-center gap-2
+              hover:text-secondary transition
+            "
+          >
+            {Icon}
+            <span>{item.title}</span>
+          </Link>
+        );
+      }
+
+      return (
+        <p key={item.title} className="flex items-center gap-2">
+          {Icon}
+          <span>{item.title}</span>
         </p>
-      ),
-    );
+      );
+    });
+  }, []);
 
-  /* Social Icons */
-  const renderSocial = (size) =>
-    footerLinks.social.map((item, i) => (
-      <a
-        key={i}
-        href={item.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`
-          flex items-center justify-center
-          ${size}
-          rounded-full bg-white/10
-          hover:text-primary hover:bg-background
-          shadow-sm hover:shadow-md
-          active:scale-95
-        `}
-      >
-        {iconMap[item.icon]}
-      </a>
-    ));
+  /* ================= SOCIAL ================= */
+
+  const renderSocial = useCallback((size) => {
+    return footerLinks.social.map((item) => {
+      const Icon = iconMap[item.icon];
+
+      return (
+        <a
+          key={item.icon}
+          href={item.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={item.icon}
+          className={`
+            flex items-center justify-center
+            ${size}
+            rounded-full
+            bg-white/10
+            hover:text-primary
+            hover:bg-background
+            shadow-sm hover:shadow-md
+            active:scale-95
+            transition
+          `}
+        >
+          {Icon}
+        </a>
+      );
+    });
+  }, []);
 
   return (
-    <footer className="bg-primary text-white dark:bg-secondary dark:text-myGray mt-1">
-      {/* ================= Desktop ================= */}
+    <footer className="bg-primary text-white dark:bg-secondary dark:text-myGray">
+      {/* ================= DESKTOP ================= */}
       <div className="hidden md:grid max-w-7xl mx-auto px-6 py-10 grid-cols-4 gap-8">
         <Section title="Quick Links">
           {renderList(footerLinks.quickLinks, true)}
@@ -97,7 +129,7 @@ const Footer = () => {
         </Section>
       </div>
 
-      {/* ================= Mobile ================= */}
+      {/* ================= MOBILE ================= */}
       <div className="md:hidden px-6 py-6">
         <Accordion
           title="Quick Links"
@@ -134,38 +166,62 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* ================= Bottom ================= */}
+      {/* ================= COPYRIGHT ================= */}
       <div className="bg-secondary dark:text-myGray text-center py-3 text-sm">
-        © {new Date().getFullYear()} Platinium Group. All Rights Reserved.
+        © {new Date().getFullYear()} Platinum Group. All Rights Reserved.
       </div>
     </footer>
   );
 };
 
-/* Section Component */
-const Section = ({ title, children }) => (
+/* ================= SECTION ================= */
+
+const Section = memo(({ title, children }) => (
   <div className="space-y-3">
     <h3 className="text-lg font-semibold">{title}</h3>
     {children}
   </div>
-);
+));
 
-/* Accordion */
-const Accordion = ({ title, id, active, toggle, children }) => (
-  <div className="border-b border-white/20 dark:border-myGray/30 py-3">
-    <button
-      onClick={() => toggle(id)}
-      className="w-full flex justify-between items-center font-semibold"
-    >
-      {title}
+/* ================= ACCORDION ================= */
 
-      <FaChevronDown className={active === id ? "rotate-180" : ""} />
-    </button>
+const Accordion = memo(({ title, id, active, toggle, children }) => {
+  const open = active === id;
 
-    {active === id && (
-      <div className="mt-3 space-y-2 text-sm flex flex-col">{children}</div>
-    )}
-  </div>
-);
+  return (
+    <div className="border-b border-white/20 dark:border-myGray/30 py-3">
+      <button
+        onClick={() => toggle(id)}
+        aria-expanded={open}
+        className="
+            w-full
+            flex justify-between items-center
+            font-semibold
+            focus:outline-none
+          "
+      >
+        {title}
+
+        <FaChevronDown
+          className={`
+              transition-transform
+              ${open ? "rotate-180" : ""}
+            `}
+        />
+      </button>
+
+      <div
+        className={`
+            overflow-hidden
+            transition-all
+            duration-300
+            ${open ? "max-h-96 mt-3" : "max-h-0"}
+          `}
+      >
+        <div className="space-y-2 text-sm flex flex-col">{children}</div>
+      </div>
+    </div>
+  );
+});
 
 export default Footer;

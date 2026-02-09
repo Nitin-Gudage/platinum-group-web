@@ -1,12 +1,26 @@
+"use client";
+
 import { ACTypesData } from "../Data/Data";
 
-const AcTypes = () => {
-  return (
-    <div className="container pt-5">
-      {/* Heading */}
-      <h1 className="heading dark:text-myGray">Types of AC We Service</h1>
+import Animate from "../utils/Animate";
+import { useNavigate } from "react-router-dom";
 
-      <div
+const AcTypes = () => {
+  const navigate = useNavigate();
+
+  return (
+    <section className="container pt-5">
+
+      {/* Heading */}
+      <Animate>
+        <h1 className="heading dark:text-myGray">
+          Types of AC We Service
+        </h1>
+      </Animate>
+
+      {/* Grid */}
+      <Animate
+        stagger
         className="
           grid
           grid-cols-1
@@ -17,45 +31,70 @@ const AcTypes = () => {
           py-10
         "
       >
-        {ACTypesData.map((service, index) => (
-          <div key={index} className="custom-card flex flex-col items-center">
-            {/* Service Image */}
-            <img
-              src={service.image}
-              alt={service.title}
-              loading="lazy"
-              onLoad={(e) => e.target.classList.add("loaded")}
-              className="
-                max-h-32
-                rounded-lg
-                mx-auto
-                mb-4
-                object-contain
+        {ACTypesData.map((service) => (
+          <Animate
+            key={service.id}
+            className="
+              flex flex-col
+              items-center
+              p-5
+              rounded-xl
+              bg-white
+              shadow-sm
+              hover:shadow-md
+              transition
+            "
+          >
+            {/* Image Wrapper (16:9) */}
+            <div className="w-full mb-4 flex items-center justify-center">
 
-                opacity-0
-                transition-opacity
-                duration-500
+              <img
+                src={service.image}
+                alt={service.title}
+                loading="lazy"
+                decoding="async"
+                className="
+                  max-h-28
+                  object-contain
+                  transition-opacity
+                  duration-500
+                  opacity-0
+                "
+                onLoad={(e) =>
+                  e.currentTarget.classList.remove("opacity-0")
+                }
+              />
 
-                [&.loaded]:opacity-100
-              "
-            />
+            </div>
 
             {/* Title */}
-            <h2
-              className="
-                text-2xl font-bold mb-4
-                text-gray-900 dark:text-gray-100
-              "
-            >
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 text-center">
               {service.title}
             </h2>
 
+            {/* Desc */}
+            <p className="subtext mt-2 pb-5 max-w-64 text-center text-sm text-gray-600">
+              {service.desc}
+            </p>
+
             {/* Button */}
-            <button className="btn-primary">Book Service</button>
-          </div>
+            <button
+              className="btn-primary mt-auto"
+              onClick={() =>
+                navigate(
+                  `/services?ac=${service.title
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`
+                )
+              }
+            >
+              Book Service
+            </button>
+
+          </Animate>
         ))}
-      </div>
-    </div>
+      </Animate>
+    </section>
   );
 };
 

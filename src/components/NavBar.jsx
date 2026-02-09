@@ -1,159 +1,299 @@
-import { Link, NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+"use client";
+
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  memo,
+} from "react";
+
+import { NavLink } from "react-router-dom";
+
 import { menu, logo } from "../Data/Data";
-import { CiDark, CiLight } from "react-icons/ci";
-import { HiMenuAlt3, HiX } from "react-icons/hi";
+
+import {
+  HiMenuAlt3,
+  HiX,
+  HiSearch,
+} from "react-icons/hi";
+
+/* ================= STYLES ================= */
+
+const glass =
+  "bg-white/30 backdrop-blur-xl border border-white/30 shadow-lg rounded-xl";
+
+const base =
+  "relative text-sm font-medium transition after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-blue-600 after:origin-left after:scale-x-0 after:transition-transform after:duration-300";
+
+const active =
+  "text-blue-700 after:scale-x-100";
+
+const idle =
+  "text-gray-700 hover:text-blue-700";
+
+/* ================= LINKS ================= */
+
+const Links = memo(({ onClick }) =>
+  menu.map((m) => (
+    <NavLink
+      key={m.link}
+      to={m.link}
+      onClick={onClick}
+      className={({ isActive }) =>
+        `${base} ${isActive ? active : idle}`
+      }
+    >
+      {m.title}
+    </NavLink>
+  ))
+);
+
+/* ================= NAVBAR ================= */
 
 const NavBar = () => {
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("theme") === "dark",
+  const [open, setOpen] = useState(false);
+  const [show, setShow] = useState(false);
+  const [q, setQ] = useState("");
+
+  const desktopRef = useRef(null);
+  const mobileRef = useRef(null);
+
+  /* ================= CLOSE ================= */
+
+  const close = useCallback(() => {
+    setOpen(false);
+    setShow(false);
+  }, []);
+
+  /* ================= OUTSIDE + ESC ================= */
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "Escape") {
+        close();
+        return;
+      }
+
+      const d = desktopRef.current;
+      const m = mobileRef.current;
+
+      if (
+        (d && d.contains(e.target)) ||
+        (m && m.contains(e.target))
+      ) {
+        return;
+      }
+
+      close();
+    };
+
+    document.addEventListener("mousedown", handler);
+    document.addEventListener("keydown", handler);
+
+    return () => {
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("keydown", handler);
+    };
+  }, [close]);
+
+  /* ================= SEARCH ================= */
+
+  const submit = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      if (!q.trim()) return;
+
+      console.log("Search:", q);
+
+      close();
+    },
+    [q, close]
   );
 
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  // Apply theme
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
-  }, [darkMode]);
-
   return (
-    <header
-      className="mb-1
-        bg-background dark:bg-secondary
-        backdrop-blur-md
-        shadow-md dark:shadow-black/40
-      "
-    >
-      {/* Main Bar */}
-      <div className="px-6 py-2 flex items-center justify-between">
-        {/* Logo */}
-        <img src={logo.icon} alt="Logo" className="h-14 w-14" />
+    <header className="fixed top-0 w-full z-[999]">
 
-        {/* Desktop Menu */}
-        <nav className="hidden md:flex gap-8 items-center">
-          {menu.map((item, index) => (
-            <NavLink
-              key={index}
-              to={item.link}
-              className={({ isActive }) =>
-                `
-                  relative font-bold
+      {/* ================= TOP BAR ================= */}
+      <div className="max-w-7xl mx-auto px-4 py-3">
 
-                  ${
-                    isActive
-                      ? "text-primary"
-                      : "text-secondary dark:text-myGray hover:text-primary"
-                  }
+        <div className="flex justify-between items-center">
 
-                  after:content-['']
-                  after:absolute
-                  after:left-0
-                  after:-bottom-1
-                  after:h-[2px]
-                  after:w-0
-                  after:bg-primary
-                  after:transition-all
-                  after:duration-300
+          {/* Logo */}
+          <NavLink to="/" onClick={close}>
+            <img
+              src={logo.icon}
+              alt={logo.altName}
+              className="sm:h-12 h-8"
+              loading="eager"
+            />
+          </NavLink>
 
-                  hover:after:w-full
-                `
-              }
+          {/* ================= DESKTOP ================= */}
+          <div
+            ref={desktopRef}
+            className={`
+              hidden md:flex
+              items-center gap-4
+              px-5 py-2
+              ${glass}
+            `}
+          >
+            <Links onClick={close} />
+
+            {/* Search */}
+            <form
+              onSubmit={submit}
+              className="flex items-center gap-2"
+              role="search"
             >
-              {item.title}
-            </NavLink>
-          ))}
-        </nav>
+              {/* Input */}
+              <div
+                className={`
+                  overflow-hidden
+                  transition-all duration-300
+                  ${show ? "w-40 opacity-100" : "w-0 opacity-0"}
+                `}
+              >
+                <input
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder="Search..."
+                  aria-label="Search"
 
-        {/* Right Side */}
-        <div className="flex items-center gap-4">
-          {/* Dark Mode Toggle */}
+                  className="
+                    w-full px-2 py-1 text-sm
+                    bg-white/70
+                    rounded outline-none
+                  "
+                />
+              </div>
+
+              {/* Submit */}
+              {show && (
+                <button
+                  type="submit"
+                  className="
+                    text-sm px-3 py-1
+                    rounded
+                    bg-blue-600 text-white
+                    hover:bg-blue-700
+                    transition
+                  "
+                >
+                  Search
+                </button>
+              )}
+
+              {/* Toggle */}
+              <button
+                type="button"
+                onClick={() => setShow((p) => !p)}
+                aria-label="Toggle search"
+
+                className="
+                  text-lg
+                  text-gray-700
+                  hover:text-blue-700
+                "
+              >
+                {show ? <HiX /> : <HiSearch />}
+              </button>
+            </form>
+
+            {/* Call */}
+            <a
+              href="tel:9876543210"
+              className="btn-primary"
+            >
+              Call Now
+            </a>
+          </div>
+
+          {/* ================= MOBILE BTN ================= */}
           <button
-            onClick={() => setDarkMode((prev) => !prev)}
-            className="
-              relative p-2 rounded-full
-              shadow-accent
-              shadow-sm hover:shadow-md
-              dark:shadow-black
-            "
-            aria-label="Toggle Dark Mode"
+            onClick={() => setOpen(true)}
+            className="md:hidden text-3xl"
+            aria-label="Open menu"
           >
-            {darkMode ? (
-              <CiLight className="text-yellow-500 text-xl" />
-            ) : (
-              <CiDark className="text-primary text-xl" />
-            )}
+            <HiMenuAlt3 />
           </button>
 
-          {/* Login Button (Desktop) */}
-          <Link to="/login" className="hidden md:inline-block btn-primary">
-            Login
-          </Link>
-
-          {/* Hamburger (Mobile) */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="
-              md:hidden text-2xl
-              text-secondary dark:text-white
-              transition
-            "
-          >
-            {mobileOpen ? <HiX /> : <HiMenuAlt3 />}
-          </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* ================= MOBILE OVERLAY ================= */}
       <div
         className={`
-          md:hidden overflow-hidden
-          transition-all duration-300 ease-in-out
-
-          ${mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
+          md:hidden fixed inset-0 z-[1001]
+          bg-black/40 transition
+          ${open ? "opacity-100" : "opacity-0 pointer-events-none"}
         `}
       >
-        <nav
-          className="
-            flex flex-col gap-4
-            px-6 py-6
-
-            bg-background dark:bg-secondary
-            border-t border-black/5 dark:border-white/10
-          "
+        {/* Box */}
+        <div
+          ref={mobileRef}
+          className={`
+            absolute top-4 left-1/2 -translate-x-1/2
+            w-[90%] max-w-sm
+            flex flex-col gap-5 items-center
+            p-6
+            ${glass}
+            transition
+            ${open ? "translate-y-0" : "-translate-y-6"}
+          `}
         >
-          {menu.map((item, index) => (
-            <NavLink
-              key={index}
-              to={item.link}
-              onClick={() => setMobileOpen(false)}
-              className={({ isActive }) =>
-                `
-                  font-semibold text-lg
-                  transition
+          {/* Close */}
+          <button
+            onClick={close}
+            aria-label="Close menu"
 
-                  ${
-                    isActive
-                      ? "text-primary"
-                      : "text-secondary dark:text-myGray hover:text-primary"
-                  }
-                `
-              }
-            >
-              {item.title}
-            </NavLink>
-          ))}
-
-          {/* Login (Mobile) */}
-          <Link
-            to="/login"
-            onClick={() => setMobileOpen(false)}
-            className="btn-primary mt-3 text-center"
+            className="absolute top-3 right-3 text-2xl"
           >
-            Login
-          </Link>
-        </nav>
+            <HiX />
+          </button>
+
+          <Links onClick={close} />
+
+          {/* Mobile Search */}
+          <form
+            onSubmit={submit}
+            className="flex w-full gap-2"
+          >
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search..."
+              aria-label="Search"
+
+              className="
+                w-full px-3 py-2 text-sm
+                bg-white/70
+                rounded outline-none
+              "
+            />
+
+            <button
+              type="submit"
+              className="text-xl text-blue-700"
+            >
+              <HiSearch />
+            </button>
+          </form>
+
+          {/* Call */}
+          <a
+            href="tel:9876543210"
+            onClick={close}
+            className="btn-primary w-full text-center"
+          >
+            Call Now
+          </a>
+
+        </div>
       </div>
+
     </header>
   );
 };
