@@ -1,64 +1,10 @@
 "use client";
 
-import React, { useState, useMemo, useCallback, memo } from "react";
+import { useState, useMemo, useCallback, memo } from "react";
 
 import Animate from "../utils/Animate";
 import { Link } from "react-router-dom";
-
-/* ================= FAQ DATA ================= */
-
-const faqs = [
-  {
-    section: "General Questions",
-    items: [
-      {
-        q: "What areas do you service?",
-        a: "We provide services across major nearby cities and suburbs.",
-      },
-      {
-        q: "How soon can I get an appointment?",
-        a: "We usually provide same-day or next-day appointments.",
-      },
-      {
-        q: "Do you provide emergency services?",
-        a: "Yes, we offer 24/7 emergency AC repair services.",
-      },
-      {
-        q: "Are your technicians certified?",
-        a: "All our technicians are trained and certified.",
-      },
-      {
-        q: "Do you provide warranty?",
-        a: "Yes, we provide service warranty on all repairs.",
-      },
-    ],
-  },
-  {
-    section: "Service Questions",
-    items: [
-      {
-        q: "What types of AC units do you service?",
-        a: "We service split, window, ductable, and central AC units.",
-      },
-      {
-        q: "How do I maintain my AC?",
-        a: "Clean filters regularly and schedule servicing every 6 months.",
-      },
-      {
-        q: "What is included in routine service?",
-        a: "Inspection, cleaning, gas check, and performance testing.",
-      },
-      {
-        q: "Do you refill AC gas?",
-        a: "Yes, we provide professional gas refilling services.",
-      },
-      {
-        q: "How long does servicing take?",
-        a: "Usually 60–90 minutes depending on condition.",
-      },
-    ],
-  },
-];
+import { faqs } from "../Data/Data";
 
 /* ================= ACCORDION ITEM ================= */
 
@@ -69,18 +15,18 @@ const AccordionItem = memo(({ item, isOpen, onClick }) => {
         onClick={onClick}
         aria-expanded={isOpen}
         className="
-            w-full flex justify-between items-center
-            p-4 font-medium text-left
-            hover:bg-blue-50 transition
-          "
+          w-full flex justify-between items-center
+          p-4 font-medium text-left
+          hover:bg-blue-50 transition
+        "
       >
         {item.q}
 
         <span
           className={`
-              text-xl transition-transform
-              ${isOpen ? "rotate-45" : ""}
-            `}
+            text-xl transition-transform
+            ${isOpen ? "rotate-45" : ""}
+          `}
         >
           +
         </span>
@@ -88,9 +34,9 @@ const AccordionItem = memo(({ item, isOpen, onClick }) => {
 
       <div
         className={`
-            overflow-hidden transition-all duration-300
-            ${isOpen ? "max-h-40" : "max-h-0"}
-          `}
+          overflow-hidden transition-all duration-300
+          ${isOpen ? "max-h-40" : "max-h-0"}
+        `}
       >
         {isOpen && (
           <Animate>
@@ -102,46 +48,51 @@ const AccordionItem = memo(({ item, isOpen, onClick }) => {
   );
 });
 
-/* ================= MAIN WRAPPER ================= */
+/* ================= WRAPPER ================= */
 
 const FaqPage = ({ isHome = false }) => {
-  return isHome ? <Home /> : <Mainpage />;
+  return isHome ? <Home /> : <MainPage />;
 };
 
 export default FaqPage;
 
-/* ================= FULL PAGE ================= */
+/* ================= MAIN FAQ PAGE ================= */
 
-const Mainpage = () => {
+const MainPage = () => {
   const [active, setActive] = useState(null);
   const [search, setSearch] = useState("");
 
-  /* ================= FILTER ================= */
-
+  /* Filter + Limit 4 */
   const filteredFaqs = useMemo(() => {
-    if (!search.trim()) return faqs;
+    let data = faqs;
 
-    const q = search.toLowerCase();
+    if (search.trim()) {
+      const q = search.toLowerCase();
 
-    return faqs.map((group) => ({
+      data = faqs.map((group) => ({
+        ...group,
+        items: group.items.filter(
+          (item) =>
+            item.q.toLowerCase().includes(q) ||
+            item.a.toLowerCase().includes(q),
+        ),
+      }));
+    }
+
+    /* Limit 4 per section */
+    return data.map((group) => ({
       ...group,
-      items: group.items.filter(
-        (item) =>
-          item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q),
-      ),
+      items: group.items.slice(0, 4),
     }));
   }, [search]);
-
-  /* ================= TOGGLE ================= */
 
   const toggle = useCallback((key) => {
     setActive((prev) => (prev === key ? null : key));
   }, []);
 
   return (
-    <section className="w-full ">
-      {/* ================= HERO ================= */}
-
+    <section className="w-full">
+      {/* HERO */}
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 px-6 py-20 items-center">
         <div>
           <h1 className="text-4xl font-bold mb-4">
@@ -149,7 +100,7 @@ const Mainpage = () => {
           </h1>
 
           <p className="text-gray-600 mb-6">
-            Find answers to your most common questions below.
+            Find answers to your most common questions.
           </p>
 
           {/* Search */}
@@ -183,10 +134,9 @@ const Mainpage = () => {
         </div>
       </div>
 
-      {/* ================= FAQ GRID ================= */}
-
+      {/* FAQ GRID */}
       <div className="max-w-7xl mx-auto px-6 pt-10 grid md:grid-cols-3 gap-10">
-        {/* FAQ */}
+        {/* FAQ List */}
         <div className="md:col-span-2">
           {filteredFaqs.map((group) => (
             <div key={group.section} className="mb-12">
@@ -210,8 +160,7 @@ const Mainpage = () => {
           ))}
         </div>
 
-        {/* ================= SIDEBAR ================= */}
-
+        {/* SIDEBAR */}
         <aside className="bg-white rounded-xl shadow p-6 h-fit sticky top-24">
           <h3 className="text-xl font-semibold mb-3">Need More Assistance?</h3>
 
@@ -222,36 +171,39 @@ const Mainpage = () => {
           <p>📞 +91 98765 43210</p>
           <p>✉️ support@example.com</p>
 
-          <button
+          <Link
+            to="/contact"
             className="
-              mt-6 w-full
+              block mt-6 w-full text-center
               bg-blue-600 text-white
               py-3 rounded-lg
               hover:bg-blue-700 transition
             "
           >
-            Start Live Chat
-          </button>
+            Contact Us
+          </Link>
         </aside>
       </div>
     </section>
   );
 };
 
-/* ================= HOME ================= */
+/* ================= HOME FAQ ================= */
 
 const Home = () => {
   const [active, setActive] = useState(null);
 
-  /* Limit items */
-  const homeFaqs = useMemo(
-    () =>
-      faqs.map((group) => ({
+  /* Only selected sections + 4 items */
+  const homeFaqs = useMemo(() => {
+    const allowed = ["General Questions", "Pricing & Payment Questions"];
+
+    return faqs
+      .filter((group) => allowed.includes(group.section))
+      .map((group) => ({
         ...group,
         items: group.items.slice(0, 4),
-      })),
-    [],
-  );
+      }));
+  }, []);
 
   const toggle = useCallback((key) => {
     setActive((prev) => (prev === key ? null : key));
@@ -262,7 +214,7 @@ const Home = () => {
       <h1 className="text-4xl font-bold mb-4">Frequently Asked Questions</h1>
 
       <p className="text-gray-600 mb-6">
-        Find answers to your most common questions below.
+        Quick answers about our services and pricing.
       </p>
 
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10">
@@ -290,13 +242,7 @@ const Home = () => {
 
       {/* View All */}
       <div className="mt-8 text-center">
-        <Link
-          to="/faq"
-          className="
-            text-blue-600 font-medium
-            hover:underline
-          "
-        >
+        <Link to="/faq" className="text-blue-600 font-medium hover:underline">
           View All FAQs →
         </Link>
       </div>
