@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -19,7 +20,6 @@
     "framer-motion": "^12.31.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.71.1",
     "react-icons": "^5.5.0",
     "react-modal": "^3.16.3",
@@ -27,6 +27,7 @@
     "react-router-dom": "^7.13.0",
     "react-simple-typewriter": "^5.0.1",
     "react-spinners": "^0.17.0",
+    "sitemap": "^9.0.0",
     "swiper": "^12.1.0"
   },
   "devDependencies": {
