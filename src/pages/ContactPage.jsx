@@ -87,7 +87,7 @@ const ContactPage = () => {
   ${contactInfo.address.state} - ${contactInfo.address.pincode}`;
 
   return (
-    <>
+    <div className="pt-[88px]">
       {/* ================= HERO ================= */}
 
       <ImageOverlay image={contactHero}>
@@ -335,7 +335,7 @@ const ContactPage = () => {
 
       {/* ================= WHY CHOOSE ================= */}
       <WhyChoose />
-    </>
+    </div>
   );
 };
 

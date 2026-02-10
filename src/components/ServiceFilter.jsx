@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, useState, useEffect, useRef } from "react";
 
 const ServiceFilter = ({
   acTypes = [],
@@ -11,10 +11,44 @@ const ServiceFilter = ({
   onServiceChange,
   acName,
 }) => {
+  const [isAcVisible, setIsAcVisible] = useState(true);
+  const containerRef = useRef(null);
+  const prevScrollRef = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Show AC section only when at the top (within 100px)
+      setIsAcVisible(currentScrollY < 1);
+    };
+
+    // Throttle scroll events for better performance
+    let ticking = false;
+    const throttledHandleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", throttledHandleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", throttledHandleScroll);
+    };
+  }, []);
+
   return (
-    <div className="w-full rounded-2xl bg-gradient-to-br from-white to-gray-50 p-4 shadow-xl border border-gray-100/50 backdrop-blur-sm">
+    <div
+      ref={containerRef}
+      className="w-full bg-gray-50 border-b border-gray-200 lg:relative sticky top-[72px] z-40"
+    >
       {/* Desktop */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block max-w-6xl mx-auto px-4 py-4">
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between px-4">
             <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
@@ -66,61 +100,65 @@ const ServiceFilter = ({
       </div>
 
       {/* Mobile/Tablet */}
-      <div className="block lg:hidden space-y-4">
+      <div className="lg:hidden">
         {/* AC Type Header */}
-        <div className="flex items-center gap-2 p-2 bg-gradient-to-r from-blue-500/10 to-blue-600/10 rounded-lg border border-blue-100">
+        <div className="flex items-center gap-2 px-4 py-3 bg-white border-b border-gray-100">
           <span className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md">
             AC
           </span>
-          <h1 className="font-bold text-base bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-            {acName}
-          </h1>
+          <h1 className="font-bold text-base text-gray-800">{acName}</h1>
         </div>
 
-        {/* Select AC Section */}
-        <div>
-          <p className="text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">
-            Select AC Type
-          </p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {acTypes.map((ac) => {
-              const isActive = activeAc === ac.id;
-              return (
-                <button
-                  key={ac.id}
-                  onClick={() => onAcChange(ac)}
-                  className={`relative px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ease-out overflow-hidden ${
-                    isActive
-                      ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-200"
-                      : "bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:shadow-md"
-                  }`}
-                >
-                  <span className="relative z-10">{ac.name}</span>
-                </button>
-              );
-            })}
+        {/* Select AC Section - Hides on scroll down */}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            isAcVisible ? "max-h-32 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="px-4 py-3 bg-white">
+            <p className="text-xs font-bold text-gray-600 mb-3 uppercase tracking-wide">
+              Select AC Type
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {acTypes.map((ac) => {
+                const isActive = activeAc === ac.id;
+                return (
+                  <button
+                    key={ac.id}
+                    onClick={() => onAcChange(ac)}
+                    className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+                      isActive
+                        ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
+                        : "bg-gray-100 text-gray-600 border border-gray-200 hover:border-blue-300"
+                    }`}
+                  >
+                    {ac.name}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Select Service Section */}
-        <div>
-          <p className="text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">
+        <div className="px-4 py-3 bg-white">
+          <p className="text-xs font-bold text-gray-600 mb-3 uppercase tracking-wide">
             Select Service
           </p>
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="flex flex-wrap gap-2">
             {services.map((s) => {
               const isActive = activeService === s.name;
               return (
                 <button
                   key={s.id}
                   onClick={() => onServiceChange(s)}
-                  className={`relative px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ease-out overflow-hidden ${
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
                     isActive
-                      ? "bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-lg shadow-blue-200"
-                      : "bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:shadow-md"
+                      ? "bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-lg"
+                      : "bg-gray-100 text-gray-600 border border-gray-200 hover:border-blue-300"
                   }`}
                 >
-                  <span className="relative z-10">{s.name}</span>
+                  {s.name}
                 </button>
               );
             })}

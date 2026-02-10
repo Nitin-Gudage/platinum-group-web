@@ -41,7 +41,7 @@ function App() {
       </div>
 
       <main
-        className="flex-grow pt-20"
+        className="flex-grow "
         // style={{ backgroundImage: `url${bgImage}` }}
       >
         <Routes>

@@ -9,12 +9,11 @@ import Animate from "../utils/Animate";
 import Testimonials from "../components/Testimonials";
 import BookingSteps from "../components/BookingSteps";
 import BookServiceMobile from "../components/BookServiceMobile";
-import { BsLink } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <main className="bg-transparent">
+    <main className="bg-transparent  pt-[83px]">
       <HeroSwiper />
 
       {/* ================= QUICK SERVICES ================= */}

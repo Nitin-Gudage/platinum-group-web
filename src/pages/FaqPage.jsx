@@ -99,7 +99,7 @@ const MainPage = () => {
   }, []);
 
   return (
-    <section className="w-full">
+    <section className="w-full pt-[88px]">
       {/* HERO */}
       <div className="container py-16">
         <Animate>

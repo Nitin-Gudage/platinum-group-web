@@ -23,7 +23,7 @@ export const acTypes = ['Split AC', 'HVAC', 'Ducted AC', 'Cassette AC', ' Window
 export const availableServices = ['Repair', 'Maintanance', 'AMC', 'Installation', "Uninstallation", 'Gas Refil', 'Cleaning']
 
 export const logo = {
-    icon: "/images/logo.png",
+    icon: "/logo.png",
     altName: "Platinium Group Logo"
 };
 export const contactInfo = {
@@ -35,10 +35,10 @@ export const contactInfo = {
         country: "India"
     },
 
-    mobile: "+91 98765 43210",
+    mobile: "+91 88887 43194",
     email: "platinumgroup@gmail.com",
 
-    whatsapp: "919876543210",
+    whatsapp: "+918888743194",
 
     facebook: "https://facebook.com/platinumgroup",
     instagram: "https://instagram.com/platinumgroup",

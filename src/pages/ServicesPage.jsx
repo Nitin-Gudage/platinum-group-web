@@ -64,16 +64,25 @@ export default function ServicesPage() {
   const changeService = (s) => {
     dispatch(setActiveServiceType(s.name));
 
-    document.getElementById(`service-${s.id}`)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    const element = document.getElementById(`service-${s.id}`);
+    if (element) {
+      // Different offset for mobile vs desktop
+      const isDesktop = window.innerWidth >= 1024;
+      const offset = isDesktop ? 100 : 250; // Desktop: navbar only, Mobile: navbar + sticky filter
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
   };
 
   const acName = acTypes.find((a) => a.id === activeAc)?.name || "AC Services";
 
   return (
-    <div className="px-4 md:px-6 min-h-screen bg-gray-50">
+    <div className="px-4 md:px-6 min-h-screen bg-gray-50 pt-[88px]">
       <main className="grid lg:grid-cols-12 gap-6">
         {/* Sidebar */}
         <aside className="lg:col-span-3 hidden lg:block sticky top-20 h-fit">

@@ -84,10 +84,10 @@ const missions = [
 
 const AboutPage = () => {
   return (
-    <>
+    <div className="pt-[88px]">
       {/* ================= HERO ================= */}
 
-      <ImageOverlay image={aboutHero}>
+      <ImageOverlay image={aboutHero} className="">
         <div className="relative z-10 text-left">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-4">
             Who We Are
@@ -198,7 +198,7 @@ const AboutPage = () => {
           </Animate>
         </section>
       </div>
-    </>
+    </div>
   );
 };
 
