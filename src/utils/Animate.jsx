@@ -76,17 +76,17 @@ export const Animate = memo(function Animate({
       /* Transitions */
       transition={{
         // Entrance animation
-        duration: 0.5,
+        duration: 0.6,
         delay,
-        ease: "easeOut",
+        ease: "easeInOut",
 
         // Hover in + out speed
         scale: {
-          duration: 0.08, // 👈 80ms
+          duration: 0.2,
           ease: "easeOut",
         },
         y: {
-          duration: 0.08, // 👈 80ms
+          duration: 0.2,
           ease: "easeOut",
         },
       }}

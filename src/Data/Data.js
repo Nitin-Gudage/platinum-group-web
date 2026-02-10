@@ -23,7 +23,7 @@ export const acTypes = ['Split AC', 'HVAC', 'Ducted AC', 'Cassette AC', ' Window
 export const availableServices = ['Repair', 'Maintanance', 'AMC', 'Installation', "Uninstallation", 'Gas Refil', 'Cleaning']
 
 export const logo = {
-    icon: "/src/assets/logo.png",
+    icon: "/images/logo.png",
     altName: "Platinium Group Logo"
 };
 export const contactInfo = {
@@ -74,42 +74,42 @@ export const footerLinks = {
 
 
 export const brandImages = [
-    "/src/assets/brands/voltas.png",
-    "/src/assets/brands/bluestar.png",
-    "/src/assets/brands/lg.png",
-    "/src/assets/brands/samsung.png",
-    "/src/assets/brands/daikin.png",
-    "/src/assets/brands/hitachi.png",
-    "/src/assets/brands/panasonic.png",
-    "/src/assets/brands/carrier.png",
+    "/images/brands/voltas.png",
+    "/images/brands/bluestar.png",
+    "/images/brands/lg.png",
+    "/images/brands/samsung.png",
+    "/images/brands/daikin.png",
+    "/images/brands/hitachi.png",
+    "/images/brands/panasonic.png",
+    "/images/brands/carrier.png",
 
 ]
 
 export const whyToChoose = [
     {
         id: 1,
-        icon: "/src/assets/review/tool.svg",
+        icon: "/images/review/tool.svg",
         title: "Certified & Experienced Technicians",
         desc: "Our certified AC technicians in Mumbai have years of experience in repairing split, window, ductable, and central air conditioners. We accurately diagnose problems and deliver long-lasting repair solutions."
     },
 
     {
         id: 2,
-        icon: "/src/assets/review/quality.svg",
+        icon: "/images/review/quality.svg",
         title: "Premium Quality AC Service",
         desc: "We follow strict quality standards for AC repair, installation, and maintenance. Using genuine spare parts and advanced tools, we ensure reliable and efficient HVAC service for homes and offices."
     },
 
     {
         id: 3,
-        icon: "/src/assets/review/customer.svg",
+        icon: "/images/review/customer.svg",
         title: "Trusted by 1000+ Customers",
         desc: "With thousands of satisfied customers across Mumbai and nearby areas, Platinum Group is known for transparent pricing, timely service, and excellent customer support."
     },
 
     {
         id: 4,
-        icon: "/src/assets/review/cartoon.svg",
+        icon: "/images/review/cartoon.svg",
         title: "24/7 Emergency AC Support",
         desc: "We provide 24x7 AC repair and emergency breakdown support in Mumbai, Thane, and Navi Mumbai. Our technicians are available day and night to keep your cooling system running smoothly."
     }
@@ -121,7 +121,7 @@ export const testimonials = [
         id: 1,
         name: "Rahul Sharma",
         position: "Home Owner, Mumbai",
-        image: "/src/assets/profile.webp",
+        image: "/images/profile.webp",
         review:
             "Platinum Group provided fast and reliable split AC repair at my home in Andheri. The technician arrived on time, explained the issue clearly, and fixed it the same day. Highly recommended for AC service in Mumbai."
     },
@@ -130,7 +130,7 @@ export const testimonials = [
         id: 2,
         name: "Neha Patel",
         position: "Office Manager, Navi Mumbai",
-        image: "/src/assets/profile.webp",
+        image: "/images/profile.webp",
         review:
             "We hired Platinum Group for office AC maintenance and AMC service. Their team was professional, affordable, and very responsive. Best AC service provider in Navi Mumbai."
     },
@@ -139,7 +139,7 @@ export const testimonials = [
         id: 3,
         name: "Amit Verma",
         position: "Business Owner, Thane",
-        image: "/src/assets/profile.webp",
+        image: "/images/profile.webp",
         review:
             "Excellent ductable AC installation by Platinum Group in our showroom. The technicians were skilled and completed the work on time. Very satisfied with their HVAC services."
     },
@@ -148,7 +148,7 @@ export const testimonials = [
         id: 4,
         name: "Priya Desai",
         position: "Resident, Borivali",
-        image: "/src/assets/profile.webp",
+        image: "/images/profile.webp",
         review:
             "My window AC stopped cooling suddenly. Platinum Group sent a technician within an hour and fixed the gas leakage. Honest pricing and great customer support."
     },
@@ -157,7 +157,7 @@ export const testimonials = [
         id: 5,
         name: "Rohit Malhotra",
         position: "Restaurant Owner, Bandra",
-        image: "/src/assets/profile.webp",
+        image: "/images/profile.webp",
         review:
             "We use Platinum Group for regular AC servicing and AMC plans for our restaurant. Their service quality is excellent and helps us avoid breakdowns during peak hours."
     },
@@ -166,7 +166,7 @@ export const testimonials = [
         id: 6,
         name: "Sneha Kulkarni",
         position: "Flat Owner, Powai",
-        image: "/src/assets/profile.webp",
+        image: "/images/profile.webp",
         review:
             "Booked split AC installation through Platinum Group. The team handled wiring, mounting, and testing perfectly. Very professional AC installation service in Powai."
     },
@@ -175,7 +175,7 @@ export const testimonials = [
         id: 7,
         name: "Karan Mehta",
         position: "IT Manager, Goregaon",
-        image: "/src/assets/profile.webp",
+        image: "/images/profile.webp",
         review:
             "We rely on Platinum Group for annual AC maintenance in our office. Their technicians are trained, polite, and always complete the work on schedule."
     },
@@ -184,7 +184,7 @@ export const testimonials = [
         id: 8,
         name: "Pooja Singh",
         position: "Home Owner, Kandivali",
-        image: "/src/assets/profile.webp",
+        image: "/images/profile.webp",
         review:
             "Very happy with their AC repair service. Transparent pricing, quick response, and genuine spare parts. One of the best HVAC companies in Mumbai."
     }

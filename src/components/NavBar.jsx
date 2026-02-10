@@ -1,36 +1,21 @@
 "use client";
 
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  memo,
-} from "react";
+import React, { useState, useRef, useEffect, useCallback, memo } from "react";
 
 import { NavLink } from "react-router-dom";
 
 import { menu, logo } from "../Data/Data";
 
-import {
-  HiMenuAlt3,
-  HiX,
-  HiSearch,
-} from "react-icons/hi";
+import { HiMenuAlt3, HiX, HiSearch, HiPhone } from "react-icons/hi";
 
 /* ================= STYLES ================= */
 
-const glass =
-  "bg-white/30 backdrop-blur-xl border border-white/30 shadow-lg rounded-xl";
-
 const base =
-  "relative text-sm font-medium transition after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-blue-600 after:origin-left after:scale-x-0 after:transition-transform after:duration-300";
+  "relative text-sm font-medium transition-all duration-300 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-blue-600 after:origin-left after:scale-x-0 after:transition-transform after:duration-300";
 
-const active =
-  "text-blue-700 after:scale-x-100";
+const active = "text-blue-600 after:scale-x-100";
 
-const idle =
-  "text-gray-700 hover:text-blue-700";
+const idle = "text-gray-600 hover:text-blue-600";
 
 /* ================= LINKS ================= */
 
@@ -40,13 +25,11 @@ const Links = memo(({ onClick }) =>
       key={m.link}
       to={m.link}
       onClick={onClick}
-      className={({ isActive }) =>
-        `${base} ${isActive ? active : idle}`
-      }
+      className={({ isActive }) => `${base} ${isActive ? active : idle}`}
     >
       {m.title}
     </NavLink>
-  ))
+  )),
 );
 
 /* ================= NAVBAR ================= */
@@ -58,6 +41,8 @@ const NavBar = () => {
 
   const desktopRef = useRef(null);
   const mobileRef = useRef(null);
+
+  /* ================= SCROLL EFFECT ================= */
 
   /* ================= CLOSE ================= */
 
@@ -78,10 +63,7 @@ const NavBar = () => {
       const d = desktopRef.current;
       const m = mobileRef.current;
 
-      if (
-        (d && d.contains(e.target)) ||
-        (m && m.contains(e.target))
-      ) {
+      if ((d && d.contains(e.target)) || (m && m.contains(e.target))) {
         return;
       }
 
@@ -109,23 +91,25 @@ const NavBar = () => {
 
       close();
     },
-    [q, close]
+    [q, close],
   );
 
   return (
-    <header className="fixed top-0 w-full z-[999]">
-
+    <header
+      className={`
+        fixed top-0 w-full z-[999] transition-all duration-300 bg-white/0 backdrop-blur-md shadow-xl
+        
+      `}
+    >
       {/* ================= TOP BAR ================= */}
       <div className="max-w-7xl mx-auto px-4 py-3">
-
         <div className="flex justify-between items-center">
-
           {/* Logo */}
-          <NavLink to="/" onClick={close}>
+          <NavLink to="/" onClick={close} className="relative z-10">
             <img
               src={logo.icon}
               alt={logo.altName}
-              className="sm:h-12 h-8"
+              className="sm:h-12 h-10 object-contain"
               loading="eager"
             />
           </NavLink>
@@ -135,9 +119,12 @@ const NavBar = () => {
             ref={desktopRef}
             className={`
               hidden md:flex
-              items-center gap-4
-              px-5 py-2
-              ${glass}
+              items-center gap-6
+              px-6 py-2.5
+              bg-white/50 backdrop-blur-xl
+              border border-gray-100
+              rounded-2xl shadow-sm
+              transition-all duration-300
             `}
           >
             <Links onClick={close} />
@@ -151,21 +138,22 @@ const NavBar = () => {
               {/* Input */}
               <div
                 className={`
-                  overflow-hidden
-                  transition-all duration-300
-                  ${show ? "w-40 opacity-100" : "w-0 opacity-0"}
+                  overflow-hidden transition-all duration-300
+                  ${show ? "w-48 opacity-100" : "w-0 opacity-0"}
                 `}
               >
                 <input
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
-                  placeholder="Search..."
+                  placeholder="Search services..."
                   aria-label="Search"
-
                   className="
-                    w-full px-2 py-1 text-sm
-                    bg-white/70
-                    rounded outline-none
+                    w-full px-3 py-2 text-sm
+                    bg-gray-50
+                    rounded-xl outline-none
+                    border border-transparent
+                    focus:bg-white focus:border-blue-200
+                    transition-all duration-200
                   "
                 />
               </div>
@@ -175,11 +163,12 @@ const NavBar = () => {
                 <button
                   type="submit"
                   className="
-                    text-sm px-3 py-1
-                    rounded
-                    bg-blue-600 text-white
-                    hover:bg-blue-700
-                    transition
+                    text-sm px-4 py-2
+                    rounded-xl
+                    bg-gradient-to-r from-blue-600 to-blue-700 text-white
+                    hover:from-blue-700 hover:to-blue-800
+                    transition-all duration-200
+                    shadow-md shadow-blue-500/20
                   "
                 >
                   Search
@@ -191,11 +180,13 @@ const NavBar = () => {
                 type="button"
                 onClick={() => setShow((p) => !p)}
                 aria-label="Toggle search"
-
                 className="
-                  text-lg
-                  text-gray-700
-                  hover:text-blue-700
+                  text-lg p-2
+                  text-gray-500
+                  hover:text-blue-600
+                  hover:bg-blue-50
+                  rounded-xl
+                  transition-all duration-200
                 "
               >
                 {show ? <HiX /> : <HiSearch />}
@@ -205,8 +196,21 @@ const NavBar = () => {
             {/* Call */}
             <a
               href="tel:9876543210"
-              className="btn-primary"
+              className="
+                flex items-center gap-2
+                bg-gradient-to-r from-blue-600 to-blue-700
+                text-white
+                px-5 py-2.5
+                rounded-xl
+                font-medium
+                text-sm
+                hover:from-blue-700 hover:to-blue-800
+                transition-all duration-200
+                shadow-lg shadow-blue-500/25
+                hover:shadow-xl hover:shadow-blue-500/30
+              "
             >
+              <HiPhone className="text-sm" />
               Call Now
             </a>
           </div>
@@ -214,12 +218,11 @@ const NavBar = () => {
           {/* ================= MOBILE BTN ================= */}
           <button
             onClick={() => setOpen(true)}
-            className="md:hidden text-3xl"
+            className="md:hidden text-3xl p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
             aria-label="Open menu"
           >
             <HiMenuAlt3 />
           </button>
-
         </div>
       </div>
 
@@ -227,7 +230,7 @@ const NavBar = () => {
       <div
         className={`
           md:hidden fixed inset-0 z-[1001]
-          bg-black/40 transition
+          bg-black/40 backdrop-blur-sm transition-opacity duration-300
           ${open ? "opacity-100" : "opacity-0 pointer-events-none"}
         `}
       >
@@ -239,44 +242,51 @@ const NavBar = () => {
             w-[90%] max-w-sm
             flex flex-col gap-5 items-center
             p-6
-            ${glass}
-            transition
-            ${open ? "translate-y-0" : "-translate-y-6"}
+            bg-white/90 backdrop-blur-xl
+            border border-gray-100
+            shadow-2xl
+            rounded-3xl
+            transition-all duration-300 ease-out
+            ${open ? "translate-y-0 opacity-100" : "-translate-y-6 opacity-0"}
           `}
         >
           {/* Close */}
           <button
             onClick={close}
             aria-label="Close menu"
-
-            className="absolute top-3 right-3 text-2xl"
+            className="absolute top-4 right-4 text-2xl p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200"
           >
             <HiX />
           </button>
 
+          <div className="mt-2">
+            <img
+              src={logo.icon}
+              alt={logo.altName}
+              className="h-12 object-contain"
+            />
+          </div>
+
           <Links onClick={close} />
 
           {/* Mobile Search */}
-          <form
-            onSubmit={submit}
-            className="flex w-full gap-2"
-          >
+          <form onSubmit={submit} className="flex w-full gap-2">
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Search..."
+              placeholder="Search services..."
               aria-label="Search"
-
               className="
-                w-full px-3 py-2 text-sm
-                bg-white/70
-                rounded outline-none
+                w-full px-4 py-3 text-sm
+                bg-gray-50
+                rounded-xl outline-none
+                border border-transparent
+                focus:bg-white focus:border-blue-200
               "
             />
-
             <button
               type="submit"
-              className="text-xl text-blue-700"
+              className="text-xl p-3 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-xl transition-all duration-200"
             >
               <HiSearch />
             </button>
@@ -286,14 +296,23 @@ const NavBar = () => {
           <a
             href="tel:9876543210"
             onClick={close}
-            className="btn-primary w-full text-center"
+            className="
+              flex items-center justify-center gap-2 w-full
+              bg-gradient-to-r from-blue-600 to-blue-700
+              text-white
+              px-6 py-3.5
+              rounded-xl
+              font-semibold
+              text-base
+              transition-all duration-200
+              shadow-lg shadow-blue-500/25
+            "
           >
+            <HiPhone className="text-lg" />
             Call Now
           </a>
-
         </div>
       </div>
-
     </header>
   );
 };

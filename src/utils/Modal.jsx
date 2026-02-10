@@ -47,10 +47,15 @@ export default function MuiModal({ open, onClose, children }) {
               aria-label="Close modal"
               className="
                 absolute top-3 right-3
+                w-10 h-10
+                flex items-center justify-center
                 text-gray-500 hover:text-gray-800
-                text-2xl font-bold
+                bg-white hover:bg-gray-100
+                rounded-full
+                text-xl font-bold
                 transition
                 z-20
+                shadow-md
               "
             >
               ✕
