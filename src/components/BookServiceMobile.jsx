@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getMeta } from "../store/features/metaSlice";
@@ -74,7 +74,7 @@ const BookServiceMobile = ({ desktopItems = 2 }) => {
       </div>
 
       {/* Grid - 2 columns on mobile, 4 on desktop */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 md:gap-3 space-y-5">
+      <div className="grid grid-cols-1 lg:grid-cols-4 md:gap-5 space-y-5 md:space-y-0">
         {displayedServices.map((service, index) => (
           <Animate key={`${service.id}-${index}`} delay={index * 0.1}>
             <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">

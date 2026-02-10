@@ -1,6 +1,5 @@
-"use client";
 
-import React, { useState, useRef, useEffect, useCallback, memo } from "react";
+import  { useState, useRef, useEffect, useCallback, memo } from "react";
 
 import { NavLink } from "react-router-dom";
 

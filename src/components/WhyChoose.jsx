@@ -1,4 +1,3 @@
-import React from "react";
 import { whyToChoose } from "../Data/Data";
 import Animate, { AnimateGroup } from "../utils/Animate";
 
