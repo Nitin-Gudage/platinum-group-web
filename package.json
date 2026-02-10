@@ -26,6 +26,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.0",
     "react-simple-typewriter": "^5.0.1",
+    "react-toastify": "^11.0.5",
     "react-spinners": "^0.17.0",
     "sitemap": "^9.0.0",
     "swiper": "^12.1.0"

@@ -121,12 +121,12 @@ const OurServices = () => {
             </div>
 
             {/* ================= TITLE ================= */}
-            <h2 className="text-lg font-bold text-secondary mb-2 group-hover:text-blue-600 transition-colors duration-300">
+            <h2 className="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors duration-300">
               {service.title}
             </h2>
 
             {/* ================= DESC ================= */}
-            <p className="text-gray-600 text-sm text-center line-clamp-3 group-hover:text-gray-700 transition-colors duration-300">
+            <p className="text-gray-600 mb-3 text-sm text-center line-clamp-3 group-hover:text-gray-700 transition-colors duration-300">
               {service.description}
             </p>
 
@@ -134,16 +134,7 @@ const OurServices = () => {
             <button
               onClick={() => openModal(service)}
               className="
-                mt-4
-                px-5 py-2
-                rounded-xl
-                bg-gradient-to-r from-blue-600 to-blue-700
-                text-white
-                font-medium
-                text-sm
-                transition-all duration-300
-                hover:from-blue-700 hover:to-blue-800
-                shadow-lg shadow-blue-500/25
+                btn-primary
               "
             >
               View Details

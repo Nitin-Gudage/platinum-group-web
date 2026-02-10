@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+"use client";
+
+import { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
@@ -13,89 +15,167 @@ import {
   setActiveServiceType,
 } from "../store/features/servicesSlice";
 
-const slug = (t) => t.toLowerCase().trim().replace(/\s+/g, "-");
+/* ================= HELPERS ================= */
+
+const slugify = (text) =>
+  text.toLowerCase().trim().replace(/\s+/g, "-");
 
 export default function ServicesPage() {
   const dispatch = useDispatch();
-
-  const [params, setParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { acTypes, serviceTypes } = useSelector((s) => s.meta);
-
   const { activeAc, activeServiceType } = useSelector((s) => s.services);
 
-  const acSlug = params.get("ac");
+  const acSlug = searchParams.get("ac");
 
-  /* Load meta */
+  /* ================= FIND AC ================= */
+
+  const findAcFromSlug = useCallback(
+    (slugValue) => {
+      if (!acTypes?.length || !slugValue) return null;
+
+      return (
+        acTypes.find(
+          (a) => slugify(a.name) === slugValue
+        ) || null
+      );
+    },
+    [acTypes],
+  );
+
+  /* ================= UPDATE URL ================= */
+
+  const updateUrl = useCallback(
+    (slugValue) => {
+      setSearchParams((prev) => {
+        const params = new URLSearchParams(prev);
+
+        if (params.get("ac") === slugValue) {
+          return params;
+        }
+
+        params.set("ac", slugValue);
+        return params;
+      });
+    },
+    [setSearchParams],
+  );
+
+  /* ================= LOAD META ================= */
+
   useEffect(() => {
     dispatch(getMeta());
   }, [dispatch]);
 
-  /* Sync URL */
+  /* ================= SYNC URL → REDUX ================= */
+
   useEffect(() => {
-    if (!acTypes.length) return;
+    if (!acTypes?.length) return;
 
-    const found = acTypes.find((a) => slug(a.name) === acSlug);
+    const found = findAcFromSlug(acSlug);
 
-    const selected = found || acTypes[0];
-
-    if (selected.id !== activeAc) {
-      dispatch(setActiveAc(selected.id));
+    // ✅ Valid slug
+    if (found) {
+      if (found.id !== activeAc) {
+        dispatch(setActiveAc(found.id));
+      }
+      return;
     }
 
-    if (slug(selected.name) !== acSlug) {
-      setParams({ ac: slug(selected.name) });
-    }
-  }, [acTypes, acSlug, activeAc, dispatch, setParams]);
+    // Default AC
+    const defaultAc = acTypes[0];
 
-  /* Load services */
+    if (!defaultAc) return;
+
+    // ✅ Invalid slug
+    if (acSlug) {
+      dispatch(setActiveAc(defaultAc.id));
+      updateUrl(slugify(defaultAc.name));
+      return;
+    }
+
+    // ✅ First load (no slug)
+    if (!activeAc) {
+      dispatch(setActiveAc(defaultAc.id));
+      updateUrl(slugify(defaultAc.name));
+    }
+  }, [
+    acSlug,
+    acTypes,
+    activeAc,
+    dispatch,
+    findAcFromSlug,
+    updateUrl,
+  ]);
+
+  /* ================= LOAD SERVICES ================= */
+
   useEffect(() => {
     if (activeAc) {
       dispatch(getServices(activeAc));
     }
   }, [activeAc, dispatch]);
 
-  /* Handlers */
-  const changeAc = (ac) => {
-    dispatch(setActiveAc(ac.id));
-    setParams({ ac: slug(ac.name) });
-  };
+  /* ================= HANDLERS ================= */
 
-  const changeService = (s) => {
-    dispatch(setActiveServiceType(s.name));
+  const changeAc = useCallback(
+    (ac) => {
+      dispatch(setActiveAc(ac.id));
+      updateUrl(slugify(ac.name));
+    },
+    [dispatch, updateUrl],
+  );
 
-    const element = document.getElementById(`service-${s.id}`);
-    if (element) {
-      // Different offset for mobile vs desktop
-      const isDesktop = window.innerWidth >= 1024;
-      const offset = isDesktop ? 100 : 250; // Desktop: navbar only, Mobile: navbar + sticky filter
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - offset;
+  const changeService = useCallback(
+    (service) => {
+      dispatch(setActiveServiceType(service.name));
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-  };
+      const element = document.getElementById(
+        `service-${service.id}`,
+      );
 
-  const acName = acTypes.find((a) => a.id === activeAc)?.name || "AC Services";
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    },
+    [dispatch],
+  );
+
+  /* ================= ACTIVE AC NAME ================= */
+
+  const acName = useMemo(() => {
+    return (
+      acTypes.find((a) => a.id === activeAc)?.name ||
+      "AC Services"
+    );
+  }, [acTypes, activeAc]);
+
+  /* ================= UI ================= */
 
   return (
-    <div className="px-4 md:px-6 min-h-screen bg-gray-50 pt-[88px]">
+    <div className="px-4 md:px-6 min-h-screen bg-gray-50 pt-[72px] md:pt-[88px]">
+
       <main className="grid lg:grid-cols-12 gap-6">
-        {/* Sidebar */}
+
+        {/* SIDEBAR */}
         <aside className="lg:col-span-3 hidden lg:block sticky top-20 h-fit">
+
           <ServiceSelector
             acName={acName}
             services={serviceTypes}
             selectedService={activeServiceType}
             onSelect={changeService}
           />
+
         </aside>
 
-        {/* Main */}
+        {/* MAIN */}
         <section className="lg:col-span-9 col-span-12 space-y-5">
+
           <ServiceFilter
             acTypes={acTypes}
             services={serviceTypes}
@@ -107,8 +187,11 @@ export default function ServicesPage() {
           />
 
           <BookService />
+
         </section>
+
       </main>
+
     </div>
   );
 }

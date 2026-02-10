@@ -187,6 +187,7 @@ const NavBar = () => {
                   hover:bg-blue-50
                   rounded-xl
                   transition-all duration-200
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2
                 "
               >
                 {show ? <HiX /> : <HiSearch />}
@@ -208,6 +209,7 @@ const NavBar = () => {
                 transition-all duration-200
                 shadow-lg shadow-blue-500/25
                 hover:shadow-xl hover:shadow-blue-500/30
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2
               "
             >
               <HiPhone className="text-sm" />
@@ -218,7 +220,7 @@ const NavBar = () => {
           {/* ================= MOBILE BTN ================= */}
           <button
             onClick={() => setOpen(true)}
-            className="md:hidden text-3xl p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
+            className="md:hidden text-3xl p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
             aria-label="Open menu"
           >
             <HiMenuAlt3 />
@@ -254,7 +256,7 @@ const NavBar = () => {
           <button
             onClick={close}
             aria-label="Close menu"
-            className="absolute top-4 right-4 text-2xl p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200"
+            className="absolute top-4 right-4 text-2xl p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
           >
             <HiX />
           </button>

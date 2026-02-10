@@ -338,7 +338,7 @@ const Footer = () => {
 
         <a
           href="tel:9876543210"
-          className="flex items-center justify-center gap-2 w-full mt-6 px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg"
+          className="btn-primary flex justify-center items-center gap-5"
         >
           <FaPhoneAlt />
           Call Now - 24/7 Available

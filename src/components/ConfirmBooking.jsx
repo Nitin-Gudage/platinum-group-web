@@ -5,6 +5,7 @@ import { createBooking } from "../store/features/bookingSlice";
 import { BsCheckCircle, BsClock, BsShieldCheck } from "react-icons/bs";
 import { FaWhatsapp } from "react-icons/fa";
 import { contactInfo } from "../Data/Data";
+import { toast } from "react-toastify";
 
 const ConfirmBooking = ({ serviceId, serviceItem, onClose }) => {
   const dispatch = useDispatch();
@@ -59,7 +60,10 @@ const ConfirmBooking = ({ serviceId, serviceItem, onClose }) => {
             ?.map((f, i) => `${i + 1}. ${f.title}`)
             .join("%0A") || "";
         const message = `*New Booking Request*%0A%0A*Booking ID:* ${bookingId}%0A*Service:* ${serviceItem?.name || "N/A"}%0A*Price:* ₹${serviceItem?.price || "N/A"}%0A%0A*Service Features:*%0A${featuresMsg}`;
+        toast.success("Booking sent to WhatsApp!", { autoClose: 3000 });
         onSuccess(message);
+      } else {
+        toast.error("Failed to process booking. Please try again.");
       }
       if (onClose) onClose();
     });
@@ -199,10 +203,21 @@ const ConfirmBooking = ({ serviceId, serviceItem, onClose }) => {
                 selected_service_id: serviceId,
               };
               dispatch(createBooking(payload)).then((result) => {
-                if (createBooking.fulfilled.match(result))
-                  alert(
-                    `Booking Submitted Successfully!\n\nBooking ID: ${result.payload?.id || "N/A"}`,
+                if (createBooking.fulfilled.match(result)) {
+                  toast.success(
+                    <div>
+                      <p className="font-bold">
+                        Booking Submitted Successfully!
+                      </p>
+                      <p className="text-sm">
+                        Booking ID: {result.payload?.id || "N/A"}
+                      </p>
+                    </div>,
+                    { autoClose: 5000 },
                   );
+                } else {
+                  toast.error("Booking failed. Please try again.");
+                }
                 if (onClose) onClose();
               });
             })}

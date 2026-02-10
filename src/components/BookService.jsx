@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useCallback, memo } from "react";
 import { FiCheckCircle, FiInfo } from "react-icons/fi";
 import { Tooltip } from "@mui/material";
 import { BsChevronCompactRight } from "react-icons/bs";
@@ -13,56 +13,50 @@ import ConfirmBooking from "./ConfirmBooking";
 
 const BookService = () => {
   const { list, status } = useSelector((s) => s.services);
-
   const [selectedService, setSelectedService] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  /* ================= GROUP SERVICES ================= */
+  const grouped = useMemo(() => {
+    if (!list?.length) return {};
+    return list.reduce((acc, item) => {
+      const typeId = item.service_types?.id || "other";
+      if (!acc[typeId]) {
+        acc[typeId] = {
+          name: item.service_types?.name || "Other",
+          items: [],
+        };
+      }
+      acc[typeId].items.push(item);
+      return acc;
+    }, {});
+  }, [list]);
+
+  /* ================= HANDLERS ================= */
+  const handleBookNow = useCallback((item) => {
+    setSelectedService(item);
+    setIsModalOpen(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+    setSelectedService(null);
+  }, []);
+
   /* ================= LOADING ================= */
-
   if (status === "loading") return <PageLoader />;
-
   if (!list?.length) {
     return <p className="text-center mt-10 text-gray-600">No services found</p>;
   }
 
-  /* ================= GROUP SERVICES ================= */
-
-  const grouped = list.reduce((acc, item) => {
-    const typeId = item.service_types?.id || "other";
-
-    if (!acc[typeId]) {
-      acc[typeId] = {
-        name: item.service_types?.name || "Other",
-        items: [],
-      };
-    }
-
-    acc[typeId].items.push(item);
-
-    return acc;
-  }, {});
-
-  /* ================= HANDLERS ================= */
-
-  const handleBookNow = (item) => {
-    setSelectedService(item);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedService(null);
-  };
-
   /* ================= UI ================= */
-
   return (
     <main className="space-y-6">
       {Object.entries(grouped).map(([typeId, group], groupIndex) => (
         <section
           key={typeId}
           id={`service-${typeId}`}
-          className="bg-white rounded-3xl shadow-md p-6 md:p-8 scroll-mt-[200px]"
+          className="bg-white rounded-3xl shadow-md p-6 md:p-8 scroll-mt-[250px] md:scroll-mt-[100px]"
         >
           {/* HEADER */}
           <div className="flex items-center gap-4 mb-6">
@@ -169,7 +163,7 @@ const BookService = () => {
                           "
                       >
                         {/* PRICE */}
-                        {item.price && (
+                        {item.price ? (
                           <Tooltip
                             title="Final price may vary based on inspection"
                             placement="top"
@@ -181,24 +175,22 @@ const BookService = () => {
                                 <FiInfo size={12} />
                               </span>
 
-                              <span className="text-lg font-bold text-blue-600 ">
+                              <span className="text-2xl font-bold text-blue-600 ">
                                 ₹{item.price}
                               </span>
                             </div>
                           </Tooltip>
+                        ) : (
+                          <span className="text-sm text-gray-400 italic">
+                            Contact for price
+                          </span>
                         )}
 
                         {/* BUTTON */}
                         <button
                           onClick={() => handleBookNow(item)}
                           className="
-                              bg-blue-600 text-white
-                              py-2 px-4
-                              rounded-lg
-                              text-sm font-medium
-                              hover:bg-blue-700
-                              transition
-                              flex items-center gap-1
+                             btn-primary flex justify-center gap-2 items-center
                             "
                         >
                           Book Now
@@ -226,4 +218,4 @@ const BookService = () => {
   );
 };
 
-export default BookService;
+export default memo(BookService);

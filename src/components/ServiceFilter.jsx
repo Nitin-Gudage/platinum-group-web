@@ -12,41 +12,81 @@ const ServiceFilter = ({
   acName,
 }) => {
   const [isAcVisible, setIsAcVisible] = useState(true);
-  const containerRef = useRef(null);
-  const prevScrollRef = useRef(0);
+  const observerRef = useRef(null);
+  const hideTimeoutRef = useRef(null);
 
+  // Use Intersection Observer to detect when page is at top
+  useEffect(() => {
+    // Create a sentinel element at the top of the page
+    const createSentinel = () => {
+      let sentinel = document.getElementById("scroll-sentinel");
+      if (!sentinel) {
+        sentinel = document.createElement("div");
+        sentinel.id = "scroll-sentinel";
+        sentinel.style.position = "absolute";
+        sentinel.style.top = "0";
+        sentinel.style.left = "0";
+        sentinel.style.width = "1px";
+        sentinel.style.height = "1px";
+        document.body.appendChild(sentinel);
+      }
+      return sentinel;
+    };
+
+    const sentinel = createSentinel();
+
+    // Use Intersection Observer for better performance than scroll events
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        setIsAcVisible(entry.isIntersecting);
+      },
+      {
+        rootMargin: "0px",
+        threshold: 0,
+      },
+    );
+
+    observer.observe(sentinel);
+    observerRef.current = observer;
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, []);
+
+  // Scroll handler
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Show AC section only when at the top (within 100px)
-      setIsAcVisible(currentScrollY < 1);
-    };
-
-    // Throttle scroll events for better performance
-    let ticking = false;
-    const throttledHandleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
+      // Clear any pending timeout
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
       }
+
+      // Debounce the state update
+      hideTimeoutRef.current = setTimeout(() => {
+        // Show AC section only when at the very top
+        setIsAcVisible(currentScrollY < 1);
+      }, 16); // ~60fps debounce
     };
 
-    window.addEventListener("scroll", throttledHandleScroll, { passive: true });
+    // Add passive listener for better scroll performance
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", throttledHandleScroll);
+      window.removeEventListener("scroll", handleScroll);
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
     };
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full bg-gray-50 border-b border-gray-200 lg:relative sticky top-[72px] z-40"
-    >
+    <div className="w-full bg-gray-50  border-b border-gray-200 lg:relative sticky md:top-[0px] top-[72px] z-40 lg:static will-change-transform">
       {/* Desktop */}
       <div className="hidden lg:block max-w-6xl mx-auto px-4 py-4">
         <div className="flex flex-col gap-4">
@@ -102,7 +142,7 @@ const ServiceFilter = ({
       {/* Mobile/Tablet */}
       <div className="lg:hidden">
         {/* AC Type Header */}
-        <div className="flex items-center gap-2 px-4 py-3 bg-white border-b border-gray-100">
+        <div className="flex items-center gap-2 px-4 py-3 bg-white border-b border-gray-100 rounded-xl">
           <span className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md">
             AC
           </span>
@@ -111,7 +151,7 @@ const ServiceFilter = ({
 
         {/* Select AC Section - Hides on scroll down */}
         <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          className={`overflow-hidden transition-all duration-200 ease-out ${
             isAcVisible ? "max-h-32 opacity-100" : "max-h-0 opacity-0"
           }`}
         >

@@ -104,10 +104,10 @@ const MainPage = () => {
       <div className="container py-16">
         <Animate>
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+            <h1 className="heading-1 mb-4">
               Frequently Asked Questions
             </h1>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <p className="text-primary max-w-2xl mx-auto">
               Find answers to your most common questions about our AC services
             </p>
           </div>
@@ -122,18 +122,7 @@ const MainPage = () => {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search questions..."
               aria-label="Search FAQs"
-              className="
-                w-full pl-12 pr-4 py-4
-                rounded-2xl
-                border border-gray-200
-                bg-white
-                shadow-md
-                outline-none
-                text-base
-                focus:border-blue-300
-                focus:ring-4 focus:ring-blue-100
-                transition-all duration-300
-              "
+              className="input-text pl-12 pr-4 py-4 rounded-2xl shadow-md"
             />
           </div>
         </div>
@@ -144,7 +133,7 @@ const MainPage = () => {
           <div className="lg:col-span-2">
             {filteredFaqs.map((group) => (
               <div key={group.section} className="mb-10">
-                <h2 className="text-2xl font-bold text-secondary mb-6 pb-2 border-b border-gray-200">
+                <h2 className="heading-3 mb-6 pb-2 border-b border-gray-200">
                   {group.section}
                 </h2>
 
@@ -169,11 +158,11 @@ const MainPage = () => {
           {/* SIDEBAR */}
           <aside className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 sticky top-28">
-              <h3 className="text-xl font-bold text-secondary mb-4">
+              <h3 className="heading-4 mb-4">
                 Need More Assistance?
               </h3>
 
-              <p className="text-gray-600 mb-6">
+              <p className="text-secondary mb-6">
                 Our support team is available 24/7 to help you with any
                 questions.
               </p>
@@ -203,15 +192,7 @@ const MainPage = () => {
 
               <Link
                 to="/contact"
-                className="
-                  block w-full text-center
-                  bg-gradient-to-r from-blue-600 to-blue-700 text-white
-                  py-4 rounded-xl
-                  font-semibold
-                  hover:from-blue-700 hover:to-blue-800
-                  transition-all duration-300
-                  shadow-lg shadow-blue-500/25
-                "
+                className="btn-primary w-full text-center block"
               >
                 Contact Us
               </Link>
@@ -248,10 +229,10 @@ const HomeFaq = () => {
     <section className="container py-16">
       <Animate>
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4">
+          <h2 className="heading-2 mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-primary max-w-2xl mx-auto">
             Quick answers about our services
           </p>
         </div>
@@ -260,7 +241,7 @@ const HomeFaq = () => {
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
         {homeFaqs.map((group) => (
           <div key={group.section}>
-            <h3 className="text-xl font-semibold text-secondary mb-4">
+            <h3 className="heading-4 mb-4">
               {group.section}
             </h3>
 

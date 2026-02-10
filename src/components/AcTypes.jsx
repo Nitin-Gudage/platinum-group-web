@@ -81,27 +81,19 @@ const AcTypes = () => {
             </div>
 
             {/* ================= TITLE ================= */}
-            <h2 className="text-base font-bold text-secondary text-center mb-2 group-hover:text-blue-600 transition-colors duration-300">
+            <h2 className="text-xl font-bold  text-center mb-2 group-hover:text-blue-600 transition-colors duration-300">
               {ac.name}
             </h2>
 
             {/* ================= DESC ================= */}
-            <p className="text-gray-600 text-xs text-center line-clamp-2 mb-3 group-hover:text-gray-700 transition-colors duration-300">
+            <p className="text-gray-600 text-sm text-center line-clamp-2 mb-3 group-hover:text-gray-700 transition-colors duration-300">
               {ac.description}
             </p>
 
             {/* ================= BUTTON ================= */}
             <button
               className="
-                mt-auto
-                px-3 py-2
-                rounded-lg
-                bg-primary
-                text-white
-                font-medium
-                text-xs
-                transition-all duration-300
-                hover:from-blue-700 hover:to-blue-800
+              btn-primary flex items-center gap-2
               "
               onClick={(e) => {
                 e.stopPropagation();

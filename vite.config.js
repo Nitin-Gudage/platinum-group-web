@@ -3,10 +3,10 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base:"/",
+  base: "/",
   server: {
     host: true,
-    allowedHosts: ["listings-hindu-proceedings-spy.trycloudflare.com"]
+    allowedHosts: ["mime-fastest-develop-bias.trycloudflare.com"]
   },
   plugins: [react()],
 })

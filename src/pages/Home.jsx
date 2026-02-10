@@ -13,16 +13,14 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <main className="bg-transparent  pt-[83px]">
+    <main className="bg-transparent pt-[72px] md:pt-[83px]">
       <HeroSwiper />
 
       {/* ================= QUICK SERVICES ================= */}
       <div className="pt-8">
         <div className="text-center mb-4">
-          <h2 className="text-xl font-bold text-gray-800">Quick Services</h2>
-          <p className="text-sm text-gray-500">
-            Book your AC service in minutes
-          </p>
+          <h2 className="heading-3">Quick Services</h2>
+          <p className="text-secondary">Book your AC service in minutes</p>
         </div>
         <BookServiceMobile desktopItems={4} />
       </div>
@@ -39,9 +37,7 @@ const Home = () => {
           <Animate>
             <div className="text-center mb-6">
               <h1 className="section-title pb-2">Brands We Service</h1>
-              <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
-                Trusted by Leading Brands
-              </p>
+              <p className="section-subtitle">Trusted by Leading Brands</p>
             </div>
             <BrandSwiper />
           </Animate>
@@ -75,16 +71,10 @@ const Home = () => {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-4 justify-center">
-                  <Link
-                    to="/services"
-                    className="px-8 py-4 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl"
-                  >
+                  <Link to="/services" className="btn-primary">
                     Book Now
                   </Link>
-                  <Link
-                    to="/contact"
-                    className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-xl font-semibold border border-white/20 hover:bg-white/20 transition-all duration-300"
-                  >
+                  <Link to="/contact" className="btn-outline">
                     Contact Us
                   </Link>
                 </div>
