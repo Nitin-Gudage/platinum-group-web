@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, memo } from "react";
+import{ useState, useCallback, memo } from "react";
 
 import {
   FaHome,
