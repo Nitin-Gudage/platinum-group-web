@@ -12,7 +12,7 @@ import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import { HiCheckCircle } from "react-icons/hi";
 
 import { contactInfo } from "../Data/Data";
-import contactHero from "../assets/contactpage/contact-hero.png";
+import contactHero from "/images/contactpage/contact-hero.png";
 
 import { sendContactQuery, resetStatus } from "../store/features/contactSlice";
 import BookServiceMobile from "../components/BookServiceMobile";

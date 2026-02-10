@@ -2,23 +2,15 @@ import "./App.css";
 
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
-
 import Home from "./pages/Home";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
-
 import { Route, Routes, useLocation } from "react-router-dom";
-
 import FaqPage from "./pages/FaqPage";
-
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-
-import { getHeroSlides } from "./store/features/heroSlice";
 import ServicesPage from "./pages/ServicesPage";
-import PageLoader from "./utils/PageLoader";
 import SeoSchema from "./utils/SeoSchema";
-import bgImage from "./assets/cloudsbg.png";
 
 function App() {
   /* Scroll to top on route change */

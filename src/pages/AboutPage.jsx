@@ -1,10 +1,7 @@
-import React from "react";
-
 import { Link } from "react-router-dom";
 import ImageOverlay from "../utils/ImageOverlay";
-import aboutHero from "../assets/aboutpage/about-page.png";
+import aboutHero from "/images/aboutpage/about-page.png";
 import Animate from "../utils/Animate";
-import ConfirmBooking from "../components/ConfirmBooking";
 
 const missions = [
   {
