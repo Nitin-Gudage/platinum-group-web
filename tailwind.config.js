@@ -12,6 +12,9 @@ export default {
         background: '#E6E6E6',
         myGray: '#EAEFEF',
       },
+      ringWidth: {
+        '3': '3px',
+      },
     }
   },
   plugins: [],

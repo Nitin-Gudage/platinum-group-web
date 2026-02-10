@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, useState, useEffect, useRef } from "react";
 
 const ServiceFilter = ({
   acTypes = [],
@@ -11,10 +11,84 @@ const ServiceFilter = ({
   onServiceChange,
   acName,
 }) => {
+  const [isAcVisible, setIsAcVisible] = useState(true);
+  const observerRef = useRef(null);
+  const hideTimeoutRef = useRef(null);
+
+  // Use Intersection Observer to detect when page is at top
+  useEffect(() => {
+    // Create a sentinel element at the top of the page
+    const createSentinel = () => {
+      let sentinel = document.getElementById("scroll-sentinel");
+      if (!sentinel) {
+        sentinel = document.createElement("div");
+        sentinel.id = "scroll-sentinel";
+        sentinel.style.position = "absolute";
+        sentinel.style.top = "0";
+        sentinel.style.left = "0";
+        sentinel.style.width = "1px";
+        sentinel.style.height = "1px";
+        document.body.appendChild(sentinel);
+      }
+      return sentinel;
+    };
+
+    const sentinel = createSentinel();
+
+    // Use Intersection Observer for better performance than scroll events
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        setIsAcVisible(entry.isIntersecting);
+      },
+      {
+        rootMargin: "0px",
+        threshold: 0,
+      },
+    );
+
+    observer.observe(sentinel);
+    observerRef.current = observer;
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, []);
+
+  // Scroll handler
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Clear any pending timeout
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+
+      // Debounce the state update
+      hideTimeoutRef.current = setTimeout(() => {
+        // Show AC section only when at the very top
+        setIsAcVisible(currentScrollY < 1);
+      }, 16); // ~60fps debounce
+    };
+
+    // Add passive listener for better scroll performance
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="w-full rounded-2xl bg-gradient-to-br from-white to-gray-50 p-4 shadow-xl border border-gray-100/50 backdrop-blur-sm">
+    <div className="w-full bg-gray-50  border-b border-gray-200 lg:relative sticky md:top-[0px] top-[72px] z-40 lg:static will-change-transform">
       {/* Desktop */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block max-w-6xl mx-auto px-4 py-4">
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between px-4">
             <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
@@ -66,61 +140,65 @@ const ServiceFilter = ({
       </div>
 
       {/* Mobile/Tablet */}
-      <div className="block lg:hidden space-y-4">
+      <div className="lg:hidden">
         {/* AC Type Header */}
-        <div className="flex items-center gap-2 p-2 bg-gradient-to-r from-blue-500/10 to-blue-600/10 rounded-lg border border-blue-100">
+        <div className="flex items-center gap-2 px-4 py-3 bg-white border-b border-gray-100 rounded-xl">
           <span className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md">
             AC
           </span>
-          <h1 className="font-bold text-base bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-            {acName}
-          </h1>
+          <h1 className="font-bold text-base text-gray-800">{acName}</h1>
         </div>
 
-        {/* Select AC Section */}
-        <div>
-          <p className="text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">
-            Select AC Type
-          </p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {acTypes.map((ac) => {
-              const isActive = activeAc === ac.id;
-              return (
-                <button
-                  key={ac.id}
-                  onClick={() => onAcChange(ac)}
-                  className={`relative px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ease-out overflow-hidden ${
-                    isActive
-                      ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-200"
-                      : "bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:shadow-md"
-                  }`}
-                >
-                  <span className="relative z-10">{ac.name}</span>
-                </button>
-              );
-            })}
+        {/* Select AC Section - Hides on scroll down */}
+        <div
+          className={`overflow-hidden transition-all duration-200 ease-out ${
+            isAcVisible ? "max-h-32 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="px-4 py-3 bg-white">
+            <p className="text-xs font-bold text-gray-600 mb-3 uppercase tracking-wide">
+              Select AC Type
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {acTypes.map((ac) => {
+                const isActive = activeAc === ac.id;
+                return (
+                  <button
+                    key={ac.id}
+                    onClick={() => onAcChange(ac)}
+                    className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+                      isActive
+                        ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
+                        : "bg-gray-100 text-gray-600 border border-gray-200 hover:border-blue-300"
+                    }`}
+                  >
+                    {ac.name}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Select Service Section */}
-        <div>
-          <p className="text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">
+        <div className="px-4 py-3 bg-white">
+          <p className="text-xs font-bold text-gray-600 mb-3 uppercase tracking-wide">
             Select Service
           </p>
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="flex flex-wrap gap-2">
             {services.map((s) => {
               const isActive = activeService === s.name;
               return (
                 <button
                   key={s.id}
                   onClick={() => onServiceChange(s)}
-                  className={`relative px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ease-out overflow-hidden ${
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
                     isActive
-                      ? "bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-lg shadow-blue-200"
-                      : "bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:shadow-md"
+                      ? "bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-lg"
+                      : "bg-gray-100 text-gray-600 border border-gray-200 hover:border-blue-300"
                   }`}
                 >
-                  <span className="relative z-10">{s.name}</span>
+                  {s.name}
                 </button>
               );
             })}

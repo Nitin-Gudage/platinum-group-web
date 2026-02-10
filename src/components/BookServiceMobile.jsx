@@ -41,7 +41,6 @@ const BookServiceMobile = ({ desktopItems = 2 }) => {
     const shuffled = [...list].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, desktopItems).map((service) => ({
       ...service,
-      service_features: (service.service_features || []).slice(0, 2),
     }));
   }, [list, desktopItems]);
 
@@ -75,7 +74,7 @@ const BookServiceMobile = ({ desktopItems = 2 }) => {
       </div>
 
       {/* Grid - 2 columns on mobile, 4 on desktop */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 lg:grid-cols-4 md:gap-3 space-y-5">
         {displayedServices.map((service, index) => (
           <Animate key={`${service.id}-${index}`} delay={index * 0.1}>
             <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
@@ -112,14 +111,14 @@ const BookServiceMobile = ({ desktopItems = 2 }) => {
                 {/* Price and Button Row */}
                 <div className="flex items-center justify-between">
                   {service.price && (
-                    <span className="text-2xl font-bold text-blue-600">
+                    <span className="text-3xl font-bold text-blue-600">
                       ₹{service.price}
                     </span>
                   )}
                   <button
                     onClick={() => handleBookNow(service)}
-                    className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white hover:bg-blue-700 transition-all"
-                  >
+                    className="btn-primary flex items-center gap-2"
+                  > Inquire Now
                     <BsChevronCompactRight size={14} />
                   </button>
                 </div>

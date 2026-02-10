@@ -84,14 +84,12 @@ const missions = [
 
 const AboutPage = () => {
   return (
-    <>
+    <div className="md:pt-[88px] pt-[72px]">
       {/* ================= HERO ================= */}
 
-      <ImageOverlay image={aboutHero}>
+      <ImageOverlay image={aboutHero} className="">
         <div className="relative z-10 text-left">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-4">
-            Who We Are
-          </h1>
+          <h1 className="heading-1 mb-4">Who We Are</h1>
           <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed">
             We are a professional HVAC service provider delivering reliable,
             affordable, and high-quality solutions for homes and businesses.
@@ -106,10 +104,10 @@ const AboutPage = () => {
             <div className="flex flex-col gap-12">
               {/* Content */}
               <div className="py-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-center text-secondary mb-4">
+                <h2 className="heading-2 text-center mb-4">
                   Our Mission & Values
                 </h2>
-                <p className="text-gray-600 text-center max-w-2xl mx-auto mb-10">
+                <p className="text-primary text-center max-w-2xl mx-auto mb-10">
                   Committed to providing exceptional HVAC solutions with
                   integrity, professionalism, and customer-first approach.
                 </p>
@@ -125,12 +123,8 @@ const AboutPage = () => {
                       </span>
 
                       <div>
-                        <h3 className="font-bold text-lg text-secondary mb-2">
-                          {item.title}
-                        </h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
-                          {item.desc}
-                        </p>
+                        <h3 className="heading-4 mb-2">{item.title}</h3>
+                        <p className="text-secondary">{item.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -189,7 +183,7 @@ const AboutPage = () => {
                 {/* Button */}
                 <Link
                   to="/contact#contact-form"
-                  className="px-8 py-4 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap"
+                  className="btn-primary whitespace-nowrap"
                 >
                   Send Message
                 </Link>
@@ -198,7 +192,7 @@ const AboutPage = () => {
           </Animate>
         </section>
       </div>
-    </>
+    </div>
   );
 };
 

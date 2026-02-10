@@ -36,7 +36,7 @@ const WhyChoose = () => {
               </div>
             </div>
             <div>
-              <h3 className="text-base font-bold text-secondary mb-2">
+              <h3 className="text-base font-bold  mb-2">
                 {item.title}
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed">

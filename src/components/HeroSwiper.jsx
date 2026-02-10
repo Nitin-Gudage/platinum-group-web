@@ -115,7 +115,7 @@ const HeroSwiper = () => {
 
   return (
     <div
-      className="relative w-full pt-1"
+      className="relative w-full md:pt-1"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >

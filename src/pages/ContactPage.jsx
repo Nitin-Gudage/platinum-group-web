@@ -9,7 +9,7 @@ import ImageOverlay from "../utils/ImageOverlay";
 import Animate from "../utils/Animate";
 
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
-import { HiCheckCircle } from "react-icons/hi";
+import { toast } from "react-toastify";
 
 import { contactInfo } from "../Data/Data";
 import contactHero from "/images/contactpage/contact-hero.png";
@@ -19,10 +19,9 @@ import BookServiceMobile from "../components/BookServiceMobile";
 
 /* ================= Styles ================= */
 
-const inputStyle =
-  "w-full border border-gray-200 rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 hover:bg-white transition-all duration-300";
+const inputStyle = "input-text";
 
-const error_style = "text-red-500 text-xs mt-1";
+const error_style = "error-text";
 
 /* ================= Field ================= */
 
@@ -66,19 +65,26 @@ const ContactPage = () => {
     );
   };
 
-  /* ================= RESET ================= */
+  /* ================= RESET & ERROR HANDLING ================= */
 
   useEffect(() => {
     if (success) {
+      toast.success("Message sent successfully! We'll get back to you soon.", {
+        autoClose: 5000,
+      });
       reset();
-
       const timer = setTimeout(() => {
         dispatch(resetStatus());
       }, 3000);
-
       return () => clearTimeout(timer);
     }
   }, [success, dispatch, reset]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(`Failed to send message: ${error}`);
+    }
+  }, [error]);
 
   /* ================= ADDRESS ================= */
 
@@ -87,12 +93,12 @@ const ContactPage = () => {
   ${contactInfo.address.state} - ${contactInfo.address.pincode}`;
 
   return (
-    <>
+    <div className="pt-[72px] md:pt-[88px]">
       {/* ================= HERO ================= */}
 
       <ImageOverlay image={contactHero}>
         <div className="relative z-10 text-left">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-4">
+          <h1 className="heading-1 mb-4">
             Contact Us
           </h1>
           <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed">
@@ -110,10 +116,8 @@ const ContactPage = () => {
           <Animate>
             <aside className="bg-white rounded-2xl p-8 border border-gray-100 shadow-lg h-full flex flex-col">
               <div className="mb-8">
-                <h2 className="text-2xl md:text-3xl font-bold text-secondary mb-2">
-                  Have an Urgent Issue?
-                </h2>
-                <p className="text-gray-500">
+                <h2 className="heading-3 mb-2">Have an Urgent Issue?</h2>
+                <p className="text-secondary">
                   Call us directly for immediate assistance
                 </p>
               </div>
@@ -189,10 +193,8 @@ const ContactPage = () => {
 
           <Animate delay={0.2}>
             <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-lg h-full flex flex-col">
-              <h2 className="text-2xl md:text-3xl font-bold text-secondary mb-2">
-                Send Us a Message
-              </h2>
-              <p className="text-gray-500 mb-8">
+              <h2 className="heading-3 mb-2">Send Us a Message</h2>
+              <p className="text-secondary mb-8">
                 Fill out the form below and we'll get back to you shortly
               </p>
 
@@ -277,15 +279,7 @@ const ContactPage = () => {
                 <button
                   disabled={status === "loading"}
                   type="submit"
-                  className="
-                    w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4
-                    rounded-xl font-semibold
-                    hover:from-blue-700 hover:to-blue-800
-                    transition-all duration-300
-                    disabled:opacity-60
-                    shadow-lg shadow-blue-500/25
-                    flex items-center justify-center gap-2
-                  "
+                  className="btn-primary flex items-center justify-center gap-2"
                 >
                   {status === "loading" ? (
                     <>
@@ -311,22 +305,6 @@ const ContactPage = () => {
                     </>
                   )}
                 </button>
-
-                {/* Status */}
-                {success && (
-                  <div className="flex items-center gap-3 p-4 rounded-xl bg-green-50 border border-green-200">
-                    <HiCheckCircle className="w-6 h-6 text-green-500" />
-                    <p className="text-green-700 font-medium">
-                      Message sent successfully! We'll get back to you soon.
-                    </p>
-                  </div>
-                )}
-
-                {error && (
-                  <div className="p-4 rounded-xl bg-red-50 border border-red-200">
-                    <p className="text-red-600 font-medium">❌ {error}</p>
-                  </div>
-                )}
               </form>
             </div>
           </Animate>
@@ -335,7 +313,7 @@ const ContactPage = () => {
 
       {/* ================= WHY CHOOSE ================= */}
       <WhyChoose />
-    </>
+    </div>
   );
 };
 
