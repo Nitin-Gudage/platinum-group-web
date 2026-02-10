@@ -73,10 +73,10 @@ export default function ServicesPage() {
   const acName = acTypes.find((a) => a.id === activeAc)?.name || "AC Services";
 
   return (
-    <div className="pt-16 px-4 md:px-6 min-h-screen">
-      <main className="grid md:grid-cols-12 gap-5">
+    <div className="px-4 md:px-6 min-h-screen bg-gray-50">
+      <main className="grid lg:grid-cols-12 gap-6">
         {/* Sidebar */}
-        <aside className="lg:col-span-3 hidden lg:block sticky top-16 h-fit">
+        <aside className="lg:col-span-3 hidden lg:block sticky top-20 h-fit">
           <ServiceSelector
             acName={acName}
             services={serviceTypes}

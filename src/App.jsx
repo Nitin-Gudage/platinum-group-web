@@ -9,7 +9,6 @@ import AboutPage from "./pages/AboutPage";
 
 import { Route, Routes, useLocation } from "react-router-dom";
 
-import bgimage from "./assets/cloudsbg.png";
 import FaqPage from "./pages/FaqPage";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +18,7 @@ import { getHeroSlides } from "./store/features/heroSlice";
 import ServicesPage from "./pages/ServicesPage";
 import PageLoader from "./utils/PageLoader";
 import SeoSchema from "./utils/SeoSchema";
+import bgImage from "./assets/cloudsbg.png";
 
 function App() {
   /* Scroll to top on route change */
@@ -37,16 +37,20 @@ function App() {
   const dispatch = useDispatch();
 
   return (
-    <div className="App bg-white dark:bg-secondary min-h-screen flex flex-col">
+    <div className="App bg-gray-50 min-h-screen flex flex-col">
       <NavBar />
-      {/* contact info */}
       <SeoSchema />
-      {/* {main} */}
+
+      {/* Modern Gradient Background */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 -left-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 right-1/3 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl" />
+      </div>
+
       <main
-        className="flex-grow bg-fixed bg-repeat bg-center bg-auto pb-10 pt-14 sm:pt-0"
-        style={{
-          backgroundImage: `url(${bgimage})`,
-        }}
+        className="flex-grow pt-20"
+        // style={{ backgroundImage: `url${bgImage}` }}
       >
         <Routes>
           <Route path="/" element={<Home />} />

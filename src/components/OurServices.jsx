@@ -16,9 +16,7 @@ const OurServices = () => {
 
   const dispatch = useDispatch();
 
-  const { data, status, error } = useSelector(
-    (state) => state.serviceSteps
-  );
+  const { data, status, error } = useSelector((state) => state.serviceSteps);
 
   /* ================= FETCH ONCE ================= */
   useEffect(() => {
@@ -43,10 +41,11 @@ const OurServices = () => {
 
   if (status === "loading") {
     return (
-      <section className="container pt-10 text-center">
-        <p className="text-gray-500 animate-pulse">
-          Loading services...
-        </p>
+      <section className="container py-8 text-center">
+        <div className="flex items-center justify-center gap-2">
+          <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <p className="text-gray-500">Loading services...</p>
+        </div>
       </section>
     );
   }
@@ -55,8 +54,8 @@ const OurServices = () => {
 
   if (status === "error") {
     return (
-      <section className="container pt-10 text-center">
-        <p className="text-red-500">
+      <section className="container py-8 text-center">
+        <p className="text-red-500 bg-red-50 px-4 py-2 rounded-lg inline-block">
           Error loading services: {error}
         </p>
       </section>
@@ -64,75 +63,88 @@ const OurServices = () => {
   }
 
   return (
-    <section className="container pt-5 overflow-hidden">
-
+    <section className="container pt-10">
       {/* ================= HEADING ================= */}
       <Animate>
-        <h1 className="heading dark:text-white text-center">
-          Our Services
-        </h1>
+        <div className="text-center mb-8">
+          <h2 className="section-title">Our Services</h2>
+          <p className="section-subtitle mt-2">
+            Professional AC solutions for all your cooling needs
+          </p>
+        </div>
       </Animate>
 
       {/* ================= GRID ================= */}
       <AnimateGroup
-        stagger
+        stagger={0.1}
         className="
           grid
-          grid-cols-1
-          sm:grid-cols-2
-          md:grid-cols-3
-          gap-6
+          grid-cols-2
+          lg:grid-cols-3
+          gap-4
+          
           mx-auto
-          py-10
         "
       >
-        {data?.map((service) => (
+        {data?.map((service, index) => (
           <Animate
             key={service.id}
+            delay={index * 0.1}
             className="
               custom-card
-              flex
-              flex-col
+              flex flex-col
               items-center
               text-center
               p-5
+              justify-around
               bg-white
-              rounded-xl
-              shadow-sm
-              hover:shadow-md
-              transition
+              group
             "
           >
-            {/* ================= ICON ================= */}
-            <div className="w-full h-32 flex items-center justify-center mb-3">
-
-              <img
-                src={service.icon}
-                alt={service.title}
-                loading="lazy"
-                decoding="async"
-                className="
-                  max-h-28
-                  object-contain
-                "
-              />
-
+            {/* ================= ICON BACKGROUND ================= */}
+            <div className="relative mb-4">
+              <div className="absolute inset-0 bg-blue-100 rounded-xl transform rotate-6 scale-110 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+              <div className="relative w-20 h-20 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100 group-hover:border-blue-200 transition-all duration-300">
+                <img
+                  src={service.icon}
+                  alt={service.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="
+                    max-h-14
+                    object-contain
+                    transition-transform duration-300
+                    group-hover:scale-110
+                  "
+                />
+              </div>
             </div>
 
             {/* ================= TITLE ================= */}
-            <h2 className="text-xl text-secondary font-bold dark:text-white">
+            <h2 className="text-lg font-bold text-secondary mb-2 group-hover:text-blue-600 transition-colors duration-300">
               {service.title}
             </h2>
 
             {/* ================= DESC ================= */}
-            <p className="text-gray-700 dark:text-gray-300 mt-2 text-sm text-center">
+            <p className="text-gray-600 text-sm text-center line-clamp-3 group-hover:text-gray-700 transition-colors duration-300">
               {service.description}
             </p>
 
             {/* ================= BUTTON ================= */}
             <button
               onClick={() => openModal(service)}
-              className="btn-primary mt-4"
+              className="
+                mt-4
+                px-5 py-2
+                rounded-xl
+                bg-gradient-to-r from-blue-600 to-blue-700
+                text-white
+                font-medium
+                text-sm
+                transition-all duration-300
+                hover:from-blue-700 hover:to-blue-800
+                shadow-lg shadow-blue-500/25
+              "
             >
               View Details
             </button>
@@ -142,12 +154,12 @@ const OurServices = () => {
 
       {/* ================= MODAL ================= */}
       <MuiModal open={open} onClose={closeModal}>
-
         {open && selectedService && (
           <Suspense
             fallback={
-              <div className="p-10 text-center text-gray-500 animate-pulse">
-                Loading details...
+              <div className="p-8 text-center flex items-center justify-center gap-2">
+                <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                <span className="text-gray-500">Loading details...</span>
               </div>
             }
           >
@@ -157,9 +169,7 @@ const OurServices = () => {
             />
           </Suspense>
         )}
-
       </MuiModal>
-
     </section>
   );
 };

@@ -23,7 +23,7 @@ export const acTypes = ['Split AC', 'HVAC', 'Ducted AC', 'Cassette AC', ' Window
 export const availableServices = ['Repair', 'Maintanance', 'AMC', 'Installation', "Uninstallation", 'Gas Refil', 'Cleaning']
 
 export const logo = {
-    icon: "/src/assets/logo.png",
+    icon: "/logo.png",
     altName: "Platinium Group Logo"
 };
 export const contactInfo = {

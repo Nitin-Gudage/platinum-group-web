@@ -1,42 +1,51 @@
 import React from "react";
 import { whyToChoose } from "../Data/Data";
+import Animate, { AnimateGroup } from "../utils/Animate";
 
 const WhyChoose = () => {
   return (
-    <section className="container max-w-5xl pt-5">
-      <h1 className="heading dark:text-white">
-        Why to choose Platinum Solutions for AC Service ?
-      </h1>
-      <div
-        className="grid
-          grid-cols-1
-          sm:grid-cols-2
-          md:grid-cols-4
-          gap-6
-          mx-auto
-          py-10"
+    <section className="container pt-10">
+      <Animate>
+        <div className="text-center mb-8">
+          <h2 className="section-title">
+            Why Platinum Solutions for AC Service?
+          </h2>
+          <p className="section-subtitle mt-2">
+            Experience excellence with our industry-leading AC services
+          </p>
+        </div>
+      </Animate>
+
+      <AnimateGroup
+        stagger={0.15}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto"
       >
-        {whyToChoose.map((testimonial, index) => (
-          <div
+        {whyToChoose.map((item, index) => (
+          <Animate
             key={index}
-            className="flex md:flex-col flex-row gap-5 md:gap-3 items-center text-center p-8 border rounded-xl"
+            delay={index * 0.1}
+            className="bg-white rounded-xl border border-gray-100 p-5 text-center"
           >
-            <img
-              src={testimonial.icon}
-              alt={testimonial.title}
-              className="max-h-14"
-            />
+            <div className="relative mb-4">
+              <div className="relative w-14 h-14 mx-auto flex items-center justify-center rounded-full bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100">
+                <img
+                  src={item.icon}
+                  alt={item.title}
+                  className="max-h-8 object-contain"
+                />
+              </div>
+            </div>
             <div>
-              <h3 className="text-lg font-semibold my-2 text-secondary dark:text-myGray">
-                {testimonial.title}
+              <h3 className="text-base font-bold text-secondary mb-2">
+                {item.title}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 text-justify md:text-center">
-                {testimonial.desc}
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {item.desc}
               </p>
             </div>
-          </div>
+          </Animate>
         ))}
-      </div>
+      </AnimateGroup>
     </section>
   );
 };

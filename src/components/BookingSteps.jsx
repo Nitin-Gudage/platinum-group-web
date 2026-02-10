@@ -1,87 +1,122 @@
-import { AnimatedContainer, AnimatedItem } from "../utils/Animate";
-import Avatar from "../utils/Avatar";
-// 👆 Adjust path if needed
+import { Animate, AnimateGroup } from "../utils/Animate";
 
 const bookingSteps = [
   {
     id: 1,
     title: "Select Service",
-    icon: "/icons/select-service.png",
-    description: "Choose required AC service from available options.",
+    desc: "Choose required AC service from available options.",
     step: 1,
   },
   {
     id: 2,
     title: "Pick Date & Time",
-    icon: "/icons/pick-date-time.png",
-    description: "Schedule your preferred service date and time.",
+    desc: "Schedule your preferred service date and time.",
     step: 2,
   },
   {
     id: 3,
     title: "Technician Visits",
-    icon: "/icons/technician-visit.png",
-    description: "Certified technician visits your location on time.",
+    desc: "Certified technician visits your location on time.",
     step: 3,
   },
   {
     id: 4,
     title: "Pay After Service",
-    icon: "/icons/pay-after-service.png",
-    description: "Make payment only after service completion.",
+    desc: "Make payment only after service completion.",
     step: 4,
   },
 ];
 
+const icons = [
+  <svg
+    key="1"
+    className="w-8 h-8 text-blue-600"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+    />
+  </svg>,
+  <svg
+    key="2"
+    className="w-8 h-8 text-blue-600"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+    />
+  </svg>,
+  <svg
+    key="3"
+    className="w-8 h-8 text-blue-600"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+    />
+  </svg>,
+  <svg
+    key="4"
+    className="w-8 h-8 text-blue-600"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+    />
+  </svg>,
+];
+
 export default function BookingSteps() {
   return (
-    <section className="w-full py-16 bg-gray-50 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Section Title */}
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-10">
-          How It Works
-        </h2>
+    <section className="py-16 bg-white">
+      <div className="container">
+        <AnimateGroup once className="text-center mb-12">
+          <h2 className="section-title">How It Works</h2>
+          <p className="section-subtitle mt-2">
+            Book your AC service in 4 simple steps
+          </p>
+        </AnimateGroup>
 
-        {/* Steps Grid */}
-        <AnimatedContainer
-          once
-          hover={false}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-        >
-          {bookingSteps.map((step) => (
-            <AnimatedItem
-              key={step.id}
-              className="
-                bg-white
-                rounded-2xl
-                shadow-md
-                p-6
-                text-center
-                cursor-pointer
-                hover:shadow-xl
-                transition-shadow
-              "
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {bookingSteps.map((item, index) => (
+            <Animate
+              key={item.id}
+              delay={index * 0.1}
+              className="flex flex-col items-center text-center p-6 rounded-xl bg-white border border-gray-100 shadow-sm"
             >
-              {/* Icon */}
-              <div className="w-20 h-20 mx-auto mb-4 flex items-center justify-center rounded-full bg-blue-50">
-                <Avatar src={step.icon} alt={step.title} />
+              <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+                {icons[index]}
               </div>
-
-              {/* Step */}
-              <span className="inline-block mb-2 text-sm font-semibold text-blue-600">
-                Step {step.step}
+              <span className="text-xs font-semibold text-blue-600 mb-2">
+                Step {item.step}
               </span>
-
-              {/* Title */}
-              <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
-
-              {/* Description */}
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {step.description}
-              </p>
-            </AnimatedItem>
+              <h3 className="text-base font-bold text-secondary mb-2">
+                {item.title}
+              </h3>
+              <p className="text-sm text-gray-600">{item.desc}</p>
+            </Animate>
           ))}
-        </AnimatedContainer>
+        </div>
       </div>
     </section>
   );

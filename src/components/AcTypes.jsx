@@ -17,75 +17,98 @@ const AcTypes = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="container pt-5">
-      {/* Heading */}
+    <section className="container pt-10">
+      {/* ================= HEADING ================= */}
       <Animate>
-        <h1 className="heading dark:text-myGray">Types of AC We Service</h1>
+        <div className="text-center mb-8 ">
+          <h2 className="section-title">Types of AC We Service</h2>
+          <p className="section-subtitle mt-2">
+            Expert repair and maintenance for all AC types
+          </p>
+        </div>
       </Animate>
 
-      {/* Grid */}
+      {/* ================= GRID ================= */}
       <Animate
         stagger
+        staggerDelay={0.1}
         className="
           grid
-          grid-cols-1
+          grid-cols-2
           sm:grid-cols-2
-          md:grid-cols-3
-          gap-6
+          lg:grid-cols-3
+          gap-4
           mx-auto
-          py-10
         "
       >
-        {acTypes.map((ac) => (
+        {acTypes.map((ac, index) => (
           <Animate
             key={ac.id}
+            delay={index * 0.1}
             className="
               flex flex-col
               items-center
-              p-5
+              p-4
               rounded-xl
               bg-white
-              shadow-sm
-              hover:shadow-md
-              transition
+              border border-gray-100
+              shadow-md hover:shadow-lg
+              transition-all duration-300
+              hover:-translate-y-1
+              group
+              cursor-pointer
             "
+            onClick={() =>
+              navigate(
+                `/services?ac=${ac.name.toLowerCase().replace(/\s+/g, "-")}`,
+              )
+            }
           >
-            {/* Image Wrapper (16:9) */}
-            <div className="w-full mb-4 flex items-center justify-center">
+            {/* ================= IMAGE WRAPPER ================= */}
+            <div className="w-full mb-3 flex items-center justify-center relative">
               <img
                 src={ac.image}
                 alt={ac.name}
                 loading="lazy"
                 decoding="async"
                 className="
-                  max-h-28
+                  max-h-16
                   object-contain
-                  transition-opacity
-                  duration-500
-                  opacity-0
+                  transition-transform duration-300
+                  group-hover:scale-110
                 "
-                onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
               />
             </div>
 
-            {/* Title */}
-            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 text-center">
+            {/* ================= TITLE ================= */}
+            <h2 className="text-base font-bold text-secondary text-center mb-2 group-hover:text-blue-600 transition-colors duration-300">
               {ac.name}
             </h2>
 
-            {/* Desc */}
-            <p className="subtext mt-2 pb-5 max-w-64 text-center text-sm text-gray-600">
+            {/* ================= DESC ================= */}
+            <p className="text-gray-600 text-xs text-center line-clamp-2 mb-3 group-hover:text-gray-700 transition-colors duration-300">
               {ac.description}
             </p>
 
-            {/* Button */}
+            {/* ================= BUTTON ================= */}
             <button
-              className="btn-primary mt-auto"
-              onClick={() =>
+              className="
+                mt-auto
+                px-3 py-2
+                rounded-lg
+                bg-primary
+                text-white
+                font-medium
+                text-xs
+                transition-all duration-300
+                hover:from-blue-700 hover:to-blue-800
+              "
+              onClick={(e) => {
+                e.stopPropagation();
                 navigate(
                   `/services?ac=${ac.name.toLowerCase().replace(/\s+/g, "-")}`,
-                )
-              }
+                );
+              }}
             >
               Book Service
             </button>
