@@ -1,6 +1,6 @@
 "use client";
 
-import{ useState, useCallback, memo } from "react";
+import { useState, useCallback, memo } from "react";
 
 import {
   FaHome,
@@ -150,8 +150,13 @@ const Footer = () => {
   const contactItems = [
     {
       icon: <FaPhoneAlt className="text-blue-400" />,
-      text: contactInfo.mobile,
-      href: `tel:${contactInfo.mobile.replace(/\s+/g, "")}`,
+      text: contactInfo.mobile1,
+      href: `tel:${contactInfo.mobile1.replace(/\s+/g, "")}`,
+    },
+    {
+      icon: <FaPhoneAlt className="text-blue-400" />,
+      text: contactInfo.mobile2,
+      href: `tel:${contactInfo.mobile2.replace(/\s+/g, "")}`,
     },
     {
       icon: <FaEnvelope className="text-blue-400" />,
@@ -160,8 +165,8 @@ const Footer = () => {
     },
     {
       icon: <FaMapMarkerAlt className="text-blue-400" />,
-      text: `${contactInfo.address.street}, ${contactInfo.address.city}`,
-      href: `https://maps.google.com/?q=${contactInfo.address.street}, ${contactInfo.address.city}`,
+      text: `${contactInfo.address.street}, ${contactInfo.address.area}, ${contactInfo.address.city}-${contactInfo.address.pincode}`,
+      href: `https://maps.app.goo.gl/s3DojJi1Q5WEtruB9`,
     },
   ];
 
@@ -178,7 +183,7 @@ const Footer = () => {
           />
           <p className="text-gray-400 text-sm leading-relaxed mb-6">
             Professional AC services for homes and businesses. Expert repairs,
-            installation, and maintenance across Mumbai.
+            installation, and maintenance acrosa India.
           </p>
           <div className="flex gap-3">{renderSocial("w-9 h-9")}</div>
         </div>
@@ -224,7 +229,7 @@ const Footer = () => {
             Available 24/7 for emergency AC repairs
           </p>
           <a
-            href="tel:9876543210"
+            href={`tel:${contactInfo.mobile1.replace(/\s+/g, "")}`}
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg shadow-blue-500/25"
           >
             <FaPhoneAlt />
@@ -337,7 +342,7 @@ const Footer = () => {
         </Accordion>
 
         <a
-          href="tel:9876543210"
+          href={`tel:${contactInfo.mobile1.replace(/\s+/g, "")}`}
           className="btn-primary flex justify-center items-center gap-5"
         >
           <FaPhoneAlt />

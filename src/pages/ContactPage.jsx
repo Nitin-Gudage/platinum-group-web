@@ -98,9 +98,7 @@ const ContactPage = () => {
 
       <ImageOverlay image={contactHero}>
         <div className="relative z-10 text-left">
-          <h1 className="heading-1 mb-4">
-            Contact Us
-          </h1>
+          <h1 className="heading-1 mb-4">Contact Us</h1>
           <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed">
             Get in touch for all your HVAC service needs
           </p>
@@ -179,12 +177,16 @@ const ContactPage = () => {
               {/* ================= MAP ================= */}
               <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 h-64">
                 <iframe
-                  title="map"
-                  src="https://maps.google.com/maps?q=Mumbai,India&t=&z=14&output=embed"
-                  className="w-full h-full border-0"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.4681421343485!2d73.8763177!3d18.5077353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c041fca35a4d%3A0xbd31aa31bd87b266!2sPLATINUM%20ENTERPRISES!5e0!3m2!1sen!2sin!4v1770799700265!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                />
+                  title="Platinum Enterprises Location"
+                  className="w-full h-full"
+                ></iframe>
               </div>
             </aside>
           </Animate>

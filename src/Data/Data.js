@@ -26,23 +26,27 @@ export const logo = {
     icon: "/logo.png",
     altName: "Platinium Group Logo"
 };
+
 export const contactInfo = {
     address: {
-        street: "Andheri East, MIDC",
-        city: "Mumbai",
-        state: "MH",
-        pincode: "400093",
-        country: "India"
+        street: "Platinum Group, Near New Taj Bakery",
+        area: "Camp",
+        city: "Pune",
+        state: "Maharashtra",
+        pincode: "411001",
+        country: "India",
     },
 
-    mobile: "+91 88887 43194",
-    email: "platinumgroup@gmail.com",
+    mobile1: "+91 72197 77044",
+    mobile2: "+91 99888 65663  ",
 
-    whatsapp: "+918888743194",
+    email: "platinumgroup311@gmail.com",
 
-    facebook: "https://facebook.com/platinumgroup",
-    instagram: "https://instagram.com/platinumgroup",
-    xTwitter: "https://twitter.com/platinumgroup"
+    whatsapp: "7219777044",
+
+    // facebook: "https://facebook.com/platinumgroup",
+    instagram: "https://www.instagram.com/platinumgroup_official?igsh=MWJiZWc4cnE4eHZkcw==",
+    // xTwitter: "https://twitter.com/platinumgroup",
 };
 
 // footer
@@ -61,6 +65,8 @@ export const footerLinks = {
         { title: "Ducted AC", link: "#ducted-ac", icon: "snow" },
         { title: "Cassette AC", link: "#cassette-ac", icon: "snow" },
         { title: "Window AC", link: "#window-ac", icon: "snow" },
+        { title: "Tower AC", link: "#window-ac", icon: "snow" },
+
     ],
 
 
