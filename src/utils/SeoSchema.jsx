@@ -2,29 +2,57 @@
 
 import { useEffect } from "react";
 
-import { contactInfo, logo, acTypes, availableServices } from "../Data/Data";
+import {
+  contactInfo,
+  logo,
+  acTypes,
+  availableServices,
+  cities,
+} from "../Data/Data";
+
+/*
+  SEO Structured Data (JSON-LD)
+  Google Safe + Valid
+*/
 
 const SeoSchema = () => {
   useEffect(() => {
-    /* ================= CONVERT DATA ================= */
+    /* ================= SERVICES ================= */
 
     const serviceOffers = acTypes.map((type) => ({
       "@type": "Service",
-      name: `${type} Service`,
+      name: `${type} AC Service`,
       provider: {
-        "@type": "LocalBusiness",
+        "@type": "HVACBusiness",
         name: "Platinum Group AC Services",
       },
     }));
 
     const serviceList = availableServices.map((service) => ({
       "@type": "Service",
-      name: service,
+      name: `AC ${service}`,
       provider: {
-        "@type": "LocalBusiness",
+        "@type": "HVACBusiness",
         name: "Platinum Group AC Services",
       },
     }));
+
+    /* ================= AREA SERVED ================= */
+
+    const areaServed = [
+      {
+        "@type": "Country",
+        name: "India",
+      },
+      ...cities.map((city) => ({
+        "@type": "City",
+        name: city.name,
+      })),
+    ];
+
+    /* ================= SOCIAL LINKS ================= */
+
+    const sameAs = [contactInfo.instagram].filter(Boolean); // remove empty values
 
     /* ================= BUSINESS SCHEMA ================= */
 
@@ -32,7 +60,7 @@ const SeoSchema = () => {
       "@context": "https://schema.org",
       "@type": "HVACBusiness",
 
-      "@id": `${window.location.origin}#business`,
+      "@id": `${window.location.origin}#hvacbusiness`,
 
       name: "Platinum Group AC Services",
 
@@ -41,7 +69,7 @@ const SeoSchema = () => {
       logo: `${window.location.origin}${logo.icon}`,
       image: `${window.location.origin}${logo.icon}`,
 
-      telephone: contactInfo.mobile,
+      telephone: contactInfo.mobile1,
       email: contactInfo.email,
 
       priceRange: "₹₹",
@@ -55,10 +83,12 @@ const SeoSchema = () => {
         addressCountry: "IN",
       },
 
+      /* Pune Location (HQ) */
+
       geo: {
         "@type": "GeoCoordinates",
-        latitude: "19.0760",
-        longitude: "72.8777",
+        latitude: "18.5204",
+        longitude: "73.8567",
       },
 
       openingHoursSpecification: [
@@ -78,16 +108,9 @@ const SeoSchema = () => {
         },
       ],
 
-      sameAs: [
-        contactInfo.facebook,
-        contactInfo.instagram,
-        contactInfo.xTwitter,
-      ],
+      sameAs,
 
-      areaServed: {
-        "@type": "AdministrativeArea",
-        name: "Mumbai, Thane, Navi Mumbai",
-      },
+      areaServed,
 
       hasOfferCatalog: {
         "@type": "OfferCatalog",
@@ -113,7 +136,7 @@ const SeoSchema = () => {
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.id = "seo-schema";
-    script.text = JSON.stringify(businessSchema);
+    script.textContent = JSON.stringify(businessSchema);
 
     document.head.appendChild(script);
 

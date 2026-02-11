@@ -354,3 +354,59 @@ export const faqs = [
         ],
     },
 ];
+
+
+
+
+export const cities = [
+    {
+        name: "Mumbai",
+        slug: "mumbai",
+        state: "Maharashtra",
+    },
+    {
+        name: "Pune",
+        slug: "pune",
+        state: "Maharashtra",
+    },
+    {
+        name: "Delhi",
+        slug: "delhi",
+        state: "Delhi NCR",
+    },
+    {
+        name: "Bengaluru",
+        slug: "bengaluru",
+        state: "Karnataka",
+    },
+    {
+        name: "Chennai",
+        slug: "chennai",
+        state: "Tamil Nadu",
+    },
+    {
+        name: "Hyderabad",
+        slug: "hyderabad",
+        state: "Telangana",
+    },
+    {
+        name: "Kolkata",
+        slug: "kolkata",
+        state: "West Bengal",
+    },
+    {
+        name: "Ahmedabad",
+        slug: "ahmedabad",
+        state: "Gujarat",
+    },
+    {
+        name: "Jaipur",
+        slug: "jaipur",
+        state: "Rajasthan",
+    },
+    {
+        name: "Surat",
+        slug: "surat",
+        state: "Gujarat",
+    },
+];

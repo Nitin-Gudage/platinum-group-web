@@ -1,9 +1,8 @@
-
-import  { useState, useRef, useEffect, useCallback, memo } from "react";
+import { useState, useRef, useEffect, useCallback, memo } from "react";
 
 import { NavLink } from "react-router-dom";
 
-import { menu, logo } from "../Data/Data";
+import { menu, logo, contactInfo } from "../Data/Data";
 
 import { HiMenuAlt3, HiX, HiSearch, HiPhone } from "react-icons/hi";
 
@@ -195,20 +194,9 @@ const NavBar = () => {
 
             {/* Call */}
             <a
-              href="tel:9876543210"
+              href={`tel:${contactInfo.mobile1.replace(/\s+/g, "")}`}
               className="
-                flex items-center gap-2
-                bg-gradient-to-r from-blue-600 to-blue-700
-                text-white
-                px-5 py-2.5
-                rounded-xl
-                font-medium
-                text-sm
-                hover:from-blue-700 hover:to-blue-800
-                transition-all duration-200
-                shadow-lg shadow-blue-500/25
-                hover:shadow-xl hover:shadow-blue-500/30
-                focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2
+                btn-primary flex gap-2 justify-center items-center
               "
             >
               <HiPhone className="text-sm" />
@@ -295,18 +283,11 @@ const NavBar = () => {
 
           {/* Call */}
           <a
-            href="tel:9876543210"
+            href={`tel:${contactInfo.mobile1.replace(/\s+/g, "")}`}
             onClick={close}
             className="
-              flex items-center justify-center gap-2 w-full
-              bg-gradient-to-r from-blue-600 to-blue-700
-              text-white
-              px-6 py-3.5
-              rounded-xl
-              font-semibold
-              text-base
-              transition-all duration-200
-              shadow-lg shadow-blue-500/25
+            btn-primary
+            flex items-center justify-center gap-2 w-full
             "
           >
             <HiPhone className="text-lg" />

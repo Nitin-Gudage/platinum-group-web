@@ -6,7 +6,7 @@ import { contactInfo } from "../Data/Data";
 export default function StickyCallButton() {
 
   const handleCall = () => {
-    const phoneNumber = contactInfo.mobile.replace(/[^0-9+]/g, "");
+    const phoneNumber = contactInfo.mobile1.replace(/[^0-9+]/g, "");
     window.location.href = `tel:${phoneNumber}`;
   };
 

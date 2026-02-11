@@ -15,7 +15,6 @@ import { contactInfo } from "../Data/Data";
 import contactHero from "/images/contactpage/contact-hero.png";
 
 import { sendContactQuery, resetStatus } from "../store/features/contactSlice";
-import BookServiceMobile from "../components/BookServiceMobile";
 
 /* ================= Styles ================= */
 
@@ -112,16 +111,16 @@ const ContactPage = () => {
           {/* ================= LEFT ================= */}
 
           <Animate>
-            <aside className="bg-white rounded-2xl p-8 border border-gray-100 shadow-lg h-full flex flex-col">
-              <div className="mb-8">
-                <h2 className="heading-3 mb-2">Have an Urgent Issue?</h2>
+            <aside className="bg-white rounded-2xl p-5 border border-gray-100 shadow-lg h-full flex flex-col">
+              <div className="mb-5">
+                <h2 className="heading-3 mb-1">Have an Urgent Issue?</h2>
                 <p className="text-secondary">
                   Call us directly for immediate assistance
                 </p>
               </div>
 
               {/* Contact Info */}
-              <ul className="space-y-5 mb-8">
+              <ul className="space-y-2 mb-5">
                 {/* Phone */}
                 <li className="flex gap-4 items-center p-4 rounded-xl bg-blue-50 hover:bg-blue-100 transition-colors duration-300">
                   <span className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
@@ -132,10 +131,10 @@ const ContactPage = () => {
                       Phone
                     </p>
                     <a
-                      href={`tel:${contactInfo.mobile}`}
+                      href={`tel:${contactInfo.mobile1}`}
                       className="text-lg font-semibold text-secondary hover:text-blue-600 transition-colors"
                     >
-                      {contactInfo.mobile}
+                      {contactInfo.mobile1}
                     </a>
                   </div>
                 </li>
@@ -175,7 +174,7 @@ const ContactPage = () => {
               </ul>
 
               {/* ================= MAP ================= */}
-              <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 h-64">
+              <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 h-full">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.4681421343485!2d73.8763177!3d18.5077353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c041fca35a4d%3A0xbd31aa31bd87b266!2sPLATINUM%20ENTERPRISES!5e0!3m2!1sen!2sin!4v1770799700265!5m2!1sen!2sin"
                   width="100%"
@@ -194,7 +193,7 @@ const ContactPage = () => {
           {/* ================= RIGHT ================= */}
 
           <Animate delay={0.2}>
-            <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-lg h-full flex flex-col">
+            <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-lg h-full flex flex-col">
               <h2 className="heading-3 mb-2">Send Us a Message</h2>
               <p className="text-secondary mb-8">
                 Fill out the form below and we'll get back to you shortly
@@ -203,7 +202,7 @@ const ContactPage = () => {
               <form
                 id="contact-form"
                 onSubmit={handleSubmit(onSubmit)}
-                className="space-y-6"
+                className="space-y-6 flex flex-col justify-center h-full"
               >
                 {/* Name */}
                 <Field error={errors.name?.message}>
