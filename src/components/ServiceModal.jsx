@@ -2,6 +2,7 @@
 
 import { memo } from "react";
 import { brandImages } from "../Data/Data";
+import acTech from '/images/ac-technician.png'
 
 const ServiceModal = ({ service }) => {
   if (!service) return null;
@@ -76,7 +77,7 @@ const ServiceModal = ({ service }) => {
           <h3 className="font-semibold mb-4 text-gray-800">Top technicians</h3>
           <div className="flex flex-col sm:flex-row items-center gap-4 bg-gray-50 p-4 rounded-xl">
             <img
-              src="https://i.pravatar.cc/150"
+              src={acTech}
               className="w-16 h-16 rounded-full object-cover"
               alt="Technician"
               loading="lazy"

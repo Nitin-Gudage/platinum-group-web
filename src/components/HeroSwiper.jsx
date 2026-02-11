@@ -135,7 +135,7 @@ const HeroSwiper = () => {
           loading={index === 0 ? "eager" : "lazy"}
           fetchPriority={index === 0 ? "high" : "auto"}
           decoding="async"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-top"
         />
 
         <div className="absolute inset-0 z-20 flex flex-col justify-center px-6 md:px-12 lg:px-16">

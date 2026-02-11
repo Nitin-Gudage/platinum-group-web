@@ -135,7 +135,7 @@ const AboutPage = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="aspect-[16/10] rounded-2xl overflow-hidden shadow-lg">
                   <img
-                    src={aboutHero}
+                    src='https://tgzsptwllqkjtxiastfs.supabase.co/storage/v1/object/public/platinum%20group/Ac-types/cassette/CASSATEREPAI.jpeg'
                     alt="AC Service"
                     loading="lazy"
                     decoding="async"
@@ -145,7 +145,7 @@ const AboutPage = () => {
 
                 <div className="aspect-[16/10] rounded-2xl overflow-hidden shadow-lg">
                   <img
-                    src={aboutHero}
+                    src='https://tgzsptwllqkjtxiastfs.supabase.co/storage/v1/object/public/platinum%20group/Ac-types/window/WINDOWINSTALLTIO.jpeg'
                     alt="Our Team"
                     loading="lazy"
                     decoding="async"
