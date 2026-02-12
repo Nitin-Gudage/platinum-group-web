@@ -3,7 +3,7 @@ import Animate, { AnimateGroup } from "../utils/Animate";
 
 const WhyChoose = () => {
   return (
-    <section className="container pt-10">
+    <section className="container py-10">
       <Animate>
         <div className="text-center mb-8">
           <h2 className="section-title">
@@ -35,9 +35,7 @@ const WhyChoose = () => {
               </div>
             </div>
             <div>
-              <h3 className="text-base font-bold  mb-2">
-                {item.title}
-              </h3>
+              <h3 className="text-base font-bold  mb-2">{item.title}</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
                 {item.desc}
               </p>

@@ -5,7 +5,7 @@ import { useEffect } from "react";
   Updates head tags without react-helmet
 */
 
-const useSEO = ({ title, description, keywords }) => {
+const useSEO = ({ title, description, keywords, ogImage }) => {
     useEffect(() => {
         /* ================= TITLE ================= */
 
@@ -45,6 +45,22 @@ const useSEO = ({ title, description, keywords }) => {
             metaKeywords.setAttribute("content", keywords);
         }
 
+        /* ================= OG IMAGE (OPTIONAL) ================= */
+
+        if (ogImage) {
+            let ogImageMeta = document.querySelector(
+                "meta[property='og:image']"
+            );
+
+            if (!ogImageMeta) {
+                ogImageMeta = document.createElement("meta");
+                ogImageMeta.setAttribute("property", "og:image");
+                document.head.appendChild(ogImageMeta);
+            }
+
+            ogImageMeta.setAttribute("content", ogImage);
+        }
+
         /* ================= CANONICAL ================= */
 
         let canonical = document.querySelector(
@@ -62,7 +78,7 @@ const useSEO = ({ title, description, keywords }) => {
             window.location.origin + window.location.pathname
         );
 
-    }, [title, description, keywords]);
+    }, [title, description, keywords, ogImage]);
 };
 
 export default useSEO;

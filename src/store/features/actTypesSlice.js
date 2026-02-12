@@ -8,9 +8,19 @@ import { fetchAcTypes, fetchServicesByType } from "./api/acTypesApi";
 /* Get AC Types */
 export const getAcTypes = createAsyncThunk(
     "ac/getTypes",
-    async (_, { rejectWithValue }) => {
+    async (_, { getState, rejectWithValue }) => {
         try {
-            return await fetchAcTypes();
+            const { ac } = getState();
+
+            /* Check cache */
+            if (ac.cache) {
+                return { fromCache: true, data: ac.cache };
+            }
+
+            /* Fetch API */
+            const data = await fetchAcTypes();
+
+            return { fromCache: false, data };
         } catch (err) {
             return rejectWithValue(err.message);
         }
@@ -44,6 +54,9 @@ const acTypesSlice = createSlice({
 
         servicesByType: {}, // { 1: [...], 2: [...] }
 
+        // ✅ Cache
+        cache: null,
+
         status: "idle",
         error: null,
     },
@@ -52,7 +65,6 @@ const acTypesSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
-
             /* Types */
             .addCase(getAcTypes.pending, (s) => {
                 s.status = "loading";
@@ -60,7 +72,13 @@ const acTypesSlice = createSlice({
 
             .addCase(getAcTypes.fulfilled, (s, a) => {
                 s.status = "success";
-                s.types = a.payload;
+                const { fromCache, data } = a.payload;
+                s.types = data;
+
+                /* Save cache */
+                if (!fromCache) {
+                    s.cache = data;
+                }
             })
 
             /* Services */

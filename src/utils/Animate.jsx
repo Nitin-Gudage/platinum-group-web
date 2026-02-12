@@ -44,7 +44,7 @@ const groupVariant = {
 
 /* ---------------------------
    Animate (Single Item)
----------------------------- */
+   --------------------------- */
 export const Animate = memo(function Animate({
   children,
   className = "",
@@ -99,7 +99,7 @@ export const Animate = memo(function Animate({
 
 /* ---------------------------
    AnimateGroup (Grid / List)
----------------------------- */
+   --------------------------- */
 export const AnimateGroup = memo(function AnimateGroup({
   children,
   className = "",

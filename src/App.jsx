@@ -1,70 +1,117 @@
 import "./App.css";
 
+import { useEffect, lazy, Suspense } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
 import NavBar from "./components/NavBar";
+import Home from "./pages/Home";
 import Footer from "./components/Footer";
+import StickyCallButton from "./components/StickyCallButton";
+
+import SeoSchema from "./utils/SeoComponents/SeoSchema";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import Home from "./pages/Home";
-import ContactPage from "./pages/ContactPage";
-import AboutPage from "./pages/AboutPage";
-import FaqPage from "./pages/FaqPage";
-import ServicesPage from "./pages/ServicesPage";
+// Lazy load all pages EXCEPT Home (Home is eager for LCP)
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const FaqPage = lazy(() => import("./pages/FaqPage"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage"));
+const PageNotFound = lazy(() => import("./components/PageNotFound"));
 
-import { Route, Routes, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-
-import SeoSchema from "./utils/SeoSchema";
-import StickyCallButton from "./components/StickyCallButton";
+// Lightweight CSS spinner loader with minimal CLS
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-[200px]">
+    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+  </div>
+);
 
 function App() {
   const { pathname, search } = useLocation();
+  const dispatch = useDispatch();
 
   /* Scroll to top on route change */
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname, search]);
 
+  /* Hero data is fetched in Home.jsx */
+
   return (
     <div className="App bg-gray-50 min-h-screen flex flex-col">
-
+      {/* NAV */}
       <NavBar />
+
+      {/* SEO */}
       <SeoSchema />
 
-      {/* Background Effects */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/5" />
-        <div className="absolute top-1/2 -left-40 w-96 h-96 bg-cyan-500/5" />
-        <div className="absolute -bottom-40 right-1/3 w-96 h-96 bg-blue-400/5" />
-      </div>
-
-      {/* Main Content */}
+      {/* MAIN */}
       <main className="flex-grow">
+        {/* Home is eager loaded - no Suspense needed */}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/faq" element={<FaqPage />} />
+          {/* Other pages lazy loaded */}
+          <Route
+            path="/services"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <ServicesPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <ContactPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <AboutPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/faq"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <FaqPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <PageNotFound />
+              </Suspense>
+            }
+          />
         </Routes>
       </main>
 
+      {/* FOOTER */}
       <Footer />
+
+      {/* CALL */}
       <StickyCallButton />
 
-      {/* Toast Notifications */}
+      {/* TOAST */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
-        hideProgressBar={false}
         newestOnTop
         closeOnClick
-        pauseOnFocusLoss
-        draggable
         pauseOnHover
+        draggable
         theme="colored"
       />
-
     </div>
   );
 }

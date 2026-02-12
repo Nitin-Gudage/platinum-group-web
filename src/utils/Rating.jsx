@@ -8,7 +8,7 @@ const Rating = ({ rating = 0, max = 5, size = "md" }) => {
   };
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 py-2">
       {[...Array(max)].map((_, index) => {
         const starNumber = index + 1;
 
@@ -16,13 +16,13 @@ const Rating = ({ rating = 0, max = 5, size = "md" }) => {
           <span key={index} className={sizeClasses[size]}>
             {rating >= starNumber ? (
               // Full star
-              <IoStar className="text-yellow-400 drop-shadow-sm" />
+              <IoStar className="text-yellow-600" />
             ) : rating >= starNumber - 0.5 ? (
               // Half star
-              <IoStarHalfSharp className="text-yellow-400 drop-shadow-sm" />
+              <IoStarHalfSharp className="text-yellow-600" />
             ) : (
               // Empty star
-              <IoStarOutline className="text-yellow-400/50" />
+              <IoStarOutline className="text-yellow-600/50" />
             )}
           </span>
         );

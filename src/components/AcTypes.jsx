@@ -74,6 +74,7 @@ const AcTypes = () => {
                 className="
                   max-h-16
                   object-contain
+                  rounded-lg
                   transition-transform duration-300
                   group-hover:scale-110
                 "
@@ -102,7 +103,7 @@ const AcTypes = () => {
                 );
               }}
             >
-              Book Service
+              View Service
             </button>
           </Animate>
         ))}

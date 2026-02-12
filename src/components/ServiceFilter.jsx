@@ -86,7 +86,7 @@ const ServiceFilter = ({
   }, []);
 
   return (
-    <div className="w-full bg-gray-50  border-b border-gray-200 lg:relative sticky md:top-[0px] top-[72px] z-40 lg:static will-change-transform">
+    <div className="w-full bg-gray-50  border-b border-gray-200 lg:relative sticky md:top-[95px] lg:top-[0] top-[72px] z-40 lg:static will-change-transform">
       {/* Desktop */}
       <div className="hidden lg:block max-w-6xl mx-auto px-4 py-4">
         <div className="flex flex-col gap-4">

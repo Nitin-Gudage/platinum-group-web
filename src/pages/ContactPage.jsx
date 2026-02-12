@@ -12,9 +12,10 @@ import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 import { contactInfo } from "../Data/Data";
-import contactHero from "/images/contactpage/contact-hero.png";
+import contactHero from "/images/contactpage/contact-hero.webp";
 
 import { sendContactQuery, resetStatus } from "../store/features/contactSlice";
+import useSEO from "../utils/SeoComponents/useSEO";
 
 /* ================= Styles ================= */
 
@@ -37,6 +38,15 @@ const ContactPage = () => {
   const dispatch = useDispatch();
 
   const { status, success, error } = useSelector((s) => s.contact);
+
+  /* ================= SEO ================= */
+
+  useSEO({
+    title: "Contact AC Repair | HVAC Service Contact India",
+    description:
+      "Contact Platinum Group for all your AC repair and HVAC service needs. Call us for immediate assistance across India.",
+    ogImage: `${window.location.origin}/og/contact.jpg`,
+  });
 
   /* ================= FORM ================= */
 
@@ -280,6 +290,7 @@ const ContactPage = () => {
                 <button
                   disabled={status === "loading"}
                   type="submit"
+                  aria-label="submit-form"
                   className="btn-primary flex items-center justify-center gap-2"
                 >
                   {status === "loading" ? (

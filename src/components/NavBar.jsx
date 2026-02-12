@@ -107,7 +107,10 @@ const NavBar = () => {
             <img
               src={logo.icon}
               alt={logo.altName}
-              className="sm:h-12 h-10 object-contain"
+              width="222"
+              height="50"
+              fetchPriority="high"
+              className="md:h-8 lg:h-12 h-10 w-auto object-contain"
               loading="eager"
             />
           </NavLink>
@@ -216,7 +219,8 @@ const NavBar = () => {
       </div>
 
       {/* ================= MOBILE OVERLAY ================= */}
-      <div
+      <nav
+        aria-label="Main Navigation"
         className={`
           md:hidden fixed inset-0 z-[1001]
           bg-black/40 backdrop-blur-sm transition-opacity duration-300
@@ -252,7 +256,10 @@ const NavBar = () => {
             <img
               src={logo.icon}
               alt={logo.altName}
-              className="h-12 object-contain"
+              width="48"
+              height="48"
+              fetchPriority="high"
+              className="h-12 w-auto object-contain"
             />
           </div>
 
@@ -294,7 +301,7 @@ const NavBar = () => {
             Call Now
           </a>
         </div>
-      </div>
+      </nav>
     </header>
   );
 };

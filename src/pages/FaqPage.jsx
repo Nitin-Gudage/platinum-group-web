@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useMemo, useCallback, memo } from "react";
-
+import { useState, useMemo, useCallback, memo, useEffect } from "react";
 import Animate from "../utils/Animate";
 import { Link } from "react-router-dom";
 import { faqs } from "../Data/Data";
 import { HiSearch, HiPhone, HiMail, HiPlus, HiMinus } from "react-icons/hi";
+import useSEO from "../utils/SeoComponents/useSEO";
 
 /* ================= ACCORDION ITEM ================= */
 
@@ -15,48 +15,29 @@ const AccordionItem = memo(({ item, isOpen, onClick }) => {
       <button
         onClick={onClick}
         aria-expanded={isOpen}
-        className="
-          w-full flex justify-between items-center
-          p-5 font-medium text-left
-          hover:bg-blue-50 transition-all duration-300
-          text-secondary
-        "
+        className="w-full flex justify-between items-center p-5 font-medium text-left hover:bg-blue-50 transition-all duration-300 text-secondary"
       >
         <span className="pr-4">{item.q}</span>
 
         <span
-          className={`
-            flex items-center justify-center
-            w-8 h-8 rounded-full
-            transition-all duration-300
-            ${isOpen ? "bg-blue-100 text-blue-600" : "bg-gray-100 text-gray-500"}
-          `}
+          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+            isOpen ? "bg-blue-100 text-blue-600" : "bg-gray-100 text-gray-500"
+          }`}
         >
-          {isOpen ? (
-            <HiMinus className="w-4 h-4" />
-          ) : (
-            <HiPlus className="w-4 h-4" />
-          )}
+          {isOpen ? <HiMinus /> : <HiPlus />}
         </span>
       </button>
 
-      <div
-        className={`
-          overflow-hidden transition-all duration-400 ease-out
-          ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
-        `}
-      >
-        {isOpen && (
-          <div className="px-5 pb-5 text-gray-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
-            {item.a}
-          </div>
-        )}
-      </div>
+      {isOpen && (
+        <div className="px-5 pb-5 text-gray-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
+          {item.a}
+        </div>
+      )}
     </div>
   );
 });
 
-/* ================= WRAPPER ================= */
+/* ================= MAIN ================= */
 
 const FaqPage = ({ isHome = false }) => {
   return isHome ? <HomeFaq /> : <MainPage />;
@@ -64,13 +45,54 @@ const FaqPage = ({ isHome = false }) => {
 
 export default FaqPage;
 
-/* ================= MAIN FAQ PAGE ================= */
+/* ================= MAIN PAGE ================= */
 
 const MainPage = () => {
   const [active, setActive] = useState(null);
   const [search, setSearch] = useState("");
 
-  /* Filter + Limit 4 */
+  /* SEO */
+  useSEO({
+    title: "AC FAQ India | HVAC Service Questions & Answers",
+    description:
+      "Find answers to common AC repair questions, HVAC maintenance FAQs, and air conditioning service queries across India.",
+    ogImage: `${window.location.origin}/og/faq.jpg`,
+  });
+
+  /* ================= FAQ SCHEMA ================= */
+
+  useEffect(() => {
+    const allFaqs = faqs.flatMap((g) => g.items);
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: allFaqs.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.a,
+        },
+      })),
+    };
+
+    const old = document.getElementById("faq-schema");
+
+    if (old) old.remove();
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "faq-schema";
+    script.textContent = JSON.stringify(faqSchema);
+
+    document.head.appendChild(script);
+
+    return () => script.remove();
+  }, []);
+
+  /* ================= FILTER ================= */
+
   const filteredFaqs = useMemo(() => {
     let data = faqs;
 
@@ -87,49 +109,47 @@ const MainPage = () => {
       }));
     }
 
-    /* Limit 4 per section */
-    return data.map((group) => ({
-      ...group,
-      items: group.items.slice(0, 4),
-    }));
+    return data;
   }, [search]);
 
   const toggle = useCallback((key) => {
-    setActive((prev) => (prev === key ? null : key));
+    setActive((p) => (p === key ? null : key));
   }, []);
 
   return (
     <section className="w-full pt-[88px]">
-      {/* HERO */}
       <div className="container py-16">
         <Animate>
           <div className="text-center mb-12">
-            <h1 className="heading-1 mb-4">
-              Frequently Asked Questions
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-5">
+              AC & HVAC Service FAQs in India
             </h1>
+
             <p className="text-primary max-w-2xl mx-auto">
-              Find answers to your most common questions about our AC services
+              Common questions about AC repair, installation, maintenance, and
+              HVAC services.
             </p>
           </div>
         </Animate>
 
         {/* Search */}
+
         <div className="max-w-2xl mx-auto mb-16">
           <div className="relative">
             <HiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search questions..."
-              aria-label="Search FAQs"
+              placeholder="Search AC service questions..."
               className="input-text pl-12 pr-4 py-4 rounded-2xl shadow-md"
             />
           </div>
         </div>
 
-        {/* FAQ GRID */}
+        {/* FAQ Grid */}
+
         <div className="grid lg:grid-cols-3 gap-10">
-          {/* FAQ List */}
           <div className="lg:col-span-2">
             {filteredFaqs.map((group) => (
               <div key={group.section} className="mb-10">
@@ -155,44 +175,19 @@ const MainPage = () => {
             ))}
           </div>
 
-          {/* SIDEBAR */}
+          {/* Sidebar */}
+
           <aside className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 sticky top-28">
-              <h3 className="heading-4 mb-4">
-                Need More Assistance?
-              </h3>
+            <div className="bg-white rounded-2xl shadow-lg border p-8 sticky top-28">
+              <h3 className="heading-4 mb-4">Need AC Support?</h3>
 
               <p className="text-secondary mb-6">
-                Our support team is available 24/7 to help you with any
-                questions.
+                Talk to our HVAC experts anytime.
               </p>
-
-              <div className="space-y-5 mb-8">
-                <a
-                  href="tel:9876543210"
-                  className="flex items-center gap-4 text-gray-700 hover:text-blue-600 transition-colors duration-300"
-                >
-                  <span className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
-                    <HiPhone className="w-6 h-6" />
-                  </span>
-                  <span className="text-lg font-medium">+91 98765 43210</span>
-                </a>
-                <a
-                  href="mailto:support@platinumgroup.com"
-                  className="flex items-center gap-4 text-gray-700 hover:text-blue-600 transition-colors duration-300"
-                >
-                  <span className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
-                    <HiMail className="w-6 h-6" />
-                  </span>
-                  <span className="text-lg font-medium">
-                    support@platinumgroup.com
-                  </span>
-                </a>
-              </div>
 
               <Link
                 to="/contact"
-                className="btn-primary w-full text-center block"
+                className="btn-primary w-full block text-center"
               >
                 Contact Us
               </Link>
@@ -209,31 +204,29 @@ const MainPage = () => {
 const HomeFaq = () => {
   const [active, setActive] = useState(null);
 
-  /* Only selected sections + 4 items */
   const homeFaqs = useMemo(() => {
     const allowed = ["General Questions", "Service & Repair Questions"];
 
     return faqs
-      .filter((group) => allowed.includes(group.section))
-      .map((group) => ({
-        ...group,
-        items: group.items.slice(0, 2),
+      .filter((g) => allowed.includes(g.section))
+      .map((g) => ({
+        ...g,
+        items: g.items.slice(0, 2),
       }));
   }, []);
 
   const toggle = useCallback((key) => {
-    setActive((prev) => (prev === key ? null : key));
+    setActive((p) => (p === key ? null : key));
   }, []);
 
   return (
     <section className="container py-16">
       <Animate>
         <div className="text-center mb-12">
-          <h2 className="heading-2 mb-4">
-            Frequently Asked Questions
-          </h2>
+          <h2 className="heading-2 mb-4">AC Service FAQs</h2>
+
           <p className="text-primary max-w-2xl mx-auto">
-            Quick answers about our services
+            Quick answers to common HVAC questions.
           </p>
         </div>
       </Animate>
@@ -241,9 +234,7 @@ const HomeFaq = () => {
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
         {homeFaqs.map((group) => (
           <div key={group.section}>
-            <h3 className="heading-4 mb-4">
-              {group.section}
-            </h3>
+            <h3 className="heading-4 mb-4">{group.section}</h3>
 
             <div className="flex flex-col gap-4">
               {group.items.map((item, index) => {
@@ -263,26 +254,9 @@ const HomeFaq = () => {
         ))}
       </div>
 
-      {/* View All */}
       <div className="text-center mt-10">
-        <Link
-          to="/faq"
-          className="inline-flex items-center gap-2 text-blue-600 font-medium hover:text-blue-700 transition-colors duration-300"
-        >
-          View All FAQs
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
+        <Link to="/faq" className="text-blue-600 font-medium hover:underline">
+          View All FAQs →
         </Link>
       </div>
     </section>

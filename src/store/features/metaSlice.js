@@ -3,9 +3,19 @@ import { fetchMetaData } from "./api/metaAPI";
 
 export const getMeta = createAsyncThunk(
     "meta/get",
-    async (_, { rejectWithValue }) => {
+    async (_, { getState, rejectWithValue }) => {
         try {
-            return await fetchMetaData();
+            const { meta } = getState();
+
+            /* Check cache */
+            if (meta.cache) {
+                return { fromCache: true, data: meta.cache };
+            }
+
+            /* Fetch API */
+            const data = await fetchMetaData();
+
+            return { fromCache: false, data };
         } catch (err) {
             return rejectWithValue(err.message);
         }
@@ -18,6 +28,10 @@ const metaSlice = createSlice({
     initialState: {
         acTypes: [],
         serviceTypes: [],
+
+        // ✅ Cache
+        cache: null,
+
         status: "idle",
         error: null,
     },
@@ -31,8 +45,14 @@ const metaSlice = createSlice({
             })
             .addCase(getMeta.fulfilled, (state, action) => {
                 state.status = "success";
-                state.acTypes = action.payload.acTypes;
-                state.serviceTypes = action.payload.serviceTypes;
+                const { fromCache, data } = action.payload;
+                state.acTypes = data.acTypes;
+                state.serviceTypes = data.serviceTypes;
+
+                /* Save cache */
+                if (!fromCache) {
+                    state.cache = data;
+                }
             })
             .addCase(getMeta.rejected, (state, action) => {
                 state.status = "error";
