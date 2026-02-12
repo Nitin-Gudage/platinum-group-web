@@ -112,8 +112,8 @@ const HeroSwiper = () => {
           <img
             src={current.image}
             alt={`${current.title} - AC Service in India`}
-            loading={index === 0 ? "eager" : "lazy"}
-            fetchPriority={index === 0 ? "high" : "auto"}
+            loading="eager"
+            fetchPriority="high"
             decoding="async"
             width="1920"
             height="900"

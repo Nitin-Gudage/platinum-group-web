@@ -1,7 +1,7 @@
 import { SitemapStream, streamToPromise } from "sitemap";
 import fs from "fs";
 
-const BASE_URL = "https://yourdomain.com"; // ⚠️ change later
+const BASE_URL = "https://platinumgroup.site"; // ⚠️ change later
 
 const pages = [
     "/",
