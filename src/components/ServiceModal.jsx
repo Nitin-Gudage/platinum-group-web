@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import { brandImages } from "../Data/Data";
-import acTech from '/images/ac-technician.png'
+import acTech from "/images/ac-technician.png";
 
 const ServiceModal = ({ service }) => {
   if (!service) return null;
@@ -79,7 +79,7 @@ const ServiceModal = ({ service }) => {
             <img
               src={acTech}
               className="w-16 h-16 rounded-full object-cover"
-              alt="Technician"
+              alt="HVAC technician in Bangalore - Certified AC repair expert"
               loading="lazy"
             />
             <div className="text-sm space-y-1 text-gray-700">
@@ -109,7 +109,7 @@ const ServiceModal = ({ service }) => {
               >
                 <img
                   src={img}
-                  alt="Brand logo"
+                  alt="AC brands serviced in Hyderabad - Voltas, LG, Samsung, Daikin"
                   loading="lazy"
                   decoding="async"
                   className="h-full object-contain"
@@ -121,7 +121,9 @@ const ServiceModal = ({ service }) => {
 
         {/* WARRANTY */}
         <section>
-          <h3 className="font-semibold mb-4 text-gray-800">Platinum Services Cover</h3>
+          <h3 className="font-semibold mb-4 text-gray-800">
+            Platinum Services Cover
+          </h3>
           <div className="grid grid-cols-3 gap-4 text-center text-sm">
             <div className="border rounded-xl p-4 hover:shadow-md transition-shadow">
               <p className="text-2xl mb-2">🛡️</p>

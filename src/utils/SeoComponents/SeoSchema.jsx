@@ -8,7 +8,7 @@ import {
   acTypes,
   availableServices,
   cities,
-} from "../Data/Data";
+} from "../../Data/Data";
 
 /*
   SEO Structured Data (JSON-LD)

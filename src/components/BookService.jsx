@@ -56,7 +56,7 @@ const BookService = () => {
         <section
           key={typeId}
           id={`service-${typeId}`}
-          className="bg-white rounded-3xl shadow-md p-6 md:p-8 scroll-mt-[250px] md:scroll-mt-[100px]"
+          className="bg-white rounded-3xl shadow-md p-6 md:p-8 scroll-mt-[250px] md:scroll-mt-[230px]"
         >
           {/* HEADER */}
           <div className="flex items-center gap-4 mb-6">

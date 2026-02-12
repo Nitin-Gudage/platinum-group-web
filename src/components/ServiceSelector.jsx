@@ -143,7 +143,7 @@ const ServiceSelector = memo(
             <div className="rounded-lg overflow-hidden w-20 h-20 flex-shrink-0 border-2 border-white/30 shadow-lg">
               <img
                 src="https://img.freepik.com/free-photo/air-conditioner-repair-service_23-2149368973.jpg"
-                alt="Repair"
+                alt="AC repair service in Delhi - Professional HVAC technician"
                 className="w-full h-full object-cover"
               />
             </div>

@@ -15,12 +15,20 @@ import {
   setActiveServiceType,
 } from "../store/features/servicesSlice";
 
+import useSEO from "../utils/SeoComponents/useSEO";
+
 /* ================= HELPERS ================= */
 
-const slugify = (text) =>
-  text.toLowerCase().trim().replace(/\s+/g, "-");
+const slugify = (text) => text.toLowerCase().trim().replace(/\s+/g, "-");
 
 export default function ServicesPage() {
+  useSEO({
+    title: "AC Services India | AC Repair, Installation & Maintenance",
+    description:
+      "Complete AC services in India - repair, installation, gas refill, and maintenance for all brands. Book online for fast service.",
+    ogImage: `${window.location.origin}/og/services.jpg`,
+  });
+
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -35,11 +43,7 @@ export default function ServicesPage() {
     (slugValue) => {
       if (!acTypes?.length || !slugValue) return null;
 
-      return (
-        acTypes.find(
-          (a) => slugify(a.name) === slugValue
-        ) || null
-      );
+      return acTypes.find((a) => slugify(a.name) === slugValue) || null;
     },
     [acTypes],
   );
@@ -100,14 +104,7 @@ export default function ServicesPage() {
       dispatch(setActiveAc(defaultAc.id));
       updateUrl(slugify(defaultAc.name));
     }
-  }, [
-    acSlug,
-    acTypes,
-    activeAc,
-    dispatch,
-    findAcFromSlug,
-    updateUrl,
-  ]);
+  }, [acSlug, acTypes, activeAc, dispatch, findAcFromSlug, updateUrl]);
 
   /* ================= LOAD SERVICES ================= */
 
@@ -131,9 +128,7 @@ export default function ServicesPage() {
     (service) => {
       dispatch(setActiveServiceType(service.name));
 
-      const element = document.getElementById(
-        `service-${service.id}`,
-      );
+      const element = document.getElementById(`service-${service.id}`);
 
       if (element) {
         element.scrollIntoView({
@@ -148,34 +143,26 @@ export default function ServicesPage() {
   /* ================= ACTIVE AC NAME ================= */
 
   const acName = useMemo(() => {
-    return (
-      acTypes.find((a) => a.id === activeAc)?.name ||
-      "AC Services"
-    );
+    return acTypes.find((a) => a.id === activeAc)?.name || "AC Services";
   }, [acTypes, activeAc]);
 
   /* ================= UI ================= */
 
   return (
     <div className="px-4 md:px-6 min-h-screen bg-gray-50 pt-[72px] md:pt-[88px]">
-
       <main className="grid lg:grid-cols-12 gap-6">
-
         {/* SIDEBAR */}
         <aside className="lg:col-span-3 hidden lg:block sticky top-20 h-fit">
-
           <ServiceSelector
             acName={acName}
             services={serviceTypes}
             selectedService={activeServiceType}
             onSelect={changeService}
           />
-
         </aside>
 
         {/* MAIN */}
         <section className="lg:col-span-9 col-span-12 space-y-5">
-
           <ServiceFilter
             acTypes={acTypes}
             services={serviceTypes}
@@ -187,11 +174,8 @@ export default function ServicesPage() {
           />
 
           <BookService />
-
         </section>
-
       </main>
-
     </div>
   );
 }

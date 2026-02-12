@@ -10,7 +10,7 @@ import ConfirmBooking from "./ConfirmBooking";
 import { FiCheckCircle } from "react-icons/fi";
 import { BsChevronCompactRight, BsSnow } from "react-icons/bs";
 
-const BookServiceMobile = ({ desktopItems = 2 }) => {
+const QuickServices = ({ desktopItems = 2 }) => {
   const { list, status } = useSelector((s) => s.services);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -61,7 +61,7 @@ const BookServiceMobile = ({ desktopItems = 2 }) => {
   return (
     <div className="container p-3">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-4 rounded-xl mb-4 shadow-lg">
+      <div className="bg-gradient-to-r from-blue-500 to-blue-700 px-4 py-4 rounded-xl mb-4 shadow-lg">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
             <BsSnow className="text-white" size={20} />
@@ -74,16 +74,16 @@ const BookServiceMobile = ({ desktopItems = 2 }) => {
       </div>
 
       {/* Grid - 2 columns on mobile, 4 on desktop */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 md:gap-5 space-y-5 md:space-y-0">
+      <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 md:gap-5 space-y-5 md:space-y-0">
         {displayedServices.map((service, index) => (
           <Animate key={`${service.id}-${index}`} delay={index * 0.1}>
             <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
               {/* Image */}
-              <div className="relative h-34 overflow-hidden">
+              <div className="relative h-34 overflow-hidden p-3">
                 <img
                   src={service.image}
                   alt={service.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-xl"
                   loading="lazy"
                 />
               </div>
@@ -118,7 +118,9 @@ const BookServiceMobile = ({ desktopItems = 2 }) => {
                   <button
                     onClick={() => handleBookNow(service)}
                     className="btn-primary flex items-center gap-2"
-                  > Inquire Now
+                  >
+                    {" "}
+                    Inquire Now
                     <BsChevronCompactRight size={14} />
                   </button>
                 </div>
@@ -150,4 +152,4 @@ const BookServiceMobile = ({ desktopItems = 2 }) => {
   );
 };
 
-export default BookServiceMobile;
+export default QuickServices;

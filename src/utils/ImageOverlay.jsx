@@ -51,7 +51,7 @@ const ImageOverlay = ({
       {/* Background Image */}
       <img
         src={image}
-        alt="Hero Background"
+        alt="AC repair service in Kolkata - Professional HVAC solutions"
         loading={priority ? "eager" : "lazy"}
         decoding="async"
         fetchPriority={priority ? "high" : "auto"}
