@@ -170,7 +170,7 @@ const AboutPage = () => {
                     5+ Years Experience
                   </h3>
                   <p className="text-secondary text-sm">
-                    Serving customers since 2015
+                    Serving customers since 2020
                   </p>
                 </div>
 
