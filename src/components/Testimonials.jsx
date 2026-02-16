@@ -80,11 +80,11 @@ const TestimonialCard = ({ item }) => (
 const Testimonials = () => {
   /* SEO */
 
-  useSEO({
-    title: "Customer Reviews | Best AC Service in India | Platinum Group",
-    description:
-      "Read verified customer reviews about our AC repair, installation, and HVAC services across India.",
-  });
+  // useSEO({
+  //   title: "Customer Reviews | Best AC Service in India | Platinum Group",
+  //   description:
+  //     "Read verified customer reviews about our AC repair, installation, and HVAC services across India.",
+  // });
 
   /* ================= REVIEW SCHEMA ================= */
 
