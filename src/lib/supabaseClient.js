@@ -9,7 +9,7 @@ const SUPABASE_URL = isDev
 
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
 
-// console.log("Supabase key loaded:", SUPABASE_KEY);
+console.log("Supabase key loaded:", SUPABASE_KEY);
 
 // timeout-safe fetch WITHOUT removing headers
 const fetchWithTimeout = async (url, options = {}, timeout = 10000) => {
