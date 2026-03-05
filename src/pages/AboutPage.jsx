@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import ImageOverlay from "../utils/ImageOverlay";
 import aboutHero from "/images/aboutpage/about.webp";
 import Animate from "../utils/Animate";
-import useSEO from "../utils/SeoComponents/useSEO";
 
 import { contactInfo, cities } from "../Data/Data";
 
@@ -32,15 +31,6 @@ const missions = [
 /* ================= COMPONENT ================= */
 
 const AboutPage = () => {
-  /* ================= SEO ================= */
-
-  useSEO({
-    title: "About HVAC Company | Platinum Group AC & HVAC Experts India",
-    description:
-      "Learn about Platinum Group - trusted and GST-registered HVAC company in India with certified technicians providing AC repair, installation, and maintenance services.",
-    ogImage: `${window.location.origin}/og/about.jpg`,
-  });
-
   /* ================= SCHEMA ================= */
 
   const schema = {

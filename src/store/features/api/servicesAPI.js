@@ -1,6 +1,15 @@
 import { supabase } from "../../../lib/supabaseClient";
+import { getCached, setCache, cacheKeys, cacheTTL } from "../../../utils/cache";
 
 export async function fetchServicesByAc(acTypeId) {
+  const cacheKey = cacheKeys.servicesByType(acTypeId);
+
+  // Try to get cached data first
+  const cached = getCached(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
   const { data, error } = await supabase
     .from("all_services")
     .select(`
@@ -31,5 +40,9 @@ export async function fetchServicesByAc(acTypeId) {
     throw error;
   }
 
-  return data || [];
+  // Cache the response
+  const result = data || [];
+  setCache(cacheKey, result, cacheTTL.medium);
+
+  return result;
 }

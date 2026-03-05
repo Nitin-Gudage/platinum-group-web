@@ -9,8 +9,6 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import StickyCallButton from "./components/StickyCallButton";
 
-import SeoSchema from "./utils/SeoComponents/SeoSchema";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -43,9 +41,6 @@ function App() {
     <div className="App bg-gray-50 min-h-screen flex flex-col">
       {/* NAV */}
       <NavBar />
-
-      {/* SEO */}
-      <SeoSchema />
 
       {/* MAIN */}
       <main className="flex-grow">

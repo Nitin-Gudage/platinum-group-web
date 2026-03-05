@@ -2,19 +2,9 @@
 
 import { Link } from "react-router-dom";
 import { FaHome, FaPhoneAlt, FaSearch } from "react-icons/fa";
-import useSEO from "../utils/SeoComponents/useSEO";
 import { contactInfo } from "../Data/Data";
 
 const PageNotFound = () => {
-  /* ================= SEO ================= */
-
-  useSEO({
-    title: "404 Page Not Found | Platinum Group AC Services",
-    description:
-      "The page you are looking for could not be found. Visit Platinum Group for professional AC repair and HVAC services across India.",
-    ogImage: `${window.location.origin}/og/home.jpg`,
-  });
-
   return (
     <main className="min-h-[70vh] pt-20 flex items-center flex-col justify-center bg-gray-50 px-4">
       {/* Error Code */}

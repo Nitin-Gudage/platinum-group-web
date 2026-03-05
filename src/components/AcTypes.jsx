@@ -5,6 +5,7 @@ import Animate from "../utils/Animate";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getMeta } from "../store/features/metaSlice";
+import LazyImage from "../utils/LazyImage";
 
 const AcTypes = () => {
   const dispatch = useDispatch();
@@ -66,18 +67,10 @@ const AcTypes = () => {
           >
             {/* ================= IMAGE WRAPPER ================= */}
             <div className="w-full mb-3 flex items-center justify-center relative">
-              <img
+              <LazyImage
                 src={ac.image}
                 alt={ac.name}
-                loading="lazy"
-                decoding="async"
-                className="
-                  max-h-16
-                  object-contain
-                  rounded-lg
-                  transition-transform duration-300
-                  group-hover:scale-110
-                "
+                className="max-h-16 object-contain rounded-lg transition-transform duration-300 group-hover:scale-110"
               />
             </div>
 

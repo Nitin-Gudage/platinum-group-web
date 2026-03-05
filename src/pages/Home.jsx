@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import useSEO from "../utils/SeoComponents/useSEO";
 import { getHeroSlides } from "../store/features/heroSlice";
 
 // HeroSwiper loads FIRST (eager import)
@@ -21,13 +20,6 @@ const BookingSteps = lazy(() => import("../components/BookingSteps"));
 const Home = () => {
   const dispatch = useDispatch();
   const { data: heroData, status: heroStatus } = useSelector((s) => s.hero);
-
-  useSEO({
-    title: "AC Repair India | HVAC Installation & Maintenance Services",
-    description:
-      "Professional AC repair, installation, and HVAC services across India. Certified technicians, same-day service, and competitive pricing.",
-    ogImage: `${window.location.origin}/og/home.jpg`,
-  });
 
   // Prefetch hero data immediately on mount
   useEffect(() => {
