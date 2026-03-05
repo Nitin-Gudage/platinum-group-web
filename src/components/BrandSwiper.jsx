@@ -2,6 +2,7 @@ import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, FreeMode } from "swiper/modules";
 import { brandImages } from "../Data/Data";
+import LazyImage from "../utils/LazyImage";
 
 const BrandSwiper = () => {
   return (
@@ -10,12 +11,12 @@ const BrandSwiper = () => {
       loop={true}
       freeMode={{
         enabled: true,
-        momentum: false, // ✅ Correct way
+        momentum: false,
       }}
       slidesPerView="auto"
       spaceBetween={20}
       grabCursor={false}
-      speed={3000} // 🔥 Smaller = Faster
+      speed={3000}
       autoplay={{
         delay: 0,
         disableOnInteraction: false,
@@ -28,11 +29,9 @@ const BrandSwiper = () => {
       {[...brandImages, ...brandImages].map((img, i) => (
         <SwiperSlide key={i} className="!w-auto">
           <div className="flex justify-center items-center h-16 md:h-20 w-28 md:w-36 bg-white rounded-xl border border-gray-100 shadow-sm">
-            <img
+            <LazyImage
               src={img}
               alt="AC service brand partner logo"
-              loading="lazy"
-              decoding="async"
               className="w-full object-contain p-3 md:p-4"
             />
           </div>

@@ -5,7 +5,6 @@ import Animate from "../utils/Animate";
 import { Link } from "react-router-dom";
 import { faqs } from "../Data/Data";
 import { HiSearch, HiPhone, HiMail, HiPlus, HiMinus } from "react-icons/hi";
-import useSEO from "../utils/SeoComponents/useSEO";
 
 /* ================= ACCORDION ITEM ================= */
 
@@ -50,14 +49,6 @@ export default FaqPage;
 const MainPage = () => {
   const [active, setActive] = useState(null);
   const [search, setSearch] = useState("");
-
-  /* SEO */
-  useSEO({
-    title: "AC FAQ India | HVAC Service Questions & Answers",
-    description:
-      "Find answers to common AC repair questions, HVAC maintenance FAQs, and air conditioning service queries across India.",
-    ogImage: `${window.location.origin}/og/faq.jpg`,
-  });
 
   /* ================= FAQ SCHEMA ================= */
 

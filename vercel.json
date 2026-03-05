@@ -1,8 +1,32 @@
 {
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://YOUR_PROJECT_ID.supabase.co/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/rest/v1/services",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=600, stale-while-revalidate=1200"
+        }
+      ]
+    },
+    {
+      "source": "/api/rest/v1/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     }
   ]
 }

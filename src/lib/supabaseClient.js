@@ -1,70 +1,60 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_KEY;
+const isDev = import.meta.env.DEV;
 
-// Check if environment variables are valid
-const isValidUrl = (url) => {
-  return url && typeof url === 'string' && url.startsWith('http') && !url.includes('undefined');
+// URLs
+const SUPABASE_URL = isDev
+  ? import.meta.env.VITE_SUPABASE_URL
+  : `${window.location.origin}/api`;
+
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
+
+// console.log("Supabase key loaded:", SUPABASE_KEY);
+
+// timeout-safe fetch WITHOUT removing headers
+const fetchWithTimeout = async (url, options = {}, timeout = 10000) => {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const res = await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+    return res;
+  } finally {
+    clearTimeout(id);
+  }
 };
 
-const isValidKey = (key) => {
-  return key && typeof key === 'string' && key.length > 10 && !key.includes('undefined');
-};
-
-// Create mock supabase client for development/fallback
-const createMockClient = () => {
-  console.warn('Supabase environment variables missing. Using mock client.');
-
-  return {
-    from: (table) => ({
-      select: () => ({
-        eq: () => ({
-          order: () => Promise.resolve({ data: [], error: null })
-        }),
-        order: () => Promise.resolve({ data: [], error: null })
-      }),
-      insert: () => Promise.resolve({ data: null, error: { message: 'Service unavailable' } })
-    }),
-    channel: () => ({
-      on: () => ({
-        subscribe: () => ({ status: 'unsubscribed' })
-      })
-    }),
-    getChannels: () => []
-  };
-};
-
-// Initialize client or use mock
 let supabase;
 
-if (isValidUrl(supabaseUrl) && isValidKey(supabaseAnonKey)) {
-  try {
-    supabase = createClient(supabaseUrl, supabaseAnonKey);
-    console.log('client initialized successfully');
-  } catch (error) {
-    console.error('Failed to initialize Supabase client:', error);
-    supabase = createMockClient();
+try {
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    throw new Error("Missing Supabase env variables");
   }
-} else {
-  console.warn('Missing or invalid Supabase environment variables. Please check your .env file.');
-  console.warn(`VITE_SUPABASE_URL: ${supabaseUrl || 'NOT SET'}`);
-  console.warn(`VITE_SUPABASE_KEY: ${supabaseAnonKey ? '****' + supabaseAnonKey.slice(-4) : 'NOT SET'}`);
-  supabase = createMockClient();
-}
 
-// Helper function to check if Supabase is available
-export const isSupabaseConfigured = () => {
-  return isValidUrl(supabaseUrl) && isValidKey(supabaseAnonKey);
-};
+  supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+    global: {
+      fetch: fetchWithTimeout
+    },
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true
+    }
+  });
 
-// Helper function to get configuration status
-export const getSupabaseStatus = () => {
-  return {
-    configured: isSupabaseConfigured(),
-    url: supabaseUrl ? '***configured***' : 'not set',
-    key: supabaseAnonKey ? '***configured***' : 'not set'
+  console.log("Supabase client initialized successfully");
+
+} catch (error) {
+  console.error("Supabase init failed:", error);
+
+  // fallback client
+  supabase = {
+    from: () => ({
+      select: async () => ({ data: [], error: null })
+    })
   };
-};
+}
 
 export { supabase };

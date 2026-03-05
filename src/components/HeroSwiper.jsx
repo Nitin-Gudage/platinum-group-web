@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 import Rating from "../utils/Rating";
 import { Typewriter } from "react-simple-typewriter";
-import HeroSchema from "../utils/SeoComponents/HeroSchema";
+import { PreloadImage } from "../utils/LazyImage";
+import { preloadImages } from "../utils/cache";
 
 const SLIDE_TIME = 6000;
 
@@ -60,6 +61,14 @@ const HeroSwiper = () => {
   const timer = useRef(null);
   const touchStartX = useRef(0);
 
+  /* Prefetch images when data loads */
+  useEffect(() => {
+    if (data?.length) {
+      const imageUrls = data.map(slide => slide.image).filter(Boolean);
+      preloadImages(imageUrls);
+    }
+  }, [data]);
+
   /* Reset */
   useEffect(() => {
     if (data?.length) setIndex(0);
@@ -96,12 +105,8 @@ const HeroSwiper = () => {
   if (!data?.length) return null;
 
   return (
-    <>
-      {/* SEO Schema */}
-      <HeroSchema slides={data} />
-
-      <div className="relative w-full" onTouchStart={start} onTouchEnd={end}>
-        <div
+    <div className="relative w-full" onTouchStart={start} onTouchEnd={end}>
+      <div
           key={index}
           className="relative w-full h-[50vh] lg:h-[70vh] md:h-[70vh] animate-zoom-in"
         >
@@ -109,12 +114,10 @@ const HeroSwiper = () => {
           <div className="absolute inset-0 bg-gradient-to-l from-black/80 to-black/30 z-10" />
 
           {/* Image */}
-          <img
+          <PreloadImage
             src={current.image}
             alt={`${current.title} - AC Service in India`}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
+            priority={true}
             width="1920"
             height="900"
             className="w-full h-full object-top object-cover"
@@ -183,8 +186,7 @@ const HeroSwiper = () => {
             <DotBtn key={i} active={index === i} onClick={() => setIndex(i)} />
           ))}
         </div>
-      </div>
-    </>
+    </div>
   );
 };
 

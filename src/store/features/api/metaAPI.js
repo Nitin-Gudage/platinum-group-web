@@ -1,18 +1,30 @@
 import { supabase } from "../../../lib/supabaseClient";
+import { getCached, setCache, cacheKeys, cacheTTL } from "../../../utils/cache";
 
 export async function fetchMetaData() {
-    const [acRes, serviceRes] = await Promise.all([
+  // Try to get cached data first
+  const cached = getCached(cacheKeys.metaData);
+  if (cached) {
+    return cached;
+  }
 
-        supabase.from("ac_types").select("*").order("id"),
+  const [acRes, serviceRes] = await Promise.all([
 
-        supabase.from("service_types").select("*").order("id"),
-    ]);
+    supabase.from("ac_types").select("*").order("id"),
 
-    if (acRes.error) throw acRes.error;
-    if (serviceRes.error) throw serviceRes.error;
+    supabase.from("service_types").select("*").order("id"),
+  ]);
 
-    return {
-        acTypes: acRes.data,
-        serviceTypes: serviceRes.data,
-    };
+  if (acRes.error) throw acRes.error;
+  if (serviceRes.error) throw serviceRes.error;
+
+  const result = {
+    acTypes: acRes.data,
+    serviceTypes: serviceRes.data,
+  };
+
+  // Cache the response
+  setCache(cacheKeys.metaData, result, cacheTTL.long);
+
+  return result;
 }

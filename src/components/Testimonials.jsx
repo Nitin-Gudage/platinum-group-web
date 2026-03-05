@@ -3,8 +3,8 @@
 import { useMemo, useState, useEffect } from "react";
 import { testimonials } from "../Data/Data";
 import { Animate, AnimateGroup } from "../utils/Animate";
-import useSEO from "../utils/SeoComponents/useSEO";
 import { Link } from "react-router-dom";
+import LazyImage from "../utils/LazyImage";
 
 /* ================= GRID ================= */
 
@@ -55,11 +55,9 @@ const TestimonialCard = ({ item }) => (
     {/* Author */}
     <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
       <div className="relative">
-        <img
+        <LazyImage
           src={item.image}
           alt={`${item.name} customer review`}
-          loading="lazy"
-          decoding="async"
           className="w-10 h-10 rounded-full object-cover ring-2 ring-blue-100"
         />
 
@@ -78,14 +76,6 @@ const TestimonialCard = ({ item }) => (
 /* ================= MAIN ================= */
 
 const Testimonials = () => {
-  /* SEO */
-
-  // useSEO({
-  //   title: "Customer Reviews | Best AC Service in India | Platinum Group",
-  //   description:
-  //     "Read verified customer reviews about our AC repair, installation, and HVAC services across India.",
-  // });
-
   /* ================= REVIEW SCHEMA ================= */
 
   useEffect(() => {

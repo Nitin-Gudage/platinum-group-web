@@ -15,20 +15,12 @@ import {
   setActiveServiceType,
 } from "../store/features/servicesSlice";
 
-import useSEO from "../utils/SeoComponents/useSEO";
 
 /* ================= HELPERS ================= */
 
 const slugify = (text) => text.toLowerCase().trim().replace(/\s+/g, "-");
 
 export default function ServicesPage() {
-  useSEO({
-    title: "AC Services India | AC Repair, Installation & Maintenance",
-    description:
-      "Complete AC services in India - repair, installation, gas refill, and maintenance for all brands. Book online for fast service.",
-    ogImage: `${window.location.origin}/og/services.jpg`,
-  });
-
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
